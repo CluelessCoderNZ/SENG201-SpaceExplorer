@@ -38,5 +38,13 @@ class ItemTest {
     Item item = new Item("Ham Sandwich", 25);
     assertEquals("'Ham Sandwich': 25", item.toString());
   }
+  
+  @Test
+  void testEquals() {
+    Item item1 = new Item("Ham Sandwich", 25);
+    Item item2 = new Item("Ham Sandwich", 25);
+    
+    assertTrue(item1.equals(item2));
+  }
 
 }
