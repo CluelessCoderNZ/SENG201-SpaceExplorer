@@ -11,9 +11,9 @@ public abstract class ConsumableItem extends Item {
       METHODS
   ===============
   */
-  public abstract void applyEffects(CrewMember crew);
+  public abstract void applyEffects(CrewMember crew);// throws DeadCrewMemberException;
   
-  public abstract int  getRemainingUses();
+  public abstract int getRemainingUses();
   
   public boolean isEmpty() {
     return getRemainingUses() == 0;

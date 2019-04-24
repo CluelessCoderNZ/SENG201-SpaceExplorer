@@ -15,7 +15,7 @@ public class GenericFoodItem extends ConsumableItem {
    * You can specify the amount restored and the uses.
    * @param name food name
    * @param value food item value
-   * @param amount restoration amount
+   * @param amount fullness restoration amount
    */
   public GenericFoodItem(String name, int value, int amount) {
     super(name, value);
