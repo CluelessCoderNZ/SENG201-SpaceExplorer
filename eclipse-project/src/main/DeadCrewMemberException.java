@@ -1,6 +1,6 @@
 package main;
 
-public class DeadCrewMemberException extends Exception {
+public class DeadCrewMemberException extends IllegalArgumentException {
 
   public DeadCrewMemberException() {
     super();

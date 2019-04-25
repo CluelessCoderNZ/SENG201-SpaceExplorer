@@ -1,7 +1,9 @@
 package test;
 
 import main.CrewMember;
+import main.GenericFoodItem;
 import main.GenericMedicalItem;
+import main.Item;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -48,10 +50,35 @@ class GenericMedicalItemTest {
     assertEquals(0, crew.getHealth());
     
     
-    /*GenericMedicalItem holyWater = new GenericMedicalItem("Holy Water", 500, 100);
+    GenericMedicalItem holyWater = new GenericMedicalItem("Holy Water", 500, 100);
     assertThrows(Exception.class, () -> {
       holyWater.applyEffects(crew);
-    });*/
+    });
+    assertEquals(0, crew.getHealth());
+  }
+  
+  @Test
+  void testEquals() {
+    GenericMedicalItem item1 = new GenericMedicalItem("Item", 10, 10, 3);
+    GenericMedicalItem item2 = new GenericMedicalItem("Item", 10, 10, 3);
+    assertTrue(item1.equals(item2));
+    
+    item1.applyEffects(new CrewMember("Jim", "Normal"));
+    assertFalse(item1.equals(item2));
+    
+    item2.applyEffects(new CrewMember("Jim", "Normal"));
+    assertTrue(item1.equals(item2));
+    
+    GenericMedicalItem item3 = new GenericMedicalItem("Item", 10, 10, 3);
+    GenericMedicalItem item4 = new GenericMedicalItem("Item", 10, 5, 3);
+    assertFalse(item3.equals(item4));
+  }
+  
+  
+  @Test
+  void testToString() {
+    Item item = new GenericMedicalItem("Crystal Meth", 50, 20, 3);
+    assertEquals("'Crystal Meth': 50, 20, 3", item.toString());
   }
 
 }

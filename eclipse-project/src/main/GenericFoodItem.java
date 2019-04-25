@@ -35,6 +35,12 @@ public class GenericFoodItem extends ConsumableItem {
     restoreAmount = amount;
     usesRemaining = uses;
   }
+  
+  
+  public int getRestoreAmount() {
+    return restoreAmount;
+  }
+  
   /*
   ===============
       METHODS
@@ -53,5 +59,15 @@ public class GenericFoodItem extends ConsumableItem {
 
   public int getRemainingUses() {
     return usesRemaining;
+  }
+  
+  
+  public boolean equals(GenericMedicalItem item) {
+    return super.equals(item) && item.getRestoreAmount() == getRestoreAmount();
+  }
+  
+  
+  public String toString() {
+    return String.format("'%s': %d, %d, %d", getName(), getValue(), restoreAmount, usesRemaining);
   }
 }

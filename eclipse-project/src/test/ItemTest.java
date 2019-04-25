@@ -10,7 +10,7 @@ class ItemTest {
 
   @Test
   void testValue() {
-    Item item = new Item();
+    Item item = new Item("Item");
     
     item.setValue(5);
     assertEquals(5, item.getValue());
@@ -24,13 +24,9 @@ class ItemTest {
   
   @Test
   void testName() {
-    Item item = new Item();
+    Item item = new Item("Apple");
     
-    item.setName("Apple");
     assertEquals("Apple", item.getName());
-    
-    item.setName("");
-    assertEquals("", item.getName());
   }
   
   @Test

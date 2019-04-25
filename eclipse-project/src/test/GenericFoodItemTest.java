@@ -4,6 +4,8 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import main.CrewMember;
 import main.GenericFoodItem;
+import main.GenericMedicalItem;
+import main.Item;
 
 import org.junit.jupiter.api.Test;
 
@@ -50,6 +52,18 @@ class GenericFoodItemTest {
     assertEquals(0, apple.getRemainingUses());
     assertTrue(apple.isEmpty());
     
+  }
+  
+  
+  @Test
+  void testEquals() {
+    fail("not implemented yet");
+  }
+  
+  @Test
+  void testToString() {
+    Item item = new GenericFoodItem("Ham Sandwich", 50, 20, 3);
+    assertEquals("'Ham Sandwich': 50, 20, 3", item.toString());
   }
 
 }

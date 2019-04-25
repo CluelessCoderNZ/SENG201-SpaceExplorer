@@ -7,13 +7,15 @@ public class Item {
   ===============
   */
   private String name;
-  private int value;
+  private int value = 0;
   
   
-  public Item() {}
+  public Item(String name) {
+    this.name = name;
+  }
   
   public Item(String name, int value) {
-    setName(name);
+    this.name = name;
     setValue(value);
   }
   
@@ -22,9 +24,6 @@ public class Item {
      SET & GET   
   ===============
   */
-  public void setName(String name) {
-    this.name = name;
-  }
 
   public String getName() {
     return this.name;

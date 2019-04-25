@@ -17,7 +17,6 @@ public class GenericMedicalItem extends ConsumableItem {
   public GenericMedicalItem(String name, int value, int amount) {
     super(name, value);
     restoreAmount = amount;
-    usesRemaining = 1;
   }
   
   
@@ -36,20 +35,26 @@ public class GenericMedicalItem extends ConsumableItem {
   }
   
   
+  
+  public int getRestoreAmount() {
+    return restoreAmount;
+  }
+  
+  
   /* METHODS */
 
   /**
    * Applies item effects to a crew member if not empty.
-   * @param crew the crew member to heal
+   * @param crew the living crew member to heal
    */
-  public void applyEffects(CrewMember crew) { // throws DeadCrewMemberException {
+  public void applyEffects(CrewMember crew) {
     if (!isEmpty()) {
       int currentHealth = crew.getHealth();
       if (currentHealth > 0) {
         crew.setHealth(currentHealth + restoreAmount);
         usesRemaining -= 1;
       } else {
-        //throw new main.DeadCrewMemberException("Crew member is/should be dead");
+        throw new main.DeadCrewMemberException("crew member is or should be dead");
       }
     }
     /* TODO: check for emptiness here? */
@@ -58,5 +63,15 @@ public class GenericMedicalItem extends ConsumableItem {
 
   public int getRemainingUses() {
     return usesRemaining;
+  }
+  
+  
+  public boolean equals(GenericMedicalItem item) {
+    return super.equals(item) && item.getRestoreAmount() == getRestoreAmount();
+  }
+  
+  
+  public String toString() {
+    return String.format("'%s': %d, %d, %d", getName(), getValue(), restoreAmount, usesRemaining);
   }
 }
