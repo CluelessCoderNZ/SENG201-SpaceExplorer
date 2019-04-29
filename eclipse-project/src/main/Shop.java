@@ -37,25 +37,49 @@ public class Shop {
     return inventory;
   }
   
-  
-  public int getStock(Item item) {
-    return Collections.frequency(inventory, item);
+  /**
+   * gets the price the Shop will sell an Item for.
+   * @param item the item in the Shop's inventory to get the price for
+   * @return the price the item would be if bought from the shop
+   */
+  public int getSellPrice(Item item) {
+    if (!inventory.contains(item)) {
+      throw new IllegalArgumentException("given item is not in the Shop's inventory");
+    }
+    return (int)(item.getValue() * sellModifier);
   }
   
-//  public ArrayList<Double> getPrices() {
-//    ArrayList<Double> prices = new ArrayList<Double>();
-//    for (Item item : inventory) {
-//      prices.add(item.getValue() * sellModifier);
-//    }
-//    return prices;
-//  }
-//  
-//  
-//  public ArrayList<Double> getStock() {
-//    ArrayList<Double> prices = new ArrayList<Double>();
-//    for (Item item : inventory) {
-//      prices.add(item.getValue() * sellModifier);
-//    }
-//    return prices;
-//  }
+  /**
+   * gets the price the Shop will buy an Item for.
+   * @param item the Item to get the price for
+   * @return the price the shop will buy the item for
+   */
+  public int getBuyPrice(Item item) {
+    if (inventory.contains(item)) {
+      throw new IllegalArgumentException("a Shop cannot buy an Item off itself");
+    }
+    return (int)(item.getValue() * buyModifier);
+  }
+  
+  /**
+   * buys an Item and adds it to the shop's inventory.
+   * @param item the item to be sold to the shop
+   * @return the amount of money the shop buys the item for
+   */
+  public int buyItem(Item item) {
+    int cost = getBuyPrice(item);
+    inventory.add(item);
+    return cost;
+  }
+  
+  /**
+   * sells an Item and removes it from the shop's inventory.
+   * @param item the item to be bought from the shop
+   * @return the amount of money the shop sells the item for
+   */
+  public int sellItem(Item item) {
+    int price = getSellPrice(item);
+    inventory.remove(item);
+    return price;
+  }
 }

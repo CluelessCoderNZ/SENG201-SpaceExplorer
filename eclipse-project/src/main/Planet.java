@@ -10,6 +10,10 @@ public class Planet {
     this.name = name;
   }
   
+  /**
+   * sets the Shop visited when going to the Planet.
+   * @param shop the Shop object on this Planet
+   */
   public void setShop(Shop shop) {
     if (this.shop != null) {
       throw new IllegalArgumentException("Planet already has a Shop");
@@ -17,6 +21,10 @@ public class Planet {
     this.shop = shop;
   }
   
+  /**
+   * sets the ShipPart found on this Planet.
+   * @param part the ShipPart found on this planet
+   */
   public void setPart(ShipPart part) {
     if (hasShipPart()) {
       throw new IllegalArgumentException("Planet already has a ShipPart");
@@ -38,7 +46,7 @@ public class Planet {
   }
   
   /**
-   * removes and returns the ShipPart stored on the Planet
+   * removes and returns the ShipPart stored on the Planet.
    * @return the planet's ship part
    */
   public ShipPart removeShipPart() {
