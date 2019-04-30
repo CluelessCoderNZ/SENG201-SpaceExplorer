@@ -29,23 +29,34 @@ class CrewStateTest {
       new Item("Health Pack")
   ));
 
-  @BeforeAll
-  static void setUpBeforeClass() throws Exception {
-    //ship = new Ship("Sputnik");
-  }
-
-  @BeforeEach
-  void setUp() throws Exception {
-  }
-
   @Test
   void testFunds() {
     CrewState crewState = new CrewState(crew, ship, 100);
     crewState.addFunds(50);
-    assertEquals(150, crew.getFunds());
+    assertEquals(150, crewState.getFunds());
     
     crewState.removeFunds(20);
-    assertEquals(130, crew.getFunds());
+    assertEquals(130, crewState.getFunds());
+    
+    crewState.removeFunds(200);
+    assertEquals(0, crewState.getFunds());
+    
+    crewState.setFunds(100);
+    assertEquals(100, crewState.getFunds());
+    
+    assertThrows(IllegalArgumentException.class, () -> {
+      crewState.addFunds(-10);
+    });
+    
+    assertThrows(IllegalArgumentException.class, () -> {
+      crewState.removeFunds(-10);
+    });
+    
+    assertThrows(IllegalArgumentException.class, () -> {
+      crewState.setFunds(-10);
+    });
+    
+    assertEquals(100, crewState.getFunds());
   }
   
   @Test
@@ -56,25 +67,27 @@ class CrewStateTest {
     Item testItem = new Item("Test Item");
     crewState.addItemToInventory(testItem);
     assertTrue(crewState.getInventory().contains(testItem));
-    assertThrows(InvalidArgumentException.class, () -> {
+    assertThrows(IllegalArgumentException.class, () -> {
       crewState.addItemToInventory(testItem);
-    })
+    });
     
     crewState.removeItemFromInventory(testItem);
     assertFalse(crewState.getInventory().contains(testItem));
-    assertThrows(InvalidArgumentException.class, () -> {
+    assertThrows(IllegalArgumentException.class, () -> {
       crewState.removeItemFromInventory(testItem);
-    })
+    });
   }
   
   @Test
   void testCrewMembers() {
-    fail("not implemented");
+    CrewState crewState = new CrewState(crew, ship);
+    assertEquals(crew, crewState.getCrew());
   }
   
   @Test
   void testShip() {
-    fail("not implemented");
+    CrewState crewState = new CrewState(crew, ship);
+    assertEquals(ship, crewState.getShip());
   }
 
 }
