@@ -40,26 +40,54 @@ public class Ship {
   /* METHODS */
   
   /**
-   * reduces the ship's shield.
+   * reduces the ship's shield level.
    * @param damage positive amount of damage to take
    */
   public void takeDamage(int damage) {
     if (damage >= 0) {
       shieldLevel = Math.max(0, shieldLevel - damage);
     } else {
-      throw new IllegalArgumentException("damage cannot be negative. use repairShield(amount).");
+      throw new IllegalArgumentException("damage cannot be negative. use repairShield(int).");
     }
   }
   
   /**
-   * increases the ship's shield.
+   * increases the ship's shield level.
    * @param amount positive amount by which to repair the shield
    */
   public void increaseShield(int amount) {
     if (amount >= 0) {
       shieldLevel = Math.min(maxShieldLevel, shieldLevel + amount);
     } else {
-      throw new IllegalArgumentException("amount cannot be negative. use takeDamage(damage).");
+      throw new IllegalArgumentException("amount cannot be negative. use takeDamage(int).");
+    }
+  }
+  
+  /**
+   * increases the ship's maximum shield level. increases current shield level by the same amount.
+   * @param amount positive amount by which to increase the max shield
+   */
+  public void increaseMaxShield(int amount) {
+    if (amount >= 0) {
+      maxShieldLevel += amount;
+      shieldLevel += amount;
+    } else {
+      throw new IllegalArgumentException("amount cannot be negative. use decreaseMaxSheild(int).");
+    }
+  }
+  
+  /**
+   * decreases the ship's maximum shield level.
+   * @param amount positive amount by which to decrease the max shield
+   */
+  public void decreaseMaxShield(int amount) {
+    if (amount < 0) {
+      throw new IllegalArgumentException("amount cannot be negative. use increaseMaxShield(int).");
+    } else if (maxShieldLevel - amount < 0) {
+      throw new IllegalArgumentException("maxShieldLevel cannot be less than 0");
+    } else {
+      maxShieldLevel -= amount;
+      shieldLevel = Math.min(shieldLevel, maxShieldLevel);
     }
   }
 

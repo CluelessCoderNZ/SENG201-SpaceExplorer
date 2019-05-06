@@ -27,6 +27,14 @@ class ShipTest {
     ship.increaseShield(50);
     assertEquals(100, ship.getShieldLevel());
     
+    ship.increaseMaxShield(20);
+    assertEquals(120, ship.getShieldLevel());
+    
+    ship.decreaseMaxShield(40);
+    assertEquals(80, ship.getShieldLevel());
+    ship.increaseShield(20);
+    assertEquals(80, ship.getShieldLevel());
+    
     ship.takeDamage(150);
     assertEquals(0, ship.getShieldLevel());
     
@@ -35,7 +43,15 @@ class ShipTest {
     });
     
     assertThrows(IllegalArgumentException.class, () -> {
-      ship.increaseShield(-10);
+      ship.increaseMaxShield(-10);
+    });
+    
+    assertThrows(IllegalArgumentException.class, () -> {
+      ship.decreaseMaxShield(-10);
+    });
+    
+    assertThrows(IllegalArgumentException.class, () -> {
+      ship.decreaseMaxShield(100);
     });
   }
 
