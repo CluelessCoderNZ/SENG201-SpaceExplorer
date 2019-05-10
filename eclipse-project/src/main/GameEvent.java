@@ -3,7 +3,6 @@ package main;
 import java.util.Random;
 
 public abstract class GameEvent {
-  protected int chanceWeight = 100;
   
   /**
    * Creates clone event of the same type with random event members.
@@ -27,8 +26,4 @@ public abstract class GameEvent {
   }
   
   public abstract String getEventMessage();
-  
-  public int getChanceWeight() {
-    return chanceWeight;
-  }
 }
