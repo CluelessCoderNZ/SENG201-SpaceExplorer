@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 public class Shop {
+  private String name;
   private ArrayList<Item> inventory = new ArrayList<Item>();
   private double buyModifier = 1.0;
   private double sellModifier = 1.0;
@@ -13,7 +14,8 @@ public class Shop {
    * initializes a Shop object that sells items in a given inventory.
    * @param inventory the inventory for the shop to sell items from
    */
-  public Shop(ArrayList<Item> inventory) {
+  public Shop(String name, ArrayList<Item> inventory) {
+    this.name = name;
     this.inventory = inventory;
   }
   
@@ -23,7 +25,8 @@ public class Shop {
    * @param buyModifier the fraction of an item's value the shop will buy it for
    * @param sellModifier the fraction of an item's value the shop will sell it for
    */
-  public Shop(ArrayList<Item> inventory, double buyModifier, double sellModifier) {
+  public Shop(String name, ArrayList<Item> inventory, double buyModifier, double sellModifier) {
+    this.name = name;
     this.inventory = inventory;
     this.buyModifier = buyModifier;
     this.sellModifier = sellModifier;
@@ -35,6 +38,10 @@ public class Shop {
   
   public ArrayList<Item> getInventory() {
     return inventory;
+  }
+  
+  public String getName() {
+    return name;
   }
   
   /**

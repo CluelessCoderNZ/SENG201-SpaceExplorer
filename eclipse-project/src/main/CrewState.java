@@ -1,27 +1,28 @@
 package main;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class CrewState {
   
   private int funds = 0;
-  private ArrayList<Item> inventory = new ArrayList<Item>();
-  private ArrayList<CrewMember> crew;
+  private List<Item> inventory = new ArrayList<Item>();
+  private List<CrewMember> crew;
   private Ship ship;
   
   
-  public CrewState(ArrayList<CrewMember> crew, Ship ship) {
-    this.crew = crew;
+  public CrewState(List<CrewMember> crewMembers, Ship ship) {
+    this.crew = crewMembers;
     this.ship = ship;
   }
   
-  public CrewState(ArrayList<CrewMember> crew, Ship ship, int funds) {
+  public CrewState(List<CrewMember> crew, Ship ship, int funds) {
     this.crew = crew;
     this.ship = ship;
     this.funds = funds;
   }
   
-  public CrewState(ArrayList<CrewMember> crew, Ship ship, int funds, ArrayList<Item> inventory) {
+  public CrewState(List<CrewMember> crew, Ship ship, int funds, ArrayList<Item> inventory) {
     this.crew = crew;
     this.ship = ship;
     this.funds = funds;
@@ -54,7 +55,7 @@ public class CrewState {
     this.funds = Math.max(0, this.funds - funds);
   }
   
-  public ArrayList<Item> getInventory() {
+  public List<Item> getInventory() {
     return inventory;
   }
   
@@ -72,7 +73,7 @@ public class CrewState {
     inventory.remove(item);
   }
   
-  public ArrayList<CrewMember> getCrew() {
+  public List<CrewMember> getCrew() {
     return crew;
   }
   
