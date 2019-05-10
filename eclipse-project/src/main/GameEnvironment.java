@@ -1,31 +1,46 @@
 package main;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class GameEnvironment {
   
   private Planet currentPlanet;
-  private ArrayList<Planet> planetList;
-  //private GameEventManager eventManager;
+  private List<Planet> planetList;
   private CrewState crewState;
   private int daysPassed = 0;
   private int maxDays;
   
-  /**
-   * creates a new GameEnvironment for a game lasting days days, with a given crew and planet list.
-   * @param days number of days for the game to last
-   * @param crewState the CrewState object used to hold information about the crew
-   * @param planetList the list of planets that players can travel to where the first entry is the starting planet
-   */
-  public GameEnvironment(int days, CrewState crewState,
-      /*GameEventManager eventManager,*/ ArrayList<Planet> planetList) {
+  public void setCrewState(CrewState state) {
+    crewState = state;
+  }
+  
+  public CrewState getCrewState() {
+    return crewState;
+  }
+  
+  public void setNumDays(int days) {
     maxDays = days;
-    this.crewState = crewState;
-    this.planetList = planetList;
-    if (planetList.size() == 0) {
-      throw new IllegalArgumentException("game needs at least one planet");
-    }
-    currentPlanet = planetList.get(0);
+  }
+  
+  public int getCurrentDay() {
+    return daysPassed;
+  }
+  
+  public void setPlanets(List<Planet> planets) {
+    planetList = planets;
+  }
+  
+  public List<Planet> getPlanets() {
+    return planetList;
+  }
+  
+  public void setupGame() {
+    GameSetup setup = new GameSetup(this);
+  }
+  
+  public void finishSetup(GameSetup setup) {
+    
   }
 
   
@@ -36,7 +51,8 @@ public class GameEnvironment {
   
   
   public static void main(String[] args) {
-    System.out.println("Hello World!");
+    GameEnvironment env = new GameEnvironment();
+    env.setupGame();
   }
 
 }
