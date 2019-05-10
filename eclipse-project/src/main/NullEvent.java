@@ -4,13 +4,10 @@ import java.util.Random;
 
 public class NullEvent extends GameEvent {
 
-  public NullEvent(int chanceWeight) {
-    this.chanceWeight = chanceWeight;
-  }
   
   @Override
   public GameEvent createEvent(Random randomGenerator) {
-    return new NullEvent(chanceWeight);
+    return new NullEvent();
   }
 
   @Override
