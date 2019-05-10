@@ -12,6 +12,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 class PlanetTest {
+  
+  private Shop shop;
 
   @BeforeAll
   static void setUpBeforeClass() throws Exception {
@@ -19,20 +21,12 @@ class PlanetTest {
 
   @BeforeEach
   void setUp() throws Exception {
+    shop = new Shop("Test Shop", new ArrayList<Item>());
   }
 
   @Test
   void testShop() {
-    Shop shop = new Shop(new ArrayList<Item>());
-    Planet planet = new Planet("Earth");
-    assertEquals(null, planet.getShop());
-    
-    planet.setShop(shop);
-    assertEquals(shop, planet.getShop());
-    
-    assertThrows(IllegalArgumentException.class, () -> {
-      planet.setShop(shop);
-    });
+    Planet planet = new Planet("Earth", shop);
     assertEquals(shop, planet.getShop());
   }
   
@@ -40,7 +34,7 @@ class PlanetTest {
   @Test
   void testPart() {
     ShipPart part = new ShipPart();
-    Planet planet = new Planet("Mars");
+    Planet planet = new Planet("Mars", shop);
     assertFalse(planet.hasShipPart());
     
     assertEquals(null, planet.removeShipPart());

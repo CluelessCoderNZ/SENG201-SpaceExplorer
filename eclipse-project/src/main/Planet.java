@@ -2,22 +2,12 @@ package main;
 
 public class Planet {
   private ShipPart part = null;
-  private Shop shop = null;
-  private String name = null;
+  private Shop shop;
+  private String name;
   
   
-  public Planet(String name) {
+  public Planet(String name, Shop shop) {
     this.name = name;
-  }
-  
-  /**
-   * sets the Shop visited when going to the Planet.
-   * @param shop the Shop object on this Planet
-   */
-  public void setShop(Shop shop) {
-    if (this.shop != null) {
-      throw new IllegalArgumentException("Planet already has a Shop");
-    }
     this.shop = shop;
   }
   
@@ -47,7 +37,7 @@ public class Planet {
   
   /**
    * removes and returns the ShipPart stored on the Planet.
-   * @return the planet's ship part
+   * @return the planet's ship part, null if no part is on the planet
    */
   public ShipPart removeShipPart() {
     ShipPart returnPart = part;

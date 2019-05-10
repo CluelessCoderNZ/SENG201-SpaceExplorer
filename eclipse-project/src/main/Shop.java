@@ -2,21 +2,22 @@ package main;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 public class Shop {
   private String name;
-  private ArrayList<Item> inventory = new ArrayList<Item>();
+  private List<Item> inventory = new ArrayList<Item>();
   private double buyModifier = 1.0;
   private double sellModifier = 1.0;
   
   
   /**
    * initializes a Shop object that sells items in a given inventory.
-   * @param inventory the inventory for the shop to sell items from
+   * @param galacticMedItems the inventory for the shop to sell items from
    */
-  public Shop(String name, ArrayList<Item> inventory) {
+  public Shop(String name, List<Item> galacticMedItems) {
     this.name = name;
-    this.inventory = inventory;
+    this.inventory = galacticMedItems;
   }
   
   /**
@@ -36,7 +37,7 @@ public class Shop {
   
   /* METHODS */
   
-  public ArrayList<Item> getInventory() {
+  public List<Item> getInventory() {
     return inventory;
   }
   

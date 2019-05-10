@@ -23,7 +23,7 @@ class ShopTest {
     ));
     double buyMod = 0.5;
     double sellMod = 2;
-    Shop shop = new Shop(inventory, buyMod, sellMod);
+    Shop shop = new Shop("Test Shop", inventory, buyMod, sellMod);
     
     assertEquals(inventory, shop.getInventory());
     for (Item item : inventory) {

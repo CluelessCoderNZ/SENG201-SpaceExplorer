@@ -12,13 +12,11 @@ public class GameSetup {
   private static final int MAX_CREW = 4;
   private static final int MIN_DAYS = 3;
   private static final int MAX_DAYS = 10;
-  private List<Planet> planets = new ArrayList<Planet>();
-
+  private static Scanner reader = new Scanner(System.in);
+  
   
   private List<CrewMember> crewMembers = new ArrayList<CrewMember>();
   private Ship ship = null;
-  //private CrewState crewState = null;
-  private static Scanner reader = new Scanner(System.in);
   private GameEnvironment env;
   
   
@@ -29,13 +27,47 @@ public class GameSetup {
     commandLine();
   }
   
-  public void setupPlanets() {
-    ArrayList<Item> galacticMedItems = new ArrayList<Item>(Arrays.asList(
-        new GenericRestorationItem("Medicaid", 40, 20, 0),
-        new GenericRestorationItem("Bandages", 8, 5, 0)
+  /**
+   * sets up the planets and outposts that players can visit in the game.
+   */
+  public void buildSolarSystem() {
+    List<Item> galacticMedItems = new ArrayList<Item>(Arrays.asList(
+        new GenericRestorationItem("Medicaid", 60, 30, 0),
+        new GenericRestorationItem("Bandages", 25, 5, 0, 3),
+        new GenericRestorationItem("StimuLife", 130, 65, 50),
+        new GenericRestorationItem("Ham Sandwich", 20, 5, 25),
+        new GenericRestorationItem("Space Candy", 20, 0, 1, 10)
     ));
-    Shop galacticMed = new Shop("Galactic Medications", galacticMedItems);
-    planets.add(new Planet("Earth"));
+    Shop galacticMeds = new Shop("Galactic Medications", galacticMedItems);
+    
+    List<Item> warmongerSuppliesItems = new ArrayList<Item>(Arrays.asList(
+        new Item("Shield Upgrade A", 30),
+        new Item("Photon Cannons", 100),
+        new Item("Pulsar Beam", 200)
+    ));
+    Shop warmongerSupplies = new Shop("Warmonger Supplies", warmongerSuppliesItems);
+    
+    List<Item> bartsBuffetItems = new ArrayList<Item>(Arrays.asList(
+        new GenericRestorationItem("Hamburger", 40, 10, 50),
+        new GenericRestorationItem("Scrambled Eggs", 20, 0, 20),
+        new Item("Golden Spork", 100),
+        new GenericRestorationItem("Antimatter Brownies", 40, 0, -30, 3),
+        new GenericRestorationItem("All You Can Eat", 300, 0, 50, 10)
+    ));
+    Shop bartsBuffet = new Shop("Bart's Buffet", bartsBuffetItems);
+    
+    Planet izanaki = new Planet("Izanaki", galacticMeds);
+    Planet newQuebec = new Planet("New Quebec", warmongerSupplies);
+    Planet earth2 = new Planet("Earth II", bartsBuffet);
+    Planet keziah = new Planet("Keziah", warmongerSupplies);
+    Planet sorinAlpha = new Planet("Sorin Alpha", bartsBuffet);
+    Planet nordlingen = new Planet("Nordlingen", warmongerSupplies);
+    Planet archimedra = new Planet("Archimedra", galacticMeds);
+    Planet corolina = new Planet("Corolina", galacticMeds);
+    
+    List<Planet> planets = new ArrayList<Planet>(Arrays.asList(izanaki, newQuebec, earth2, keziah,
+        sorinAlpha, nordlingen, archimedra, corolina));
+    env.setPlanets(planets);
   }
     
   public void createShip(String name) {
