@@ -81,5 +81,20 @@ public class CrewState {
     return ship;
   }
   
+  @Override
+  public String toString() {
+    String crewStateString = "Ship name: " + ship.getName() + "\n";
+    crewStateString += "Crew funds: " + funds + "\n";
+    crewStateString += "Crew Members:\n";
+    for (CrewMember crewMember : crew) {
+      crewStateString += "   " + crewMember.toString() + "\n";
+    }
+    crewStateString += "Inventory:\n";
+    for (Item item : inventory) {
+      crewStateString += "   " + item.toString() + "\n";
+    }
+    return crewStateString;
+  }
+  
 
 }

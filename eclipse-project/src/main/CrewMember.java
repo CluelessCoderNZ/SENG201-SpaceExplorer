@@ -192,4 +192,6 @@ public class CrewMember {
     setRestedness(getMaxRestedness());
     resetActions();
   }
+  
+  public void applyStartBonuses(CrewState crewState) { }
 }

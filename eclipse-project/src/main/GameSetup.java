@@ -1,6 +1,7 @@
 package main;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -24,6 +25,7 @@ public class GameSetup {
   
   public GameSetup(GameEnvironment env) {
     this.env = env;
+    buildSolarSystem();
     commandLine();
   }
   
@@ -84,11 +86,28 @@ public class GameSetup {
           + MIN_DAYS + " and " + MAX_DAYS);
     }
     env.setNumDays(days);
+    scatterParts(days);
   }
   
   public void finishedSetup() {
     setCrewState();
+    applyCrewMemberBonuses(env.getCrewState());
     env.finishSetup(this);
+  }
+  
+  public void scatterParts(int days) {
+    List<Planet> planets = env.getPlanets();
+    Collections.shuffle(planets);
+    for (int i = 0; i <= days * 2 / 3 && i < planets.size(); i++) {
+      env.getPlanets().get(i).setPart(new ShipPart());
+    }
+    Collections.shuffle(planets);
+  }
+  
+  public void applyCrewMemberBonuses(CrewState crewState) {
+    for (CrewMember crew : crewState.getCrew()) {
+      crew.applyStartBonuses(crewState);
+    }
   }
   
   /**
@@ -97,11 +116,11 @@ public class GameSetup {
    * @param title the title the new CrewMember should have
    * @throws RuntimeException throws exception if trying to add member to a full crew
    */
-  public void createInvestor(String name, String title) {
+  public void createCrewMember(int type, String name, String title) {
     if (crewMembers.size() == MAX_CREW) {
       throw new RuntimeException("max crew size has been reached");
     }
-    crewMembers.add(new Investor(name, title));
+    crewMembers.add(CrewMemberFactory.createCrewMember(type, name, title));
   }
   
   
@@ -133,37 +152,28 @@ public class GameSetup {
     reader.nextLine(); // consumes the newline character after the integer
     setNumDays(numDays);
     
-    System.out.println(String.format("\ncurrent crew count: %d. min %d. max %d. ",
-        crewMembers.size(), MIN_CREW, MAX_CREW));
-    
-    System.out.println("choose a crew member type: ");
-    System.out.println("     1. Investor (start with +100 funds and +30 ship max shield)");
-    int crewTypeNum = reader.nextInt();
-    reader.nextLine();
-    
+    int crewTypeNum = 0;
     String crewName = "";
+    String title = "";
     do {
+      System.out.println(String.format("\ncurrent crew count: %d. min %d. max %d. ",
+          crewMembers.size(), MIN_CREW, MAX_CREW));
+      
+      System.out.println("choose a crew member type: ");
+      System.out.println("     1. Investor -- " + Investor.getClassDescription());
+      crewTypeNum = reader.nextInt();
+      reader.nextLine();
+      
       System.out.println("enter new crew member name: ");
       crewName = reader.nextLine();
       
       System.out.println("enter " + crewName + "'s title: ");
-      String title = reader.nextLine();
-      switch (crewTypeNum) {
-        case 1:
-          createInvestor(crewName, title);
-          break;
-        default:
-          throw new RuntimeException("invalid crew type number entered.");
-      }
+      title = reader.nextLine();
       
-      System.out.println(String.format("\ncurrent crew count: %d. min %d. max %d. ",
-          crewMembers.size(), MIN_CREW, MAX_CREW));
+      createCrewMember(crewTypeNum, crewName, title);
       
-      System.out.println("choose a crew member type (type 0 to finish): ");
-      System.out.println("     1. Investor (start with +100 funds and +30 ship max shield)");
-      crewTypeNum = reader.nextInt();
-      reader.nextLine();
-    } while (crewTypeNum != 0);
+      System.out.println("create another crew member? (Y/n): ");
+    } while (!reader.nextLine().equals("n"));
     
     System.out.println("\nenter a name for your crew's ship: ");
     String shipName = reader.nextLine();
