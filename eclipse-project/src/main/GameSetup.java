@@ -1,10 +1,27 @@
 package main;
 
+import java.awt.EventQueue;
+
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import java.awt.BorderLayout;
+import javax.swing.SwingConstants;
+import javax.swing.GroupLayout.Alignment;
+import javax.swing.LayoutStyle.ComponentPlacement;
+import javax.swing.GroupLayout;
+import javax.swing.JButton;
+import javax.swing.JEditorPane;
+import javax.swing.JPanel;
+import javax.swing.JSlider;
+import javax.swing.border.LineBorder;
+import java.awt.Color;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Scanner;
 
 public class GameSetup {
@@ -18,15 +35,36 @@ public class GameSetup {
   
   private List<CrewMember> crewMembers = new ArrayList<CrewMember>();
   private Ship ship = null;
+  private JFrame frame;
   private GameEnvironment env;
   
   
   
-  
+  /**
+   * GameSetup constructor.
+   * @param env the GameEnvironment being used to store the game's state
+   */
   public GameSetup(GameEnvironment env) {
     this.env = env;
     buildSolarSystem();
-    commandLine();
+    //commandLine();
+    initializeWindow();
+    frame.setVisible(true);
+  }
+  
+  public void closeWindow() {
+    frame.dispose();
+  }
+  
+  private void initializeWindow() {
+    frame = new JFrame();
+    frame.setBounds(100, 100, 636, 468);
+    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    frame.getContentPane().setLayout(null);
+    
+    JLabel lblWelcome = new JLabel("Welcome to SpaceExplorer");
+    lblWelcome.setBounds(6, 6, 181, 16);
+    frame.getContentPane().add(lblWelcome);
   }
   
   /**
@@ -80,6 +118,11 @@ public class GameSetup {
     env.setPlanets(planets);
   }
   
+  /**
+   * sets the number of days the game should last.
+   * Scatters correct number of parts between the game's planets.
+   * @param days number of days for the game to last
+   */
   public void setNumDays(int days) {
     if (days < MIN_DAYS || days > MAX_DAYS) {
       throw new RuntimeException("invalid number of days. Please enter a number between "
@@ -95,10 +138,14 @@ public class GameSetup {
     env.finishSetup(this);
   }
   
+  /**
+   * scatters n = days * 2 / 3 parts among the game's planets.
+   * @param days number of days the game will last for
+   */
   public void scatterParts(int days) {
     List<Planet> planets = env.getPlanets();
     Collections.shuffle(planets);
-    for (int i = 0; i <= days * 2 / 3 && i < planets.size(); i++) {
+    for (int i = 0; i <= (days * 2) / 3 && i < planets.size(); i++) {
       env.getPlanets().get(i).setPart(new ShipPart());
     }
     Collections.shuffle(planets);

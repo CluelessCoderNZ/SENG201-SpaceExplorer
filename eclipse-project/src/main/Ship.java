@@ -5,6 +5,7 @@ public class Ship {
   private String name;
   private int maxShieldLevel = 100;
   private int shieldLevel = maxShieldLevel;
+  private int damage = 0;
 
   
   /**
@@ -83,12 +84,14 @@ public class Ship {
   public void decreaseMaxShield(int amount) {
     if (amount < 0) {
       throw new IllegalArgumentException("amount cannot be negative. use increaseMaxShield(int).");
-    } else if (maxShieldLevel - amount < 0) {
-      throw new IllegalArgumentException("maxShieldLevel cannot be less than 0");
     } else {
-      maxShieldLevel -= amount;
+      maxShieldLevel -= Math.min(amount, maxShieldLevel);
       shieldLevel = Math.min(shieldLevel, maxShieldLevel);
     }
+  }
+  
+  public void setWeaponDamage(int amount) {
+    damage = Math.max(amount, 0);
   }
 
 }
