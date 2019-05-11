@@ -44,12 +44,15 @@ public class GameSetup {
    * GameSetup constructor.
    * @param env the GameEnvironment being used to store the game's state
    */
-  public GameSetup(GameEnvironment env) {
+  public GameSetup(GameEnvironment env, String mode) {
     this.env = env;
     buildSolarSystem();
-    //commandLine();
-    initializeWindow();
-    frame.setVisible(true);
+    if (mode.equals("cl")) {
+      commandLine();
+    } else {
+      initializeWindow();
+      frame.setVisible(true);
+    }
   }
   
   public void closeWindow() {
