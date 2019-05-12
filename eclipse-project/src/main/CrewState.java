@@ -11,29 +11,36 @@ public class CrewState {
   private Ship ship;
   
   
+  /**
+   * constructor creates a CrewState object with a given crew and ship and
+   * an empty inventory with 0 funds.
+   * @param crewMembers List of crew members
+   * @param ship Ship for the crew to pilot
+   */
   public CrewState(List<CrewMember> crewMembers, Ship ship) {
     this.crew = crewMembers;
     this.ship = ship;
   }
   
-  public CrewState(List<CrewMember> crew, Ship ship, int funds) {
-    this.crew = crew;
-    this.ship = ship;
-    this.funds = funds;
-  }
   
-  public CrewState(List<CrewMember> crew, Ship ship, int funds, ArrayList<Item> inventory) {
-    this.crew = crew;
-    this.ship = ship;
-    this.funds = funds;
-    this.inventory = inventory;
-  }
+  /*
+  ===============
+     SET & GET   
+  ===============
+  */
   
-  
+  /**
+   * returns the funds of the player's crew.
+   * @return funds as an integer
+   */
   public int getFunds() {
     return funds;
   }
   
+  /**
+   * sets the funds of the player's crew.
+   * @param funds integer to set the crew's funds to
+   */
   public void setFunds(int funds) {
     if (funds < 0) {
       throw new IllegalArgumentException("cannot set funds to a negative value");
@@ -41,6 +48,10 @@ public class CrewState {
     this.funds = funds;
   }
   
+  /**
+   * adds funds to the crew's funds.
+   * @param funds a non negative integer amount to add to the funds
+   */
   public void addFunds(int funds) {
     if (funds < 0) {
       throw new IllegalArgumentException("cannot add negative funds, use removeFunds(int funds)");
@@ -48,6 +59,10 @@ public class CrewState {
     this.funds += funds;
   }
   
+  /**
+   * removes funds from the crew's funds.
+   * @param funds a non negative integer amount to remove from the funds
+   */
   public void removeFunds(int funds) {
     if (funds < 0) {
       throw new IllegalArgumentException("cannot remove negative funds, use addFunds(int funds)");
@@ -59,6 +74,10 @@ public class CrewState {
     return inventory;
   }
   
+  /**
+   * adds an item to the crew's inventory.
+   * @param item item not already in the crew's inventory to add
+   */
   public void addItemToInventory(Item item) {
     if (inventory.contains(item)) {
       throw new IllegalArgumentException("item is already in the crewState's inventory");
@@ -66,6 +85,10 @@ public class CrewState {
     inventory.add(item);
   }
   
+  /**
+   * removes an item from the crew's inventory.
+   * @param item item in the crew's inventory to remove
+   */
   public void removeItemFromInventory(Item item) {
     if (!inventory.contains(item)) {
       throw new IllegalArgumentException("item is not in the crewState's inventory");
@@ -73,10 +96,18 @@ public class CrewState {
     inventory.remove(item);
   }
   
+  /**
+   * returns the current crew as a List.
+   * @return List of the current CrewMembers
+   */
   public List<CrewMember> getCrew() {
     return crew;
   }
   
+  /**
+   * returns the current Ship.
+   * @return Ship object
+   */
   public Ship getShip() {
     return ship;
   }
