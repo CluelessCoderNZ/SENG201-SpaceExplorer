@@ -31,13 +31,13 @@ public class GameSetup {
   private static final int MIN_DAYS = 3;
   private static final int MAX_DAYS = 10;
   private static Scanner reader = new Scanner(System.in);
+  private static final boolean cl = true;
   
   
   private List<CrewMember> crewMembers = new ArrayList<CrewMember>();
   private Ship ship = null;
   private JFrame frame;
   private GameEnvironment env;
-  private boolean cl = true;
   
   
   
