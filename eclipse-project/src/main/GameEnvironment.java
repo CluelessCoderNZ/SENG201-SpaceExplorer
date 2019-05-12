@@ -37,7 +37,7 @@ public class GameEnvironment {
   }
   
   public void setupGame() {
-    GameSetup setup = new GameSetup(this, "cl");
+    GameSetup setup = new GameSetup(this);
   }
   
   public void finishSetup(GameSetup setup) {

@@ -37,6 +37,7 @@ public class GameSetup {
   private Ship ship = null;
   private JFrame frame;
   private GameEnvironment env;
+  private boolean cl = true;
   
   
   
@@ -44,10 +45,10 @@ public class GameSetup {
    * GameSetup constructor.
    * @param env the GameEnvironment being used to store the game's state
    */
-  public GameSetup(GameEnvironment env, String mode) {
+  public GameSetup(GameEnvironment env) {
     this.env = env;
     buildSolarSystem();
-    if (mode.equals("cl")) {
+    if (cl) {
       commandLine();
     } else {
       initializeWindow();
@@ -56,7 +57,9 @@ public class GameSetup {
   }
   
   public void closeWindow() {
-    frame.dispose();
+    if (!cl) {
+      frame.dispose();
+    }
   }
   
   private void initializeWindow() {
@@ -73,7 +76,7 @@ public class GameSetup {
   /**
    * sets up the planets and outposts that players can visit in the game.
    */
-  public void buildSolarSystem() {
+  private void buildSolarSystem() {
     List<Item> galacticMedItems = new ArrayList<Item>(Arrays.asList(
         new GenericRestorationItem("Medicaid", 60, 30, 0),
         new GenericRestorationItem("Bandages", 25, 5, 0, 3),
@@ -113,12 +116,8 @@ public class GameSetup {
     env.setPlanets(planets);
   }
     
-  public void createShip(String name) {
+  private void createShip(String name) {
     ship = new Ship(name);
-  }
-  
-  public void setPlanets(List<Planet> planets) {
-    env.setPlanets(planets);
   }
   
   /**
@@ -126,7 +125,7 @@ public class GameSetup {
    * Scatters correct number of parts between the game's planets.
    * @param days number of days for the game to last
    */
-  public void setNumDays(int days) {
+  private void setNumDays(int days) {
     if (days < MIN_DAYS || days > MAX_DAYS) {
       throw new RuntimeException("invalid number of days. Please enter a number between "
           + MIN_DAYS + " and " + MAX_DAYS);
@@ -145,7 +144,7 @@ public class GameSetup {
    * scatters n = days * 2 / 3 parts among the game's planets.
    * @param days number of days the game will last for
    */
-  public void scatterParts(int days) {
+  private void scatterParts(int days) {
     List<Planet> planets = env.getPlanets();
     Collections.shuffle(planets);
     for (int i = 0; i <= (days * 2) / 3 && i < planets.size(); i++) {
@@ -166,18 +165,18 @@ public class GameSetup {
    * @param title the title the new CrewMember should have
    * @throws RuntimeException throws exception if trying to add member to a full crew
    */
-  public void createCrewMember(int type, String name, String title) {
+  private void createCrewMember(int type, String name) {
     if (crewMembers.size() == MAX_CREW) {
       throw new RuntimeException("max crew size has been reached");
     }
-    crewMembers.add(CrewMemberFactory.createCrewMember(type, name, title));
+    crewMembers.add(CrewMemberFactory.createCrewMember(type, name));
   }
   
   
   /**
    * sets the GameEnvironment's CrewState object.
    */
-  public void setCrewState() {
+  private void setCrewState() {
     if (crewMembers.size() < MIN_CREW) {
       throw new RuntimeException("not enough crew members created, min " + MIN_CREW + " required");
     }
@@ -194,7 +193,7 @@ public class GameSetup {
   /**
    * command line version of SpaceExplorer game setup window.
    */
-  public void commandLine() {
+  private void commandLine() {
     
     System.out.println(String.format("Enter a number of days. min %d. max %d:",
         MIN_DAYS, MAX_DAYS));
@@ -217,10 +216,7 @@ public class GameSetup {
       System.out.println("enter new crew member name: ");
       crewName = reader.nextLine();
       
-      System.out.println("enter " + crewName + "'s title: ");
-      title = reader.nextLine();
-      
-      createCrewMember(crewTypeNum, crewName, title);
+      createCrewMember(crewTypeNum, crewName);
       
       System.out.println("create another crew member? (Y/n): ");
     } while (!reader.nextLine().equals("n"));

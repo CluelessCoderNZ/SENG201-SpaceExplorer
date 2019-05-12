@@ -5,8 +5,8 @@ public class Investor extends CrewMember {
   public static final int FUNDS_BONUS = 100;
   public static final int SHIELD_BONUS = 30;
   
-  public Investor(String name, String title) {
-    super(name, title);
+  public Investor(String name) {
+    super(name, "Investor");
   }
   
   @Override
