@@ -1,28 +1,13 @@
 package main;
 
-import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import java.awt.BorderLayout;
-import javax.swing.SwingConstants;
-import javax.swing.GroupLayout.Alignment;
-import javax.swing.LayoutStyle.ComponentPlacement;
-import javax.swing.GroupLayout;
-import javax.swing.JButton;
-import javax.swing.JEditorPane;
-import javax.swing.JPanel;
-import javax.swing.JSlider;
-import javax.swing.border.LineBorder;
-import java.awt.Color;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Scanner;
+
+import javax.swing.JFrame;
+import javax.swing.JLabel;
 
 public class GameSetup {
   
@@ -56,6 +41,17 @@ public class GameSetup {
     }
   }
   
+  /**
+   * performs final setup steps (creating the crewState and applying bonuses).
+   */
+  public void finishedSetup() {
+    setUpCrewState();
+    env.finishSetup(this);
+  }
+  
+  /**
+   * closes the GameSetup Swing window.
+   */
   public void closeWindow() {
     if (!cl) {
       frame.dispose();
@@ -115,10 +111,6 @@ public class GameSetup {
         sorinAlpha, nordlingen, archimedra, corolina));
     env.setPlanets(planets);
   }
-    
-  private void createShip(String name) {
-    ship = new Ship(name);
-  }
   
   /**
    * sets the number of days the game should last.
@@ -134,12 +126,6 @@ public class GameSetup {
     scatterParts(days);
   }
   
-  public void finishedSetup() {
-    setCrewState();
-    applyCrewMemberBonuses(env.getCrewState());
-    env.finishSetup(this);
-  }
-  
   /**
    * scatters n = days * 2 / 3 parts among the game's planets.
    * @param days number of days the game will last for
@@ -153,6 +139,10 @@ public class GameSetup {
     Collections.shuffle(planets);
   }
   
+  /**
+   * applies the starting bonuses given by each crew member.
+   * @param crewState the CrewState to get the crew of and apply the bonuses to
+   */
   public void applyCrewMemberBonuses(CrewState crewState) {
     for (CrewMember crew : crewState.getCrew()) {
       crew.applyStartBonuses(crewState);
@@ -172,11 +162,18 @@ public class GameSetup {
     crewMembers.add(CrewMemberFactory.createCrewMember(type, name));
   }
   
+  /**
+   * creates a Ship for the crew with a given name.
+   * @param name name to give the Ship
+   */
+  private void createShip(String name) {
+    ship = new Ship(name);
+  }
   
   /**
    * sets the GameEnvironment's CrewState object.
    */
-  private void setCrewState() {
+  private void setUpCrewState() {
     if (crewMembers.size() < MIN_CREW) {
       throw new RuntimeException("not enough crew members created, min " + MIN_CREW + " required");
     }
@@ -186,7 +183,9 @@ public class GameSetup {
     if (ship == null) {
       throw new RuntimeException("ship has not been created, run createShip()");
     }
-    env.setCrewState(new CrewState(crewMembers, ship));
+    CrewState crewState = new CrewState(crewMembers, ship);
+    applyCrewMemberBonuses(crewState);
+    env.setCrewState(crewState);
   }
   
 
@@ -203,7 +202,6 @@ public class GameSetup {
     
     int crewTypeNum = 0;
     String crewName = "";
-    String title = "";
     do {
       System.out.println(String.format("\ncurrent crew count: %d. min %d. max %d. ",
           crewMembers.size(), MIN_CREW, MAX_CREW));
