@@ -15,7 +15,6 @@ public class GameSetup {
   private static final int MAX_CREW = 4;
   private static final int MIN_DAYS = 3;
   private static final int MAX_DAYS = 10;
-  private static Scanner reader = new Scanner(System.in);
   private static final boolean cl = true;
   
   
@@ -88,7 +87,7 @@ public class GameSetup {
         new Item("Pulsar Beam", 200)
     ));
     Shop warmongerSupplies = new Shop("Warmonger Supplies", warmongerSuppliesItems);
-    
+     
     List<Item> bartsBuffetItems = new ArrayList<Item>(Arrays.asList(
         new GenericRestorationItem("Hamburger", 40, 10, 50),
         new GenericRestorationItem("Scrambled Eggs", 20, 0, 20),
@@ -194,33 +193,44 @@ public class GameSetup {
    */
   private void commandLine() {
     
-    System.out.println(String.format("Enter a number of days. min %d. max %d:",
-        MIN_DAYS, MAX_DAYS));
-    int numDays = reader.nextInt();
-    reader.nextLine(); // consumes the newline character after the integer
+    CommandLineParser CL = new CommandLineParser(System.out, System.in);
+    
+    int numDays = CL.inputInt(String.format("Game Length (%d-%d): ",
+                              MIN_DAYS, MAX_DAYS), MIN_DAYS, MAX_DAYS);
     setNumDays(numDays);
     
     int crewTypeNum = 0;
     String crewName = "";
+    boolean continueMakingCrew = true;
     do {
-      System.out.println(String.format("\ncurrent crew count: %d. min %d. max %d. ",
-          crewMembers.size(), MIN_CREW, MAX_CREW));
+      crewTypeNum = CL.inputOptions("Select crew member type: ",
+                                    "Investor -- " + Investor.getClassDescription());
       
-      System.out.println("choose a crew member type: ");
-      System.out.println("     1. Investor -- " + Investor.getClassDescription());
-      crewTypeNum = reader.nextInt();
-      reader.nextLine();
+      crewName = CL.inputString("Enter crew member's name: ", 30);
       
-      System.out.println("enter new crew member name: ");
-      crewName = reader.nextLine();
+      createCrewMember(crewTypeNum + 1, crewName);
       
-      createCrewMember(crewTypeNum, crewName);
+      // Display current crew
+      CL.print("\nCurrent Crew:\n");
+      CL.print("==============================\n");
+      for(CrewMember member : crewMembers) {
+        CL.print("  + "+member.getFullTitle() + "\n");
+      }
+      CL.print("==============================\n\n");
       
-      System.out.println("create another crew member? (Y/n): ");
-    } while (!reader.nextLine().equals("n"));
+      // Ask to continue if min or max hasn't been reached
+      if(crewMembers.size() >= MIN_CREW) {
+        if(crewMembers.size() < MAX_CREW) {
+          continueMakingCrew = CL.inputBoolean("Create another crew member? (Y/N): ");
+        }else {
+          CL.print("Max number of crew member reached.\n");
+          continueMakingCrew = false;
+        }
+      }
+      
+    } while (continueMakingCrew);
     
-    System.out.println("\nenter a name for your crew's ship: ");
-    String shipName = reader.nextLine();
+    String shipName = CL.inputString("Enter crew's ship name: ", 30);
     createShip(shipName);
 
     finishedSetup();

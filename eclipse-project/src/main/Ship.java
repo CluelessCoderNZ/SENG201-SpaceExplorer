@@ -18,7 +18,7 @@ public class Ship {
   
   /**
    * extended constructor sets the ship's name and max shield level.
-   * @param name the ship's namee
+   * @param name the ship's name
    * @param maxShieldLevel the maximum shield level
    */
   public Ship(String name, int maxShieldLevel) {

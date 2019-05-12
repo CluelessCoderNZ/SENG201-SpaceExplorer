@@ -1,7 +1,6 @@
 package main;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 public class Shop {
@@ -22,7 +21,7 @@ public class Shop {
   
   /**
    * initializes a Shop that sells items in a given inventory with buy and sell price modifiers.
-   * @param inventory arraylist of items for the shop to sell items from
+   * @param inventory ArrayList of items for the shop to sell items from
    * @param buyModifier the fraction of an item's value the shop will buy it for
    * @param sellModifier the fraction of an item's value the shop will sell it for
    */
