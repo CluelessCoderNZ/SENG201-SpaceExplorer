@@ -87,11 +87,14 @@ public class CrewState {
     crewStateString += "Crew funds: " + funds + "\n";
     crewStateString += "Crew Members:\n";
     for (CrewMember crewMember : crew) {
-      crewStateString += "   " + crewMember.toString() + "\n";
+      crewStateString += "    " + crewMember.toString() + "\n";
     }
     crewStateString += "Inventory:\n";
+    if (inventory.size() == 0) {
+      crewStateString += "    none\n";
+    }
     for (Item item : inventory) {
-      crewStateString += "   " + item.toString() + "\n";
+      crewStateString += "    " + item.toString() + "\n";
     }
     return crewStateString;
   }

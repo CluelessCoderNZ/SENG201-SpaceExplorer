@@ -17,7 +17,6 @@ class CrewMemberTest {
     
     assertEquals(crew1.getName(), "Mr.Test");
     assertEquals(crew1.getTitle(), "Q&A Engineer");
-    assertEquals(crew1.getFullTitle(), "Mr.Test the Q&A Engineer");
     
     assertEquals(crew1.getHealth(), crew1.getMaxHealth());
     assertEquals(crew1.getFullness(), crew1.getMaxFullness());

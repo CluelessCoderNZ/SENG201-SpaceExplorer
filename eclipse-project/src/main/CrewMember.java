@@ -27,11 +27,6 @@ public class CrewMember {
   
   private EnumSet<CrewMemberEffect> activeEffects = EnumSet.noneOf(CrewMemberEffect.class);
 
-  /*
-  ===============
-     SET & GET   
-  ===============
-  */
   
   /**
    * Default constructor sets crew member attributes to default values.
@@ -64,42 +59,81 @@ public class CrewMember {
     refillAllStats();
   }
   
+  
+  /*
+  ===============
+     SET & GET   
+  ===============
+  */
+  
+  /**
+   * returns the name of the CrewMember.
+   * @return the crew member's name as a string
+   */
   public String getName() {
     return name;
   }
   
+  /**
+   * returns the title of the CrewMember.
+   * @return the crew member's title as a string
+   */
   public String getTitle() {
     return title;
   }
   
+  /**
+   * returns the name and title of the CrewMember.
+   * @return the crew member's title as a string form {name} the {title}
+   */
   public String getFullTitle() {
-    return String.format("%s the %s", name, title);
+    return getName() + " the " + getTitle();
   }
   
-  public int getMaxHealth() {
-    return maxHealth;
-  }
-  
+  /**
+   * returns the CrewMember's current health level.
+   * @return the crew member's current health level as an integer
+   */
   public int getHealth() {
     return health;
   }
   
+  /**
+   * returns the CrewMember's max health level.
+   * @return the crew member's max health level as an integer
+   */
+  public int getMaxHealth() {
+    return maxHealth;
+  }
+  
+  /**
+   * Sets the crew member's health with range 0 to maxFullness.
+   * @param health the new health value
+   */
   public void setHealth(int health) {
     this.health = Math.min(maxHealth, Math.max(0, health));
   }
   
-  public int getMaxFullness() {
-    return maxFullness;
-  }
-  
+  /**
+   * returns the CrewMember's current fullness.
+   * @return the crew member's current fullness as an integer
+   */
   public int getFullness() {
     return fullness;
   }
   
   /**
+   * returns the CrewMember's max fullness.
+   * @return the crew member's max fullness as an integer
+   */
+  public int getMaxFullness() {
+    return maxFullness;
+  }
+  
+  /**
    * Sets fullness with range 0 to maxFullness. 
    * If fullness is then below HUNGER_THRESHOLD the effect HUNGRY is applied to crew member.
-   * @param fullness The new fullness value.
+   * @param fullness The new fullness value
    */
   public void setFullness(int fullness) {
     this.fullness = Math.min(maxFullness, Math.max(0, fullness));
@@ -111,12 +145,20 @@ public class CrewMember {
     }
   }
   
-  public int getMaxRestedness() {
-    return maxRestedness;
-  }
-  
+  /**
+   * returns the CrewMember's current restedness.
+   * @return the crew member's current restedness as an integer
+   */
   public int getRestedness() {
     return restedness;
+  }
+  
+  /**
+   * returns the CrewMember's max restedness.
+   * @return the crew member's max restedness as an integer
+   */
+  public int getMaxRestedness() {
+    return maxRestedness;
   }
   
   /**
@@ -134,14 +176,23 @@ public class CrewMember {
     }
   }
   
+  /**
+   * returns the CrewMember's current action points.
+   * @return the crew member's current action points as an integer
+   */
   public int getActionPoints() {
     return actionPoints;
   }
   
+  /**
+   * returns the CrewMember's max action points.
+   * @return the crew member's max action points as an integer
+   */
   public int getMaxActionPoints() {
     return maxActionPoints;
   }
 
+  
   /*
   ===============
      METHODS
@@ -170,22 +221,42 @@ public class CrewMember {
     actionPoints = Math.max(actionPoints - 1, 0);
   }
 
+  /**
+   * checks whether the crew member can take another action.
+   * @return true if the crew member has no action points remaining, false otherwise
+   */
   public boolean hasActionAvaliable() {
     return actionPoints > 0;
   }
 
+  /**
+   * checks if a crew member is currently being affected by a given effect.
+   * @param effect the effect to check the crew member for
+   * @return true if the crew member has the given effect, false otherwise
+   */
   public boolean hasEffect(CrewMemberEffect effect) {
     return activeEffects.contains(effect);
   }
   
+  /**
+   * adds a CrewMemberEffect to the crew member.
+   * @param effect the effect to add
+   */
   public void addEffect(CrewMemberEffect effect) {
     activeEffects.add(effect);
   }
   
+  /**
+   * removes an active CrewMemberEffect from the crew member.
+   * @param effect the active effect to remove
+   */
   public void removeEffect(CrewMemberEffect effect) {
     activeEffects.remove(effect);
   }
   
+  /**
+   * sets all of the CrewMembers stats to their max values.
+   */
   private void refillAllStats() {
     setHealth(getMaxHealth());
     setFullness(getMaxFullness());
@@ -193,5 +264,18 @@ public class CrewMember {
     resetActions();
   }
   
+  @Override
+  public String toString() {
+    return getFullTitle() + " ("
+         + String.format("health: %d/%d, ", health, maxHealth)
+         + String.format("fullness: %d/%d, ", fullness, maxFullness)
+         + String.format("restedness: %d/%d, ", restedness, maxRestedness)
+         + String.format("action points: %d/%d)", actionPoints, maxActionPoints);
+  }
+  
+  /**
+   * applies the starting bonuses given by a crew member.
+   * @param crewState the CrewState object to apply the effects to
+   */
   public void applyStartBonuses(CrewState crewState) { }
 }
