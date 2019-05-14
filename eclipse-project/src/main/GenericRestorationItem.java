@@ -51,6 +51,7 @@ public class GenericRestorationItem extends ConsumableItem {
     return fullnessRestoreAmount;
   }
   
+  @Override
   public int getRemainingUses() {
     return usesRemaining;
   }
@@ -61,12 +62,9 @@ public class GenericRestorationItem extends ConsumableItem {
   ===============
   */
   
-  /**
-   * Applies item effects to a crew member if not out of uses.
-   * @param crew the crew member to apply the effects to
-   */
+  @Override
   public void applyEffects(CrewMember crew) {
-    if (crew.getHealth() == 0 && crew.getFullness() == 0) {
+    if (crew.getHealth() == 0 || crew.getFullness() == 0) {
       throw new InvalidCrewMemberException("crew member health or fullness is 0");
     }
     if (!isEmpty()) {

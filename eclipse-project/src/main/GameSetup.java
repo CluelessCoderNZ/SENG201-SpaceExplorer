@@ -3,11 +3,19 @@ package main;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Hashtable;
 import java.util.List;
 import java.util.Scanner;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JSlider;
+import javax.swing.JTextField;
+import javax.swing.JList;
+import javax.swing.JFormattedTextField;
+import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class GameSetup {
   
@@ -15,13 +23,14 @@ public class GameSetup {
   private static final int MAX_CREW = 4;
   private static final int MIN_DAYS = 3;
   private static final int MAX_DAYS = 10;
-  private static final boolean cl = true;
+  private static final boolean useCl = false;
   
   
   private List<CrewMember> crewMembers = new ArrayList<CrewMember>();
   private Ship ship = null;
   private JFrame frame;
   private GameEnvironment env;
+  private JTextField shipNameField;
   
   
   
@@ -32,7 +41,7 @@ public class GameSetup {
   public GameSetup(GameEnvironment env) {
     this.env = env;
     buildSolarSystem();
-    if (cl) {
+    if (useCl) {
       commandLine();
     } else {
       initializeWindow();
@@ -52,11 +61,15 @@ public class GameSetup {
    * closes the GameSetup Swing window.
    */
   public void closeWindow() {
-    if (!cl) {
+    if (!useCl) {
       frame.dispose();
     }
   }
   
+  /**
+   * initialises the javadoc window.
+   * @wbp.parser.entryPoint
+   */
   private void initializeWindow() {
     frame = new JFrame();
     frame.setBounds(100, 100, 636, 468);
@@ -64,8 +77,53 @@ public class GameSetup {
     frame.getContentPane().setLayout(null);
     
     JLabel lblWelcome = new JLabel("Welcome to SpaceExplorer");
-    lblWelcome.setBounds(6, 6, 181, 16);
+    lblWelcome.setBounds(233, 6, 181, 16);
     frame.getContentPane().add(lblWelcome);
+    
+    JLabel lblGameLength = new JLabel("Game Length (Days)");
+    lblGameLength.setBounds(137, 44, 130, 56);
+    frame.getContentPane().add(lblGameLength);
+    
+    JLabel lblShipName = new JLabel("Ship Name");
+    lblShipName.setBounds(137, 112, 130, 16);
+    frame.getContentPane().add(lblShipName);
+    
+    JLabel lblCrewMembers = new JLabel("Crew Members");
+    lblCrewMembers.setBounds(137, 161, 130, 16);
+    frame.getContentPane().add(lblCrewMembers);
+    
+    JSlider slider = new JSlider();
+    slider.setSnapToTicks(true);
+    slider.setPaintLabels(true);
+    slider.setPaintTicks(true);
+    slider.setMinimum(MIN_DAYS);
+    slider.setMaximum(MAX_DAYS);
+    slider.setBounds(300, 44, 190, 56);
+    frame.getContentPane().add(slider);
+    
+    shipNameField = new JTextField();
+    shipNameField.setBounds(310, 107, 180, 26);
+    frame.getContentPane().add(shipNameField);
+    shipNameField.setColumns(10);
+    
+    JList list = new JList();
+    list.setBounds(137, 210, 193, 49);
+    frame.getContentPane().add(list);
+    
+    JButton btnStartGame = new JButton("Start Game");
+    btnStartGame.addActionListener(new ActionListener() {
+      public void actionPerformed(ActionEvent e) {
+        
+      }
+    });
+    btnStartGame.setBounds(421, 362, 181, 56);
+    frame.getContentPane().add(btnStartGame);
+    
+    Hashtable<Integer, JLabel> position = new Hashtable<Integer, JLabel>();
+    for (int i = MIN_DAYS; i <= MAX_DAYS; i++) {
+      position.put(i, new JLabel(Integer.toString(i)));
+    }
+    slider.setLabelTable(position);
   }
   
   /**
@@ -82,9 +140,9 @@ public class GameSetup {
     Shop galacticMeds = new Shop("Galactic Medications", galacticMedItems);
     
     List<Item> warmongerSuppliesItems = new ArrayList<Item>(Arrays.asList(
-        new Item("Shield Upgrade A", 30),
-        new Item("Photon Cannons", 100),
-        new Item("Pulsar Beam", 200)
+        new ShipShieldUpgradeItem("Shield Upgrade A", 30, 20),
+        new ShipWeaponItem("Pea Shooter", 40, 20),
+        new ShipWeaponItem("Pulsar Beam", 200, 60)
     ));
     Shop warmongerSupplies = new Shop("Warmonger Supplies", warmongerSuppliesItems);
      
@@ -131,7 +189,6 @@ public class GameSetup {
    */
   private void scatterParts(int days) {
     List<Planet> planets = env.getPlanets();
-    Collections.shuffle(planets);
     for (int i = 0; i <= (days * 2) / 3 && i < planets.size(); i++) {
       env.getPlanets().get(i).setPart(new ShipPart());
     }
@@ -193,9 +250,9 @@ public class GameSetup {
    */
   private void commandLine() {
     
-    CommandLineParser CL = new CommandLineParser(System.out, System.in);
+    CommandLineParser cl = new CommandLineParser(System.out, System.in);
     
-    int numDays = CL.inputInt(String.format("Game Length (%d-%d): ",
+    int numDays = cl.inputInt(String.format("Game Length (%d-%d): ",
                               MIN_DAYS, MAX_DAYS), MIN_DAYS, MAX_DAYS);
     setNumDays(numDays);
     
@@ -203,37 +260,36 @@ public class GameSetup {
     String crewName = "";
     boolean continueMakingCrew = true;
     do {
-      crewTypeNum = CL.inputOptions("Select crew member type: ",
+      crewTypeNum = cl.inputOptions("Select crew member type: ",
                                     "Investor -- " + Investor.getClassDescription());
       
-      crewName = CL.inputString("Enter crew member's name: ", 30);
+      crewName = cl.inputString("Enter crew member's name: ", 30);
       
       createCrewMember(crewTypeNum + 1, crewName);
       
       // Display current crew
-      CL.print("\nCurrent Crew:\n");
-      CL.print("==============================\n");
-      for(CrewMember member : crewMembers) {
-        CL.print("  + "+member.getFullTitle() + "\n");
+      cl.print("\nCurrent Crew:\n");
+      cl.print("==============================\n");
+      for (CrewMember member : crewMembers) {
+        cl.print("  + " + member.getFullTitle() + "\n");
       }
-      CL.print("==============================\n\n");
+      cl.print("==============================\n\n");
       
       // Ask to continue if min or max hasn't been reached
-      if(crewMembers.size() >= MIN_CREW) {
-        if(crewMembers.size() < MAX_CREW) {
-          continueMakingCrew = CL.inputBoolean("Create another crew member? (Y/N): ");
-        }else {
-          CL.print("Max number of crew member reached.\n");
+      if (crewMembers.size() >= MIN_CREW) {
+        if (crewMembers.size() < MAX_CREW) {
+          continueMakingCrew = cl.inputBoolean("Create another crew member? (Y/N): ");
+        } else {
+          cl.print("Max number of crew member reached.\n");
           continueMakingCrew = false;
         }
       }
       
     } while (continueMakingCrew);
     
-    String shipName = CL.inputString("Enter crew's ship name: ", 30);
+    String shipName = cl.inputString("Enter crew's ship name: ", 30);
     createShip(shipName);
 
     finishedSetup();
   }
-  
 }
