@@ -11,11 +11,22 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JSlider;
 import javax.swing.JTextField;
+import javax.swing.ListSelectionModel;
 import javax.swing.JList;
 import javax.swing.JFormattedTextField;
+import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.JScrollPane;
+import javax.swing.JComboBox;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.SwingConstants;
+import javax.swing.JTextPane;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import javax.swing.event.ListSelectionListener;
+import javax.swing.event.ListSelectionEvent;
 
 public class GameSetup {
   
@@ -23,14 +34,18 @@ public class GameSetup {
   private static final int MAX_CREW = 4;
   private static final int MIN_DAYS = 3;
   private static final int MAX_DAYS = 10;
+  private static final int MAX_TEXT_SIZE = 20;
   private static final boolean useCl = false;
   
   
   private List<CrewMember> crewMembers = new ArrayList<CrewMember>();
   private Ship ship = null;
+  private JList<CrewMember> crewMembersList;
   private JFrame frame;
   private GameEnvironment env;
   private JTextField shipNameField;
+  private JTextField txtName;
+  private JLabel lblAddError;
   
   
   
@@ -72,7 +87,7 @@ public class GameSetup {
    */
   private void initializeWindow() {
     frame = new JFrame();
-    frame.setBounds(100, 100, 636, 468);
+    frame.setBounds(100, 100, 735, 592);
     frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     frame.getContentPane().setLayout(null);
     
@@ -101,29 +116,156 @@ public class GameSetup {
     slider.setBounds(300, 44, 190, 56);
     frame.getContentPane().add(slider);
     
-    shipNameField = new JTextField();
-    shipNameField.setBounds(310, 107, 180, 26);
-    frame.getContentPane().add(shipNameField);
-    shipNameField.setColumns(10);
-    
-    JList list = new JList();
-    list.setBounds(137, 210, 193, 49);
-    frame.getContentPane().add(list);
-    
-    JButton btnStartGame = new JButton("Start Game");
-    btnStartGame.addActionListener(new ActionListener() {
-      public void actionPerformed(ActionEvent e) {
-        
-      }
-    });
-    btnStartGame.setBounds(421, 362, 181, 56);
-    frame.getContentPane().add(btnStartGame);
-    
     Hashtable<Integer, JLabel> position = new Hashtable<Integer, JLabel>();
     for (int i = MIN_DAYS; i <= MAX_DAYS; i++) {
       position.put(i, new JLabel(Integer.toString(i)));
     }
     slider.setLabelTable(position);
+    
+    shipNameField = new JTextField();
+    shipNameField.addKeyListener(new KeyAdapter() {
+      @Override
+      public void keyTyped(KeyEvent e) {
+        char c = e.getKeyChar();
+        if (!Character.isAlphabetic(c) || shipNameField.getText().length() > MAX_TEXT_SIZE) {
+          e.consume();
+        }
+      }
+    });
+    shipNameField.setBounds(310, 107, 180, 26);
+    frame.getContentPane().add(shipNameField);
+    shipNameField.setColumns(10);
+    
+    JScrollPane scrollPane = new JScrollPane();
+    scrollPane.setBounds(177, 300, 331, 86);
+    frame.getContentPane().add(scrollPane);
+    
+    DefaultListModel<CrewMember> listModel = new DefaultListModel<CrewMember>();
+    
+    JButton btnDeleteSelected = new JButton("Delete selected");
+    btnDeleteSelected.addActionListener(new ActionListener() {
+      public void actionPerformed(ActionEvent e) {
+        listModel.removeElement(crewMembersList.getSelectedValue());
+      }
+    });
+    btnDeleteSelected.setBounds(177, 392, 140, 29);
+    frame.getContentPane().add(btnDeleteSelected);
+    btnDeleteSelected.setEnabled(false);
+     
+    crewMembersList = new JList<CrewMember>(listModel);
+    crewMembersList.addListSelectionListener(new ListSelectionListener() {
+      public void valueChanged(ListSelectionEvent e) {
+        if (crewMembersList.getSelectedIndex() == -1) {
+          btnDeleteSelected.setEnabled(false);
+        } else {
+          btnDeleteSelected.setEnabled(true);
+        }
+      }
+    });
+    crewMembersList.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
+    crewMembersList.setLayoutOrientation(JList.HORIZONTAL_WRAP);
+    scrollPane.setViewportView(crewMembersList);
+    
+    JLabel lblName = new JLabel("Name:");
+    lblName.setBounds(137, 182, 61, 16);
+    frame.getContentPane().add(lblName);
+    
+    txtName = new JTextField();
+    txtName.addKeyListener(new KeyAdapter() {
+      @Override
+      public void keyTyped(KeyEvent e) {
+        char c = e.getKeyChar();
+        if (!Character.isAlphabetic(c) || txtName.getText().length() > MAX_TEXT_SIZE) {
+          e.consume();
+        }
+      }
+    });
+    txtName.setBounds(221, 177, 130, 26);
+    frame.getContentPane().add(txtName);
+    txtName.setColumns(10);
+    
+    JLabel lblThe = new JLabel("the");
+    lblThe.setBounds(363, 182, 26, 16);
+    frame.getContentPane().add(lblThe);
+    
+    JTextPane txtpnClassDescription = new JTextPane();
+    txtpnClassDescription.setText("Class description");
+    txtpnClassDescription.setBounds(173, 210, 335, 56);
+    frame.getContentPane().add(txtpnClassDescription);
+    
+    JComboBox<String> comboBox = new JComboBox<String>();
+    comboBox.addActionListener(new ActionListener() {
+      public void actionPerformed(ActionEvent e) {
+        updateCrewTypeDescription(txtpnClassDescription, comboBox.getSelectedItem().toString());
+      }
+    });
+    comboBox.setModel(new DefaultComboBoxModel<String>(new String[] {"Investor"}));
+    comboBox.setBounds(390, 178, 118, 27);
+    frame.getContentPane().add(comboBox);
+    updateCrewTypeDescription(txtpnClassDescription, comboBox.getSelectedItem().toString());
+    
+    lblAddError = new JLabel("");
+    lblAddError.setBounds(523, 210, 150, 16);
+    frame.getContentPane().add(lblAddError);
+    
+    JButton btnAddCrew = new JButton("Add");
+    btnAddCrew.addActionListener(new ActionListener() {
+      public void actionPerformed(ActionEvent e) {
+        tryAddCrew(txtName.getText(), comboBox.getSelectedItem().toString(), listModel, lblAddError);
+      }
+    });
+    btnAddCrew.setBounds(513, 177, 89, 29);
+    frame.getContentPane().add(btnAddCrew);
+    
+    JLabel lblStartError = new JLabel("");
+    lblStartError.setBounds(462, 490, 201, 16);
+    frame.getContentPane().add(lblStartError);
+    
+    JButton btnStartGame = new JButton("Start Game");
+    btnStartGame.addActionListener(new ActionListener() {
+      public void actionPerformed(ActionEvent e) {
+        tryStartGame(shipNameField.getText(), slider.getValue(), listModel, lblStartError);
+      }
+    });
+    btnStartGame.setBounds(504, 422, 181, 56);
+    frame.getContentPane().add(btnStartGame);
+
+  }
+  
+  
+  private void updateCrewTypeDescription(JTextPane description, String typeString) {
+    if (typeString.equals("Investor")) {
+      description.setText(typeString + ": " + Investor.getClassDescription());
+    } else {
+      description.setText("This class has no description!");
+    }
+  }
+  
+  
+  private void tryAddCrew(String name, String typeString, DefaultListModel<CrewMember> crewMembers, JLabel error) {
+    error.setText("");
+    if (name.equals("")) {
+      error.setText("please enter a name");
+    } else {
+      CrewMember crewMember = CrewMemberFactory.createCrewMember(typeString, name);
+      crewMembers.addElement(crewMember);
+    }
+  }
+  
+  
+  private void tryStartGame(String shipName, int numDays, DefaultListModel<CrewMember> crewList, JLabel error) {
+    if (shipName.equals("")) {
+      error.setText("please enter a ship name");
+    } else if (crewList.size() < MIN_CREW || crewList.size() > MAX_CREW) {
+      error.setText("please add " + (MIN_CREW - crewList.size()) + " crew");
+    } else {
+      setNumDays(numDays);
+      createShip(shipName);
+      for (int i = 0; i < crewList.size(); i++) {
+        crewMembers.add(crewList.get(i));
+      }
+      finishedSetup();
+    }
   }
   
   /**
