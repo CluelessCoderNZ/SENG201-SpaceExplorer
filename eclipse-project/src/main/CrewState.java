@@ -107,6 +107,7 @@ public class CrewState {
     inventory.remove(item);
   }
   
+  
   /**
    * Apply item to crew member reducing uses.
    * @param item item to apply to crew member.
@@ -137,15 +138,19 @@ public class CrewState {
    * Uses ShipUpgradeItem on a ship, then removes it.
    * @param item to be used on a ship.
    */
-  public void useItem(ShipUpgradeItem item) {
+  public void useItem(ShipUpgrade item) {
     // Error checking
-    if (!inventory.contains(item)) {
+    if (!(item instanceof Item)) {
+      throw new IllegalArgumentException("ShipUpgrade is not an item.");
+    }
+    
+    if (!inventory.contains((Item)item)) {
       throw new IllegalArgumentException("Item is not in the inventory");
     }
     
     item.applyEffects(getShip());
     
-    removeItemFromInventory(item);
+    removeItemFromInventory((Item)item);
   }
   
   /**

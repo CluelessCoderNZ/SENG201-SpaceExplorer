@@ -35,15 +35,14 @@ public class GameSetup {
   private static final int MIN_DAYS = 3;
   private static final int MAX_DAYS = 10;
   private static final int DEFAULT_PLANET_NUM = 8;
-  private static final int NUM_STORE_ITEMS = 4;
+  private static final int NUM_STORE_ITEMS = 16;
   private static final int MAX_TEXT_SIZE = 20;
-  private static final boolean useCl = false;
   
   private static final double SHOP_SELL_MODIFER = 1.15;
   private static final double SHOP_BUY_MODIFER = 0.85;
   
-  private  boolean cl = true;
   
+  private boolean useCl = false;
   
   private List<CrewMember> crewMembers = new ArrayList<CrewMember>();
   private Ship ship = null;
@@ -63,6 +62,7 @@ public class GameSetup {
    */
   public GameSetup(GameEnvironment env, boolean cl) {
     this.env = env;
+    this.useCl = cl;
     generatePlanets(DEFAULT_PLANET_NUM);
     env.setCurrentPlanet(env.getPlanets().get(0));
     buildDefaultEventManager();
@@ -320,7 +320,7 @@ public class GameSetup {
     lootTable.addItem(new GenericRestorationItem("StimuLife", 130, 65, 50),               100);
     lootTable.addItem(new GenericRestorationItem("Ham Sandwich", 20, 5, 25),              100);
     lootTable.addItem(new GenericRestorationItem("Space Candy", 20, 0, 1, 10),            400);
-    lootTable.addItem(new ShipUpgradeItem("Shield Upgrade A", 30, 50),                    150);
+    lootTable.addItem(new ShipShieldUpgradeItem("Shield Upgrade A", 30, 50),              150);
     lootTable.addItem(new Item("Photon Cannons", 100),                                    100);
     lootTable.addItem(new Item("Pulsar Beam", 200),                                       100);
     lootTable.addItem(new GenericRestorationItem("Hamburger", 40, 10, 50),                100);

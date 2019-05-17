@@ -116,7 +116,8 @@ public class CommandLineRunner {
   private void printItem(Item item, int price, int counter) {
     String marked = " ";
     if (item instanceof ConsumableItem
-        || item instanceof ShipUpgradeItem) {
+        || item instanceof ShipShieldUpgradeItem
+        || item instanceof ShipWeaponItem) {
       marked = "*";
     }
     
@@ -232,9 +233,9 @@ public class CommandLineRunner {
             }
             
             
-          // Ship part
-          } else if (item instanceof ShipUpgradeItem) {
-            env.getCrewState().useItem((ShipUpgradeItem)item);
+          // Ship Shield Upgrade Item
+          } else if (item instanceof ShipShieldUpgradeItem || item instanceof ShipWeaponItem) {
+            env.getCrewState().useItem((ShipUpgrade)item);
             
           // non-usable
           } else {

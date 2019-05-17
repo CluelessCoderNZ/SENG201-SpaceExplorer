@@ -16,6 +16,15 @@ public class ShipShieldUpgradeItem extends Item implements ShipUpgrade {
   }
   
   @Override
+  public Item copy() {
+    ShipShieldUpgradeItem item = new ShipShieldUpgradeItem(this.getName(), 
+                                                           this.getValue(),
+                                                           this.maxShieldIncrease);
+    
+    return item;
+  }
+  
+  @Override
   public void applyEffects(Ship ship) {
     ship.increaseMaxShield(maxShieldIncrease);
     ship.increaseShield(maxShieldIncrease);

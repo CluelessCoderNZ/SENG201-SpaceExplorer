@@ -20,6 +20,14 @@ public class ShipWeaponItem extends Item implements ShipUpgrade {
     ship.setWeapon(this);
   }
   
+  @Override
+  public Item copy() {
+    ShipWeaponItem item = new ShipWeaponItem(this.getName(), 
+                                             this.getValue(),
+                                             this.damage);
+    return item;
+  }
+  
   /**
    * returns the damage dealt by this weapon.
    * @return damage dealt by this weapon
