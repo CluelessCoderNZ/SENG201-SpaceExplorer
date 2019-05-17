@@ -6,7 +6,7 @@ public class NullEvent extends GameEvent {
 
   
   @Override
-  public GameEvent createEvent(Random randomGenerator) {
+  public GameEvent createEvent(Random randomGenerator, GameEnvironment env) {
     return new NullEvent();
   }
 

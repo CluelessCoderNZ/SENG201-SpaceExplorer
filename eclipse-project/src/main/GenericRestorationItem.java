@@ -42,6 +42,17 @@ public class GenericRestorationItem extends ConsumableItem {
     usesRemaining = uses;
   }
   
+  @Override
+  public Item copy() {
+    GenericRestorationItem item = new GenericRestorationItem(this.getName(), 
+                                                             this.getValue(), 
+                                                             this.healthRestoreAmount, 
+                                                             this.fullnessRestoreAmount, 
+                                                             this.usesRemaining);
+    item.setDescription(getDescription());
+    return item;
+  }
+  
   
   public int getHealthRestoreAmount() {
     return healthRestoreAmount;
@@ -91,5 +102,24 @@ public class GenericRestorationItem extends ConsumableItem {
   public String toString() {
     return String.format("'%s': %d, %d, %d, %d", getName(), getValue(), healthRestoreAmount,
         fullnessRestoreAmount, usesRemaining);
+  }
+  
+  @Override
+  public String getEffectsString() {
+    String result = "";
+    
+    if (getHealthRestoreAmount() > 0) {
+      result += "HP +" + getHealthRestoreAmount() + " ";
+    } else if (getHealthRestoreAmount() < 0) {
+      result += "HP " + getHealthRestoreAmount() + " ";
+    }
+    
+    if (getFullnessRestoreAmount() > 0) {
+      result += "Food +" + getFullnessRestoreAmount();
+    } else if (getFullnessRestoreAmount() < 0) {
+      result += "Food " + getFullnessRestoreAmount();
+    }
+    
+    return result;
   }
 }

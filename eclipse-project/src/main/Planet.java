@@ -1,14 +1,18 @@
 package main;
 
+import java.util.Random;
+
 public class Planet {
   private ShipPart part = null;
   private Shop shop;
+  private WeightedArrayList<Item> lootTable;
   private String name;
   
   
-  public Planet(String name, Shop shop) {
+  public Planet(String name, Shop shop, WeightedArrayList<Item> lootTable) {
     this.name = name;
     this.shop = shop;
+    this.lootTable = lootTable;
   }
   
   /**
@@ -28,6 +32,10 @@ public class Planet {
   
   public Shop getShop() {
     return shop;
+  }
+  
+  public Item getRandomItem(Random generator) {
+    return lootTable.getRandomItem(generator).copy();
   }
   
   

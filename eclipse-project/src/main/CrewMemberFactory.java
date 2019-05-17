@@ -13,6 +13,8 @@ public class CrewMemberFactory {
     switch (newCrewMemberType) {
       case 1:
         return new Investor(name);
+      case 2:
+        return new Medic(name);
       default:
         throw new RuntimeException("invalid crew member type requested");
     }

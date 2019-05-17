@@ -34,7 +34,7 @@ public class WeightedArrayList<T> {
       MEMBERS
   ===============
   */
-  private ArrayList<WeightedItem<T>> itemList;
+  private ArrayList<WeightedItem<T>> itemList = new ArrayList<WeightedItem<T>>();
   private int weightSum = 0;
   
   /**

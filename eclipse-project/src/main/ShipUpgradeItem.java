@@ -9,6 +9,14 @@ public class ShipUpgradeItem extends Item {
     this.maxShieldIncrease = maxShieldIncrease;
   }
   
+  @Override
+  public Item copy() {
+    ShipUpgradeItem item = new ShipUpgradeItem(this.getName(), 
+                                               this.getValue(), 
+                                               this.maxShieldIncrease);
+    return item;
+  }
+  
   public void applyEffects(Ship ship) {
     ship.increaseMaxShield(maxShieldIncrease);
   }

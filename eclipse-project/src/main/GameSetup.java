@@ -15,7 +15,13 @@ public class GameSetup {
   private static final int MAX_CREW = 4;
   private static final int MIN_DAYS = 3;
   private static final int MAX_DAYS = 10;
-  private static final boolean cl = true;
+  private static final int DEFAULT_PLANET_NUM = 8;
+  private static final int NUM_STORE_ITEMS = 4;
+  
+  private static final double SHOP_SELL_MODIFER = 1.15;
+  private static final double SHOP_BUY_MODIFER = 0.85;
+  
+  private  boolean cl = true;
   
   
   private List<CrewMember> crewMembers = new ArrayList<CrewMember>();
@@ -28,10 +34,16 @@ public class GameSetup {
   /**
    * GameSetup constructor.
    * @param env the GameEnvironment being used to store the game's state
+   * @param cl flag for if the game should start in command line mode
    */
-  public GameSetup(GameEnvironment env) {
+  public GameSetup(GameEnvironment env, boolean cl) {
     this.env = env;
-    buildSolarSystem();
+    this.cl = cl;
+    
+    generatePlanets(DEFAULT_PLANET_NUM);
+    env.setCurrentPlanet(env.getPlanets().get(0));
+    buildDefaultEventManager();
+    
     if (cl) {
       commandLine();
     } else {
@@ -68,46 +80,104 @@ public class GameSetup {
     frame.getContentPane().add(lblWelcome);
   }
   
+  private void buildDefaultEventManager() {
+    // DAY_START
+    WeightedArrayList<GameEvent> dayStartEvents = new WeightedArrayList<GameEvent>();
+    dayStartEvents.addItem(new NullEvent(), 1000);
+    dayStartEvents.addItem(new SpacePlagueEvent(), 500);
+    dayStartEvents.addItem(new PiratesEvent(), 1000);
+    
+    // CREW_TRAVEL
+    WeightedArrayList<GameEvent> travelEvents = new WeightedArrayList<GameEvent>();
+    travelEvents.addItem(new NullEvent(), 1000);
+    travelEvents.addItem(new SpacePlagueEvent(), 50);
+    travelEvents.addItem(new PiratesEvent(), 200);
+    travelEvents.addItem(new AsteroidEvent(), 1000);
+    
+    
+    // CREW_EXPLORE
+    WeightedArrayList<GameEvent> exploreEvents = new WeightedArrayList<GameEvent>();
+    exploreEvents.addItem(new NullEvent(), 1000);
+    
+    // Create manager
+    GameEventManager eventManager = new GameEventManager();
+    eventManager.setActionEvents(GameAction.DAY_START, dayStartEvents);
+    eventManager.setActionEvents(GameAction.CREW_TRAVEL, travelEvents);
+    eventManager.setActionEvents(GameAction.CREW_EXPLORE, exploreEvents);
+    
+    env.setEventManager(eventManager);
+  }
+  
+  
   /**
    * sets up the planets and outposts that players can visit in the game.
+   * @param numPlanets The number of planets to be generated.
    */
-  private void buildSolarSystem() {
-    List<Item> galacticMedItems = new ArrayList<Item>(Arrays.asList(
-        new GenericRestorationItem("Medicaid", 60, 30, 0),
-        new GenericRestorationItem("Bandages", 25, 5, 0, 3),
-        new GenericRestorationItem("StimuLife", 130, 65, 50),
-        new GenericRestorationItem("Ham Sandwich", 20, 5, 25),
-        new GenericRestorationItem("Space Candy", 20, 0, 1, 10)
-    ));
-    Shop galacticMeds = new Shop("Galactic Medications", galacticMedItems);
+  private void generatePlanets(int numPlanets) {
     
-    List<Item> warmongerSuppliesItems = new ArrayList<Item>(Arrays.asList(
-        new Item("Shield Upgrade A", 30),
-        new Item("Photon Cannons", 100),
-        new Item("Pulsar Beam", 200)
-    ));
-    Shop warmongerSupplies = new Shop("Warmonger Supplies", warmongerSuppliesItems);
-     
-    List<Item> bartsBuffetItems = new ArrayList<Item>(Arrays.asList(
-        new GenericRestorationItem("Hamburger", 40, 10, 50),
-        new GenericRestorationItem("Scrambled Eggs", 20, 0, 20),
-        new Item("Golden Spork", 100),
-        new GenericRestorationItem("Antimatter Brownies", 40, 0, -30, 3),
-        new GenericRestorationItem("All You Can Eat", 300, 0, 50, 10)
-    ));
-    Shop bartsBuffet = new Shop("Bart's Buffet", bartsBuffetItems);
+    // Loot Table
+    WeightedArrayList<Item> lootTable = new WeightedArrayList<Item>();
+    lootTable.addItem(new GenericRestorationItem("Medicaid", 60, 30, 0),                  100);
+    lootTable.addItem(new GenericRestorationItem("Bandages", 25, 5, 0, 3),                100);
+    lootTable.addItem(new GenericRestorationItem("StimuLife", 130, 65, 50),               100);
+    lootTable.addItem(new GenericRestorationItem("Ham Sandwich", 20, 5, 25),              100);
+    lootTable.addItem(new GenericRestorationItem("Space Candy", 20, 0, 1, 10),            400);
+    lootTable.addItem(new ShipUpgradeItem("Shield Upgrade A", 30, 50),                    150);
+    lootTable.addItem(new Item("Photon Cannons", 100),                                    100);
+    lootTable.addItem(new Item("Pulsar Beam", 200),                                       100);
+    lootTable.addItem(new GenericRestorationItem("Hamburger", 40, 10, 50),                100);
+    lootTable.addItem(new GenericRestorationItem("Scrambled Eggs", 20, 0, 20),            100);
+    lootTable.addItem(new Item("Golden Spork", 100),                                      100);
+    lootTable.addItem(new Item("Golden Bars", 1000),                                       50);
+    lootTable.addItem(new GenericRestorationItem("Antimatter Brownies", 40, 0, -30, 3),   100);
+    lootTable.addItem(new GenericRestorationItem("Bountiful Feast", 300, 0, 50, 10),      100);
+    lootTable.addItem(new PlagueCure("Plague-Away", 300),                                 150);
+
     
-    Planet izanaki = new Planet("Izanaki", galacticMeds);
-    Planet newQuebec = new Planet("New Quebec", warmongerSupplies);
-    Planet earth2 = new Planet("Earth II", bartsBuffet);
-    Planet keziah = new Planet("Keziah", warmongerSupplies);
-    Planet sorinAlpha = new Planet("Sorin Alpha", bartsBuffet);
-    Planet nordlingen = new Planet("Nordlingen", warmongerSupplies);
-    Planet archimedra = new Planet("Archimedra", galacticMeds);
-    Planet corolina = new Planet("Corolina", galacticMeds);
+    // Shop Name Table
+    WeightedArrayList<String> shopNames = new WeightedArrayList<String>();
+    shopNames.addItem("Galactic Medications",   100);
+    shopNames.addItem("Warmonger Supplies",     100);
+    shopNames.addItem("Bart's Buffet",          100);
+    shopNames.addItem("Crazy Carls",            100);
     
-    List<Planet> planets = new ArrayList<Planet>(Arrays.asList(izanaki, newQuebec, earth2, keziah,
-        sorinAlpha, nordlingen, archimedra, corolina));
+    // Planet Name Table
+    WeightedArrayList<String> planetNames = new WeightedArrayList<String>();
+    planetNames.addItem("Izanaki",              100);
+    planetNames.addItem("New Quebec",           100);
+    planetNames.addItem("Earth II",             100);
+    planetNames.addItem("Keziah",               100);
+    planetNames.addItem("Sorin Alpha",          100);
+    planetNames.addItem("Nordlingen",           100);
+    planetNames.addItem("Archimedra",           100);
+    planetNames.addItem("Corolina",             100);
+    planetNames.addItem("Alpha Centari Prime",  100);
+    planetNames.addItem("Oregon",               100);
+    
+    
+    // Generate Planets
+    ArrayList<Planet> planets = new ArrayList<Planet>();
+    
+    for (int i = 0; i < numPlanets; i++) {
+      
+      // Create Shop Item List
+      ArrayList<Item> shopItemList = new ArrayList<Item>(NUM_STORE_ITEMS);
+      for (int j = 0; j < NUM_STORE_ITEMS; j++) {
+        Item item = lootTable.getRandomItem(env.getRandomGenerator());
+        shopItemList.add(item.copy());
+      }
+      
+      // Create Shop
+      String shopName = shopNames.getRandomItem(env.getRandomGenerator());
+      Shop shop = new Shop(shopName, shopItemList, SHOP_BUY_MODIFER, SHOP_SELL_MODIFER);
+      
+      // Create Planet
+      String planetName = planetNames.getRandomItem(env.getRandomGenerator());
+      Planet planet = new Planet(planetName, shop, lootTable);
+      
+      // Add Planet
+      planets.add(planet);
+    }
     env.setPlanets(planets);
   }
   
@@ -193,9 +263,9 @@ public class GameSetup {
    */
   private void commandLine() {
     
-    CommandLineParser CL = new CommandLineParser(System.out, System.in);
+    CommandLineParser cl = new CommandLineParser(System.out, System.in);
     
-    int numDays = CL.inputInt(String.format("Game Length (%d-%d): ",
+    int numDays = cl.inputInt(String.format("Game Length (%d-%d): ",
                               MIN_DAYS, MAX_DAYS), MIN_DAYS, MAX_DAYS);
     setNumDays(numDays);
     
@@ -203,37 +273,43 @@ public class GameSetup {
     String crewName = "";
     boolean continueMakingCrew = true;
     do {
-      crewTypeNum = CL.inputOptions("Select crew member type: ",
-                                    "Investor -- " + Investor.getClassDescription());
+      crewTypeNum = cl.inputOptions("Select crew member type: ",
+                                    "Investor -- " + Investor.getClassDescription(),
+                                    "Medic -- " + Medic.getClassDescription());
       
-      crewName = CL.inputString("Enter crew member's name: ", 30);
+      crewName = cl.inputString("Enter crew member's name: ", 30);
       
       createCrewMember(crewTypeNum + 1, crewName);
       
       // Display current crew
-      CL.print("\nCurrent Crew:\n");
-      CL.print("==============================\n");
-      for(CrewMember member : crewMembers) {
-        CL.print("  + "+member.getFullTitle() + "\n");
+      cl.print("\nCurrent Crew:\n");
+      cl.print("==============================\n");
+      for (CrewMember member : crewMembers) {
+        cl.print("  + " + member.getFullTitle() + "\n");
       }
-      CL.print("==============================\n\n");
+      cl.print("==============================\n\n");
       
       // Ask to continue if min or max hasn't been reached
-      if(crewMembers.size() >= MIN_CREW) {
-        if(crewMembers.size() < MAX_CREW) {
-          continueMakingCrew = CL.inputBoolean("Create another crew member? (Y/N): ");
-        }else {
-          CL.print("Max number of crew member reached.\n");
+      if (crewMembers.size() >= MIN_CREW) {
+        if (crewMembers.size() < MAX_CREW) {
+          continueMakingCrew = cl.inputBoolean("Create another crew member? (Y/N): ");
+        } else {
+          cl.print("Max number of crew member reached.\n");
           continueMakingCrew = false;
         }
       }
       
     } while (continueMakingCrew);
     
-    String shipName = CL.inputString("Enter crew's ship name: ", 30);
+    String shipName = cl.inputString("Enter crew's ship name: ", 30);
     createShip(shipName);
 
+    CommandLineRunner runner = new CommandLineRunner(env, cl);
+    
     finishedSetup();
+    
+    runner.startGame();
+    
   }
   
 }

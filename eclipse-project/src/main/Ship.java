@@ -37,6 +37,10 @@ public class Ship {
     return shieldLevel;
   }
   
+  public int getMaxShieldLevel() {
+    return maxShieldLevel;
+  }
+  
   
   /* METHODS */
   

@@ -74,6 +74,17 @@ public class CrewState {
     return inventory;
   }
   
+  public int getShipPartsFoundCount() {
+    int count = 0;
+    for (Item item : inventory) {
+      if (item instanceof ShipPart) {
+        count += 1;
+      }
+    }
+    
+    return count;
+  }
+  
   /**
    * adds an item to the crew's inventory.
    * @param item item not already in the crew's inventory to add
@@ -97,11 +108,105 @@ public class CrewState {
   }
   
   /**
+   * Apply item to crew member reducing uses.
+   * @param item item to apply to crew member.
+   */
+  public void useItem(ConsumableItem item, CrewMember crewMember) {
+    
+    // Error checking
+    if (!inventory.contains(item)) {
+      throw new IllegalArgumentException("Item is not in the inventory");
+    }
+    
+    if (!crew.contains(crewMember)) {
+      throw new IllegalArgumentException("Crew member is not in crew");
+    }
+    
+    // Use Item
+    if (!item.isEmpty()) {
+      crewMember.useItem(item);
+    }
+    
+    // Remove item
+    if (item.isEmpty()) {
+      removeItemFromInventory(item);
+    }
+  }
+  
+  /**
+   * Uses ShipUpgradeItem on a ship, then removes it.
+   * @param item to be used on a ship.
+   */
+  public void useItem(ShipUpgradeItem item) {
+    // Error checking
+    if (!inventory.contains(item)) {
+      throw new IllegalArgumentException("Item is not in the inventory");
+    }
+    
+    item.applyEffects(getShip());
+    
+    removeItemFromInventory(item);
+  }
+  
+  /**
+   * Repairs ship using crew member.
+   * @param crewMember crew member to repair ship
+   */
+  public void repairShip(CrewMember crewMember) {
+    if (!crew.contains(crewMember)) {
+      throw new IllegalArgumentException("Crew member is not in crew");
+    }
+
+    crewMember.repairShip(getShip());
+  }
+  
+  /**
+   * Calls all crew with applyDayStartEffects.
+   */
+  public void applyDayStartEffects() {
+    for (CrewMember crewmember : crew) {
+      crewmember.applyDayStartEffects(this);
+    }
+  }
+  
+  /**
    * returns the current crew as a List.
    * @return List of the current CrewMembers
    */
   public List<CrewMember> getCrew() {
     return crew;
+  }
+  
+  /**
+   * Returns a list of crew members with action points greater or equal to minAP.
+   * @param minAP minimum action points needed
+   * @return
+   */
+  public List<CrewMember> getCrewWithActionPoints(int minAP) {
+    ArrayList<CrewMember> result = new ArrayList<CrewMember>();
+    
+    for (CrewMember crewmember : getCrew()) {
+      if (!crewmember.isDead() && crewmember.getActionPoints() >= minAP) {
+        result.add(crewmember);
+      }
+    }
+    
+    return result;
+  }
+  
+  /**
+   * Get the number of crew who are still alive.
+   * @return living crew count.
+   */
+  public int getLivingCrewCount() {
+    int count = 0;
+    for (CrewMember crewMember : crew) {
+      if (!crewMember.isDead()) {
+        count += 1;
+      }
+    }
+    
+    return count;
   }
   
   /**

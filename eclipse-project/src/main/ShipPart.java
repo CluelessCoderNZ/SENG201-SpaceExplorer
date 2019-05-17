@@ -6,4 +6,8 @@ public class ShipPart extends Item {
     super("Ship part", 10000);
   }
   
+  public Item copy() {
+    ShipPart item = new ShipPart();
+    return item;
+  }
 }

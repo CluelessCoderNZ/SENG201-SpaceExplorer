@@ -8,7 +8,7 @@ public abstract class GameEvent {
    * Creates clone event of the same type with random event members.
    * @return
    */
-  public abstract GameEvent createEvent(Random randomGenerator);
+  public abstract GameEvent createEvent(Random randomGenerator, GameEnvironment env);
   
   /**
    * Applies custom event to GameEnvironment specified.

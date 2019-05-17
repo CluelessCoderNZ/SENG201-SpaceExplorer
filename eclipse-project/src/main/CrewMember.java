@@ -7,6 +7,16 @@ public class CrewMember {
   private static final int HUNGER_THRESHOLD = 30;
   private static final int TIRED_THRESHOLD = 30;
   
+  private static final int HUNGER_DAMAGE = 30;
+  private static final int TIRED_DAMAGE = 40;
+  private static final int PLAGUED_DAMAGE = 30;
+  
+  private static final int DAILY_SLEEP_DAMAGE = 30;
+  private static final int DAILY_HUNGER_DAMAGE = 20;
+  
+  private static final int DEFAULT_SHIP_REPAIR = 50;
+  private static final int DEFAULT_SLEEP_RESTORE = 50;
+  
   /*
   ===============
       MEMBERS
@@ -112,6 +122,14 @@ public class CrewMember {
    */
   public void setHealth(int health) {
     this.health = Math.min(maxHealth, Math.max(0, health));
+    
+    if (this.health == 0) {
+      addEffect(CrewMemberEffect.DEAD);
+    }
+  }
+  
+  public void changeHealth(int amount) {
+    setHealth(getHealth() + amount);
   }
   
   /**
@@ -145,6 +163,10 @@ public class CrewMember {
     }
   }
   
+  public void changeFullness(int amount) {
+    setFullness(getFullness() + amount);
+  }
+  
   /**
    * returns the CrewMember's current restedness.
    * @return the crew member's current restedness as an integer
@@ -176,6 +198,10 @@ public class CrewMember {
     }
   }
   
+  public void changeRestedness(int amount) {
+    setRestedness(getRestedness() + amount);
+  }
+  
   /**
    * returns the CrewMember's current action points.
    * @return the crew member's current action points as an integer
@@ -204,7 +230,31 @@ public class CrewMember {
    * @param item activated item
    */
   public void useItem(ConsumableItem item) {
-    item.applyEffects(this);
+    if (hasActionAvaliable()) {
+      item.applyEffects(this);
+      useAction();
+    }
+  }
+  
+  /**
+   * Restores DEFAULT_SHIP_REPAIR to ships shield.
+   * @param ship to be affected.
+   */
+  public void repairShip(Ship ship) {
+    if (hasActionAvaliable()) {
+      ship.increaseShield(DEFAULT_SHIP_REPAIR);
+      useAction();
+    }
+  }
+  
+  /**
+   * Restores DEFAULT_SLEEP_RESTORE if has actions available.
+   */
+  public void sleep() {
+    if (hasActionAvaliable()) {
+      changeRestedness(DEFAULT_SLEEP_RESTORE);
+      useAction();
+    }
   }
   
   /**
@@ -254,6 +304,11 @@ public class CrewMember {
     activeEffects.remove(effect);
   }
   
+  public boolean isDead() {
+    return hasEffect(CrewMemberEffect.DEAD);
+  }
+  
+  
   /**
    * sets all of the CrewMembers stats to their max values.
    */
@@ -264,13 +319,37 @@ public class CrewMember {
     resetActions();
   }
   
+  /**
+   * Returns in game text representation of crew member.
+   * @return
+   */
+  public String getStatus() {
+    String output = getFullTitle() + " ("
+        + String.format("HP: %d/%d, ", health, maxHealth)
+        + String.format("Fullness: %d/%d, ", fullness, maxFullness)
+        + String.format("ZZZ: %d/%d, ", restedness, maxRestedness)
+        + String.format("AP: %d/%d)", actionPoints, maxActionPoints);
+    
+    for (CrewMemberEffect effect : activeEffects) {
+      output += " " + effect.name();
+    }
+    
+    return output;
+  }
+  
   @Override
   public String toString() {
-    return getFullTitle() + " ("
+    String output = getFullTitle() + " ("
          + String.format("health: %d/%d, ", health, maxHealth)
          + String.format("fullness: %d/%d, ", fullness, maxFullness)
          + String.format("restedness: %d/%d, ", restedness, maxRestedness)
          + String.format("action points: %d/%d)", actionPoints, maxActionPoints);
+    
+    for (CrewMemberEffect effect : activeEffects) {
+      output += " " + effect.name();
+    }
+    
+    return output;
   }
   
   /**
@@ -278,4 +357,33 @@ public class CrewMember {
    * @param crewState the CrewState object to apply the effects to
    */
   public void applyStartBonuses(CrewState crewState) { }
+  
+  /**
+   * Applies new day start effects. By default this is stat changes by different effects.
+   * However this can be overloaded to include custom character effects.
+   */
+  public void applyDayStartEffects(CrewState crewState) {
+    if (!isDead()) {
+      if (hasEffect(CrewMemberEffect.HUNGRY)) {
+        changeHealth(-HUNGER_DAMAGE);
+      }
+      
+      if (hasEffect(CrewMemberEffect.TIRED)) {
+        changeFullness(-TIRED_DAMAGE);
+      }
+      
+      if (hasEffect(CrewMemberEffect.HUNGRY) || hasEffect(CrewMemberEffect.TIRED)) {
+        actionPoints = maxActionPoints / 2;
+      } else {
+        resetActions();
+      }
+      
+      if (hasEffect(CrewMemberEffect.PLAGUED)) {
+        changeHealth(-PLAGUED_DAMAGE);
+      }
+      
+      changeRestedness(-DAILY_SLEEP_DAMAGE);
+      changeFullness(-DAILY_HUNGER_DAMAGE);
+    }
+  }
 }

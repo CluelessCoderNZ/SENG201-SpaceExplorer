@@ -37,8 +37,7 @@ class CommandLineParserTest {
                                "Error: Number must be in the range 0-10.",
                                "Bounded value: ",
                                "Error: Number must be in the range 0-10.",
-                               "Bounded value: "
-                               };
+                               "Bounded value: "};
     
     // Setup CommandLineParser
     InputStream inputStream = new ByteArrayInputStream(inputSource.getBytes(StandardCharsets.UTF_8));

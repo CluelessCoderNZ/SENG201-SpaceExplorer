@@ -6,7 +6,7 @@ public class Investor extends CrewMember {
   public static final int SHIELD_BONUS = 30;
   
   public Investor(String name) {
-    super(name, "Investor");
+    super(name, "Investor", 80, 100, 110, 2);
   }
   
   @Override
@@ -16,7 +16,7 @@ public class Investor extends CrewMember {
   }
   
   public static String getClassDescription() {
-    return String.format("start the game with +%d funds and +%d max ship shield",
+    return String.format("Start the game with +%d funds and +%d max ship shield",
         FUNDS_BONUS, SHIELD_BONUS);
   }
 

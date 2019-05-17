@@ -29,6 +29,15 @@ public class CommandLineParser {
     print("Error: " + message + "\n");
   }
 
+  public void pressToContinue(String message) {
+    print(message);
+    inputScanner.nextLine();
+  }
+  
+  public void pressToContinue() {
+    pressToContinue("Press Enter To Continue...\n");
+  }
+  
   /**
    * Get a integer from the InputStream repeating input on type error.
    * @param message message to put into output stream
