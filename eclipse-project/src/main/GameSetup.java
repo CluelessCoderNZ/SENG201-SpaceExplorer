@@ -508,4 +508,8 @@ public class GameSetup {
     runner.startGame();
     
   }
+  
+  public boolean isCL() {
+    return useCl;
+  }
 }
