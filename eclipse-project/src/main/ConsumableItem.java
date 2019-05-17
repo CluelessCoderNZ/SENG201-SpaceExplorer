@@ -11,6 +11,11 @@ public abstract class ConsumableItem extends Item {
       METHODS
   ===============
   */
+  
+  /**
+   * Applies item effects to a crew member if not out of uses.
+   * @param crew the crew member to apply the effects to
+   */
   public abstract void applyEffects(CrewMember crew);
   
   public abstract int getRemainingUses();

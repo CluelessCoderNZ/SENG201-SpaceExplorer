@@ -63,8 +63,19 @@ public class GameEnvironment {
     GameSetup setup = new GameSetup(this, cl);
   }
   
+  /**
+   * closes the game setup window and starts the main game.
+   * @param setup the setup window to close
+   */
   public void finishSetup(GameSetup setup) {
     setup.closeWindow();
+    System.out.println(crewState);
+    MainWindow mainGame = new MainWindow(this);
+    mainWindow();
+  }
+  
+  public void mainWindow() {
+    MainWindow mainGame = new MainWindow(this);
   }
 
   

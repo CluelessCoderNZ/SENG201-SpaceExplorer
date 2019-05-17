@@ -5,7 +5,7 @@ public class Ship {
   private String name;
   private int maxShieldLevel = 100;
   private int shieldLevel = maxShieldLevel;
-  private int damage = 0;
+  private ShipWeaponItem weapon = new ShipWeaponItem("Photon Cannon", 10, 0);
 
   
   /**
@@ -27,12 +27,18 @@ public class Ship {
     this.shieldLevel = maxShieldLevel;
   }
   
-
-  
+  /**
+   * returns the name of the ship.
+   * @return the ship's name as a String
+   */
   public String getName() {
     return name;
   }
   
+  /**
+   * returns the shield level of the ship.
+   * @return shield level as an int
+   */
   public int getShieldLevel() {
     return shieldLevel;
   }
@@ -94,8 +100,22 @@ public class Ship {
     }
   }
   
-  public void setWeaponDamage(int amount) {
-    damage = Math.max(amount, 0);
+  /**
+   * sets the ship's current weapon. Returns the old weapon.
+   * @param weapon non null new weapon to set as the ship's weapon
+   * @return the previous weapon assigned to the ship
+   */
+  public ShipWeaponItem setWeapon(ShipWeaponItem weapon) {
+    if (weapon == null) {
+      throw new IllegalArgumentException("weapon cannot be null");
+    }
+    ShipWeaponItem oldWeapon = this.weapon;
+    this.weapon = weapon;
+    return oldWeapon;
+  }
+  
+  public ShipWeaponItem getWeapon() {
+    return weapon;
   }
 
 }

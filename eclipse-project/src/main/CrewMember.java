@@ -53,13 +53,16 @@ public class CrewMember {
    * Extended constructor allows custom values for crew member attributes.
    * @param name crewmember's name
    * @param title describes the vanity title
-   * @param maxHealth maximum health
+   * @param maxHealth non negative maximum health value
    * @param maxFullness maximum fullness
    * @param maxRestedness maximum restedness
    * @param maxActionPoints maximum actions points
    */
   public CrewMember(String name, String title, int maxHealth, 
                     int maxFullness, int maxRestedness, int maxActionPoints) {
+    if (maxHealth < 0 || maxFullness < 0 || maxRestedness < 0 || maxActionPoints < 0) {
+      throw new IllegalArgumentException("max stat values cannot be negative.");
+    }
     this.name = name;
     this.title = title;
     this.maxHealth = Math.max(maxHealth, 0);
@@ -342,7 +345,7 @@ public class CrewMember {
     String output = getFullTitle() + " ("
          + String.format("health: %d/%d, ", health, maxHealth)
          + String.format("fullness: %d/%d, ", fullness, maxFullness)
-         + String.format("restedness: %d/%d, ", restedness, maxRestedness)
+         + String.format("rested: %d/%d, ", restedness, maxRestedness)
          + String.format("action points: %d/%d)", actionPoints, maxActionPoints);
     
     for (CrewMemberEffect effect : activeEffects) {
