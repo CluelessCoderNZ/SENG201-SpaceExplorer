@@ -272,7 +272,7 @@ public class CrewMember {
     return getFullTitle() + " ("
          + String.format("health: %d/%d, ", health, maxHealth)
          + String.format("fullness: %d/%d, ", fullness, maxFullness)
-         + String.format("restedness: %d/%d, ", restedness, maxRestedness)
+         + String.format("rested: %d/%d, ", restedness, maxRestedness)
          + String.format("action points: %d/%d)", actionPoints, maxActionPoints);
   }
   
