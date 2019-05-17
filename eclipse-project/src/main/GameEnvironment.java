@@ -71,7 +71,9 @@ public class GameEnvironment {
   public void finishSetup(GameSetup setup) {
     setup.closeWindow();
     System.out.println(crewState);
-    mainWindow();
+    if (!setup.isCL()) {
+      mainWindow();
+    }
   }
   
   public void mainWindow() {
@@ -207,7 +209,7 @@ public class GameEnvironment {
   
   public static void main(String[] args) {
     GameEnvironment env = new GameEnvironment();
-    env.setupGame(true);
+    env.setupGame(false);
   }
 
 }
