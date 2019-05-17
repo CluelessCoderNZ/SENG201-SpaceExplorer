@@ -70,7 +70,6 @@ public class GameEnvironment {
   public void finishSetup(GameSetup setup) {
     setup.closeWindow();
     System.out.println(crewState);
-    MainWindow mainGame = new MainWindow(this);
     mainWindow();
   }
   
