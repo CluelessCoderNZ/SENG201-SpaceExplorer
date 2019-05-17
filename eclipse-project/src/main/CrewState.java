@@ -3,7 +3,7 @@ package main;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CrewState {
+public class CrewState implements Observer {
   
   private int funds = 0;
   private List<Item> inventory = new ArrayList<Item>();
@@ -238,6 +238,13 @@ public class CrewState {
       crewStateString += "    " + item.toString() + "\n";
     }
     return crewStateString;
+  }
+
+
+  @Override
+  public void update(Observable o, Object arg) {
+    CrewMember crewMember = (CrewMember)o;
+    //TODO: handle crew member state change
   }
   
 

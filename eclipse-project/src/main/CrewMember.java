@@ -3,7 +3,7 @@ package main;
 import java.util.EnumSet;
 
 
-public class CrewMember {
+public class CrewMember extends Observable {
   private static final int HUNGER_THRESHOLD = 30;
   private static final int TIRED_THRESHOLD = 30;
   
@@ -129,10 +129,12 @@ public class CrewMember {
     if (this.health == 0) {
       addEffect(CrewMemberEffect.DEAD);
     }
+    notifyObservers();
   }
   
   public void changeHealth(int amount) {
     setHealth(getHealth() + amount);
+    notifyObservers();
   }
   
   /**
@@ -164,6 +166,7 @@ public class CrewMember {
     } else {
       removeEffect(CrewMemberEffect.HUNGRY);
     }
+    notifyObservers();
   }
   
   public void changeFullness(int amount) {
@@ -199,6 +202,7 @@ public class CrewMember {
     } else {
       removeEffect(CrewMemberEffect.TIRED);
     }
+    notifyObservers();
   }
   
   public void changeRestedness(int amount) {
@@ -265,6 +269,7 @@ public class CrewMember {
    */
   public void resetActions() {
     actionPoints = getMaxActionPoints();
+    notifyObservers();
   }
   
   /**
@@ -272,6 +277,7 @@ public class CrewMember {
    */
   public void useAction() {
     actionPoints = Math.max(actionPoints - 1, 0);
+    notifyObservers();
   }
 
   /**
@@ -297,6 +303,7 @@ public class CrewMember {
    */
   public void addEffect(CrewMemberEffect effect) {
     activeEffects.add(effect);
+    notifyObservers();
   }
   
   /**
@@ -305,6 +312,7 @@ public class CrewMember {
    */
   public void removeEffect(CrewMemberEffect effect) {
     activeEffects.remove(effect);
+    notifyObservers();
   }
   
   public boolean isDead() {
