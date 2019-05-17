@@ -44,7 +44,8 @@ public class GameSetup {
   
   private boolean useCl = false;
   
-  private List<CrewMember> crewMembers = new ArrayList<CrewMember>();
+  //private List<CrewMember> crewMembers = new ArrayList<CrewMember>();
+  private DefaultListModel<CrewMember> crewGuiList = new DefaultListModel<CrewMember>();
   private Ship ship = null;
   private JList<CrewMember> crewMembersList;
   private JFrame frame;
@@ -117,6 +118,18 @@ public class GameSetup {
     lblCrewMembers.setBounds(137, 161, 130, 16);
     frame.getContentPane().add(lblCrewMembers);
     
+    JLabel lblName = new JLabel("Name:");
+    lblName.setBounds(137, 182, 61, 16);
+    frame.getContentPane().add(lblName);
+    
+    JLabel lblThe = new JLabel("the");
+    lblThe.setBounds(363, 182, 26, 16);
+    frame.getContentPane().add(lblThe);
+    
+    JLabel lblStartError = new JLabel("");
+    lblStartError.setBounds(462, 490, 201, 16);
+    frame.getContentPane().add(lblStartError);
+    
     JSlider slider = new JSlider();
     slider.setSnapToTicks(true);
     slider.setPaintLabels(true);
@@ -132,6 +145,7 @@ public class GameSetup {
     }
     slider.setLabelTable(position);
     
+    
     shipNameField = new JTextField();
     shipNameField.addKeyListener(new KeyAdapter() {
       @Override
@@ -143,26 +157,26 @@ public class GameSetup {
       }
     });
     shipNameField.setBounds(310, 107, 180, 26);
-    frame.getContentPane().add(shipNameField);
     shipNameField.setColumns(10);
+    frame.getContentPane().add(shipNameField);
     
     JScrollPane scrollPane = new JScrollPane();
     scrollPane.setBounds(177, 300, 331, 86);
     frame.getContentPane().add(scrollPane);
     
-    DefaultListModel<CrewMember> listModel = new DefaultListModel<CrewMember>();
     
     JButton btnDeleteSelected = new JButton("Delete selected");
     btnDeleteSelected.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent e) {
-        listModel.removeElement(crewMembersList.getSelectedValue());
+        crewGuiList.removeElement(crewMembersList.getSelectedValue());
       }
     });
     btnDeleteSelected.setBounds(177, 392, 140, 29);
     frame.getContentPane().add(btnDeleteSelected);
     btnDeleteSelected.setEnabled(false);
-     
-    crewMembersList = new JList<CrewMember>(listModel);
+    
+    
+    crewMembersList = new JList<CrewMember>(crewGuiList);
     crewMembersList.addListSelectionListener(new ListSelectionListener() {
       public void valueChanged(ListSelectionEvent e) {
         if (crewMembersList.getSelectedIndex() == -1) {
@@ -175,10 +189,6 @@ public class GameSetup {
     crewMembersList.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
     crewMembersList.setLayoutOrientation(JList.HORIZONTAL_WRAP);
     scrollPane.setViewportView(crewMembersList);
-    
-    JLabel lblName = new JLabel("Name:");
-    lblName.setBounds(137, 182, 61, 16);
-    frame.getContentPane().add(lblName);
     
     txtName = new JTextField();
     txtName.addKeyListener(new KeyAdapter() {
@@ -194,10 +204,6 @@ public class GameSetup {
     frame.getContentPane().add(txtName);
     txtName.setColumns(10);
     
-    JLabel lblThe = new JLabel("the");
-    lblThe.setBounds(363, 182, 26, 16);
-    frame.getContentPane().add(lblThe);
-    
     JTextPane txtpnClassDescription = new JTextPane();
     txtpnClassDescription.setText("Class description");
     txtpnClassDescription.setBounds(173, 210, 335, 56);
@@ -209,7 +215,7 @@ public class GameSetup {
         updateCrewTypeDescription(txtpnClassDescription, comboBox.getSelectedItem().toString());
       }
     });
-    comboBox.setModel(new DefaultComboBoxModel<String>(new String[] {"Investor"}));
+    comboBox.setModel(new DefaultComboBoxModel<String>(new String[] {"Investor", "Medic"}));
     comboBox.setBounds(390, 178, 118, 27);
     frame.getContentPane().add(comboBox);
     updateCrewTypeDescription(txtpnClassDescription, comboBox.getSelectedItem().toString());
@@ -221,20 +227,16 @@ public class GameSetup {
     JButton btnAddCrew = new JButton("Add");
     btnAddCrew.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent e) {
-        tryAddCrew(txtName.getText(), comboBox.getSelectedItem().toString(), listModel, lblAddError);
+        tryAddCrew(txtName.getText(), comboBox.getSelectedItem().toString(), lblAddError);
       }
     });
     btnAddCrew.setBounds(513, 177, 89, 29);
     frame.getContentPane().add(btnAddCrew);
     
-    JLabel lblStartError = new JLabel("");
-    lblStartError.setBounds(462, 490, 201, 16);
-    frame.getContentPane().add(lblStartError);
-    
     JButton btnStartGame = new JButton("Start Game");
     btnStartGame.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent e) {
-        tryStartGame(shipNameField.getText(), slider.getValue(), listModel, lblStartError);
+        tryStartGame(shipNameField.getText(), slider.getValue(), lblStartError);
       }
     });
     btnStartGame.setBounds(504, 422, 181, 56);
@@ -246,34 +248,35 @@ public class GameSetup {
   private void updateCrewTypeDescription(JTextPane description, String typeString) {
     if (typeString.equals("Investor")) {
       description.setText(typeString + ": " + Investor.getClassDescription());
+    } else if (typeString.equals("Medic")) {
+      description.setText(typeString + ": " + Medic.getClassDescription());
     } else {
       description.setText("This class has no description!");
     }
   }
   
   
-  private void tryAddCrew(String name, String typeString, DefaultListModel<CrewMember> crewMembers, JLabel error) {
+  private void tryAddCrew(String name, String typeString, JLabel error) {
     error.setText("");
     if (name.equals("")) {
       error.setText("please enter a name");
+    } else if (crewGuiList.size() >= MAX_CREW) {
+      error.setText("max crew size reached");
     } else {
       CrewMember crewMember = CrewMemberFactory.createCrewMember(typeString, name);
-      crewMembers.addElement(crewMember);
+      crewGuiList.addElement(crewMember);
     }
   }
   
   
-  private void tryStartGame(String shipName, int numDays, DefaultListModel<CrewMember> crewList, JLabel error) {
+  private void tryStartGame(String shipName, int numDays, JLabel error) {
     if (shipName.equals("")) {
       error.setText("please enter a ship name");
-    } else if (crewList.size() < MIN_CREW || crewList.size() > MAX_CREW) {
-      error.setText("please add " + (MIN_CREW - crewList.size()) + " crew");
+    } else if (crewGuiList.size() < MIN_CREW || crewGuiList.size() > MAX_CREW) {
+      error.setText("please add " + (MIN_CREW - crewGuiList.size()) + " crew");
     } else {
       setNumDays(numDays);
       createShip(shipName);
-      for (int i = 0; i < crewList.size(); i++) {
-        crewMembers.add(crewList.get(i));
-      }
       finishedSetup();
     }
   }
@@ -422,10 +425,10 @@ public class GameSetup {
    * @throws RuntimeException throws exception if trying to add member to a full crew
    */
   private void createCrewMember(int type, String name) {
-    if (crewMembers.size() == MAX_CREW) {
+    if (crewGuiList.size() == MAX_CREW) {
       throw new RuntimeException("max crew size has been reached");
     }
-    crewMembers.add(CrewMemberFactory.createCrewMember(type, name));
+    crewGuiList.addElement(CrewMemberFactory.createCrewMember(type, name));
   }
   
   /**
@@ -440,16 +443,20 @@ public class GameSetup {
    * sets the GameEnvironment's CrewState object.
    */
   private void setUpCrewState() {
-    if (crewMembers.size() < MIN_CREW) {
+    if (crewGuiList.size() < MIN_CREW) {
       throw new RuntimeException("not enough crew members created, min " + MIN_CREW + " required");
     }
-    if (crewMembers.size() > MAX_CREW) {
+    if (crewGuiList.size() > MAX_CREW) {
       throw new RuntimeException("too many crew members. please restart the game.");
     }
     if (ship == null) {
       throw new RuntimeException("ship has not been created, run createShip()");
     }
-    CrewState crewState = new CrewState(crewMembers, ship);
+    List<CrewMember> crewList = new ArrayList<CrewMember>();
+    for (int i = 0; i < crewGuiList.size(); i++) {
+      crewList.add(crewGuiList.get(i));
+    }
+    CrewState crewState = new CrewState(crewList, ship);
     applyCrewMemberBonuses(crewState);
     env.setCrewState(crewState);
   }
@@ -481,14 +488,14 @@ public class GameSetup {
       // Display current crew
       cl.print("\nCurrent Crew:\n");
       cl.print("==============================\n");
-      for (CrewMember member : crewMembers) {
-        cl.print("  + " + member.getFullTitle() + "\n");
+      for (int i = 0; i < crewGuiList.size(); i++) {
+        cl.print("  + " + crewGuiList.get(i).getFullTitle() + "\n");
       }
       cl.print("==============================\n\n");
       
       // Ask to continue if min or max hasn't been reached
-      if (crewMembers.size() >= MIN_CREW) {
-        if (crewMembers.size() < MAX_CREW) {
+      if (crewGuiList.size() >= MIN_CREW) {
+        if (crewGuiList.size() < MAX_CREW) {
           continueMakingCrew = cl.inputBoolean("Create another crew member? (Y/N): ");
         } else {
           cl.print("Max number of crew member reached.\n");

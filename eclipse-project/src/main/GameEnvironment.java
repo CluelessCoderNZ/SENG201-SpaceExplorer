@@ -207,7 +207,7 @@ public class GameEnvironment {
   
   public static void main(String[] args) {
     GameEnvironment env = new GameEnvironment();
-    env.setupGame(true);
+    env.setupGame(false);
   }
 
 }

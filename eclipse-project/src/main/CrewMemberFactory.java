@@ -30,6 +30,8 @@ public class CrewMemberFactory {
   public static CrewMember createCrewMember(String typeString, String name) {
     if (typeString.equals("Investor")) {
       return new Investor(name);
+    } else if (typeString.equals("Medic")) {
+      return new Medic(name);
     } else {
       throw new RuntimeException("invalid crew member type requested");
     }
