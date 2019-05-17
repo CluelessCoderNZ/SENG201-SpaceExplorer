@@ -53,4 +53,9 @@ public class Planet {
     return returnPart;
   }
   
+  @Override
+  public String toString() {
+    return name;
+  }
+  
 }

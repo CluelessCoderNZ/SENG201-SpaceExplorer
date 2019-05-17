@@ -24,7 +24,7 @@ public class GameEnvironment {
   }
   
   public Random getRandomGenerator() {
-   return randomGenerator;
+    return randomGenerator;
   }
   
   public void setCrewState(CrewState state) {
@@ -60,6 +60,7 @@ public class GameEnvironment {
   }
   
   public void setupGame(boolean cl) {
+    GameWorldGenerator.generateWorld(this);
     GameSetup setup = new GameSetup(this, cl);
   }
   
@@ -70,7 +71,6 @@ public class GameEnvironment {
   public void finishSetup(GameSetup setup) {
     setup.closeWindow();
     System.out.println(crewState);
-    MainWindow mainGame = new MainWindow(this);
     mainWindow();
   }
   
@@ -207,7 +207,7 @@ public class GameEnvironment {
   
   public static void main(String[] args) {
     GameEnvironment env = new GameEnvironment();
-    env.setupGame(false);
+    env.setupGame(true);
   }
 
 }

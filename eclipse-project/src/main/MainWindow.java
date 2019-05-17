@@ -7,6 +7,10 @@ import javax.swing.JLabel;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JList;
+import javax.swing.event.ListSelectionListener;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.ListSelectionModel;
+import javax.swing.JScrollPane;
 
 public class MainWindow {
 
@@ -14,8 +18,20 @@ public class MainWindow {
   private JFrame frame;
   private DefaultListModel<CrewMember> crew = new DefaultListModel<CrewMember>();
   private DefaultListModel<Item> inventory = new DefaultListModel<Item>();
+  private DefaultListModel<Planet> planets = new DefaultListModel<Planet>();
+  
+  
   private JList<CrewMember> crewList;
   private JList<Item> inventoryList;
+  private JList<Planet> planetList;
+  private JButton explore;
+  private JButton sleep;
+  private JButton repair;
+  private JButton useItem;
+  private JButton changePlanet;
+  private JScrollPane planetScroll;
+  
+  private boolean showPlanetList = false;
   
 
   /**
@@ -24,7 +40,8 @@ public class MainWindow {
   public MainWindow(GameEnvironment env) {
     this.env = env;
     initialize();
-    updateGui(env.getCrewState());
+    updateGuiLists(env.getCrewState());
+    updateButtons();
     frame.setVisible(true);
   }
 
@@ -33,7 +50,7 @@ public class MainWindow {
    */
   private void initialize() {
     frame = new JFrame();
-    frame.setBounds(100, 100, 590, 404);
+    frame.setBounds(100, 100, 704, 601);
     frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     frame.getContentPane().setLayout(null);
     
@@ -41,42 +58,79 @@ public class MainWindow {
     lblShipName.setBounds(6, 6, 181, 16);
     frame.getContentPane().add(lblShipName);
     
-    JLabel lblShield = new JLabel("SHIELD: " + env.getCrewState().getShip().getShieldLevel());
-    lblShield.setBounds(6, 27, 181, 16);
-    frame.getContentPane().add(lblShield);
-    
-    JButton btnViewShop = new JButton("Visit Outpost");
-    btnViewShop.setBounds(424, 22, 160, 29);
-    frame.getContentPane().add(btnViewShop);
-    
-    crewList = new JList<CrewMember>(crew);
-    crewList.setBounds(29, 91, 181, 59);
-    crewList.setSelectedIndex(0);
-    frame.getContentPane().add(crewList);
+    JLabel lblFunds = new JLabel("Funds: 0");
+    lblFunds.setBounds(29, 176, 181, 16);
+    frame.getContentPane().add(lblFunds);
     
     JLabel lblCrew = new JLabel("Crew:");
     lblCrew.setBounds(29, 73, 61, 16);
     frame.getContentPane().add(lblCrew);
     
-    JLabel lblFunds = new JLabel("Funds: 0");
-    lblFunds.setBounds(29, 176, 181, 16);
-    frame.getContentPane().add(lblFunds);
-    
     JLabel lblPartsCollected = new JLabel("Parts collected: 0");
     lblPartsCollected.setBounds(29, 195, 181, 16);
     frame.getContentPane().add(lblPartsCollected);
     
-    JButton btnExplore = new JButton("Explore");
-    btnExplore.setBounds(29, 223, 117, 29);
-    frame.getContentPane().add(btnExplore);
+    JLabel lblShield = new JLabel("SHIELD: " + env.getCrewState().getShip().getShieldLevel());
+    lblShield.setBounds(6, 27, 181, 16);
+    frame.getContentPane().add(lblShield);
     
-    JButton btnSleep = new JButton("Sleep");
-    btnSleep.setBounds(161, 223, 117, 29);
-    frame.getContentPane().add(btnSleep);
+    JLabel lblInventory = new JLabel("Inventory:");
+    lblInventory.setBounds(291, 73, 78, 16);
+    frame.getContentPane().add(lblInventory);
     
-    JButton btnRepair = new JButton("Repair");
-    btnRepair.setBounds(29, 264, 117, 29);
-    frame.getContentPane().add(btnRepair);
+    planetScroll = new JScrollPane();
+    planetScroll.setBounds(39, 377, 239, 100);
+    frame.getContentPane().add(planetScroll);
+    
+    planetList = new JList<Planet>(planets);
+    planetList.addListSelectionListener(new ListSelectionListener() {
+      public void valueChanged(ListSelectionEvent e) {
+        updateButtons();
+      }
+    });
+    planetList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+    planetScroll.setViewportView(planetList);
+    
+    JScrollPane crewScroll = new JScrollPane();
+    crewScroll.setBounds(29, 91, 249, 80);
+    frame.getContentPane().add(crewScroll);
+    
+    crewList = new JList<CrewMember>(crew);
+    crewScroll.setViewportView(crewList);
+    crewList.addListSelectionListener(new ListSelectionListener() {
+      public void valueChanged(ListSelectionEvent e) {
+        updateButtons();
+      }
+    });
+    
+    JScrollPane inventoryScroll = new JScrollPane();
+    inventoryScroll.setBounds(290, 91, 278, 80);
+    frame.getContentPane().add(inventoryScroll);
+    
+    inventoryList = new JList<Item>(inventory);
+    inventoryScroll.setViewportView(inventoryList);
+    inventoryList.addListSelectionListener(new ListSelectionListener() {
+      public void valueChanged(ListSelectionEvent e) {
+        updateButtons();
+      }
+    });
+    inventoryList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+    
+    JButton btnViewShop = new JButton("Visit Outpost");
+    btnViewShop.setBounds(424, 22, 160, 29);
+    frame.getContentPane().add(btnViewShop);
+    
+    explore = new JButton("Explore");
+    explore.setBounds(29, 223, 117, 29);
+    frame.getContentPane().add(explore);
+    
+    sleep = new JButton("Sleep");
+    sleep.setBounds(161, 223, 117, 29);
+    frame.getContentPane().add(sleep);
+    
+    repair = new JButton("Repair");
+    repair.setBounds(29, 264, 117, 29);
+    frame.getContentPane().add(repair);
     
     JButton btnViewPlanets = new JButton("View Planets");
     btnViewPlanets.setBounds(29, 336, 141, 29);
@@ -86,17 +140,20 @@ public class MainWindow {
     btnNextDay.setBounds(290, 336, 117, 29);
     frame.getContentPane().add(btnNextDay);
     
-    inventoryList = new JList<Item>(inventory);
-    inventoryList.setBounds(290, 91, 181, 59);
-    frame.getContentPane().add(inventoryList);
+    changePlanet = new JButton("Change Planet");
+    changePlanet.setBounds(161, 264, 141, 29);
+    frame.getContentPane().add(changePlanet);
     
-    JLabel lblInventory = new JLabel("Inventory:");
-    lblInventory.setBounds(291, 73, 78, 16);
-    frame.getContentPane().add(lblInventory);
+    useItem = new JButton("Use item");
+    useItem.setBounds(290, 190, 117, 29);
+    frame.getContentPane().add(useItem);
   }
   
-  
-  public void updateGui(CrewState crewState) {
+  /**
+   * updates the GUI contents to match the game state.
+   * @param crewState the crew state containing the crew and item lists
+   */
+  public void updateGuiLists(CrewState crewState) {
     crew.clear();
     for (CrewMember member : crewState.getCrew()) {
       crew.addElement(member);
@@ -105,6 +162,38 @@ public class MainWindow {
     for (Item item : crewState.getInventory()) {
       inventory.addElement(item);
     }
+    planets.clear();
+    for (Planet planet : env.getPlanets()) {
+      planets.addElement(planet);
+    }
   }
   
+  /**
+   * changes clickability of the crew member action buttons. 
+   */
+  private void updateButtons() {
+    explore.setEnabled(false);
+    sleep.setEnabled(false);
+    repair.setEnabled(false);
+    useItem.setEnabled(false);
+    changePlanet.setEnabled(false);
+    planetScroll.setVisible(showPlanetList);
+    
+    int[] selectedCrew = crewList.getSelectedIndices();
+    int selectedItem = inventoryList.getSelectedIndex();
+    
+    if (selectedCrew.length == 1) {
+      explore.setEnabled(true);
+      sleep.setEnabled(true);
+      repair.setEnabled(true);
+      if (selectedItem != -1) {
+        useItem.setEnabled(true);
+      }
+    } else if (selectedCrew.length == 2) {
+      planetScroll.setVisible(true);
+      if (planetList.getSelectedIndex() != -1) {
+        changePlanet.setEnabled(true);
+      }
+    }
+  }
 }
