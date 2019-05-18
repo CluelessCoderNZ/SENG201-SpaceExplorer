@@ -129,7 +129,6 @@ public class CrewMember extends Observable {
     if (this.health == 0) {
       addEffect(CrewMemberEffect.DEAD);
     }
-    notifyObservers();
   }
   
   public void changeHealth(int amount) {
@@ -166,7 +165,6 @@ public class CrewMember extends Observable {
     } else {
       removeEffect(CrewMemberEffect.HUNGRY);
     }
-    notifyObservers();
   }
   
   public void changeFullness(int amount) {
@@ -202,7 +200,6 @@ public class CrewMember extends Observable {
     } else {
       removeEffect(CrewMemberEffect.TIRED);
     }
-    notifyObservers();
   }
   
   public void changeRestedness(int amount) {
@@ -269,7 +266,6 @@ public class CrewMember extends Observable {
    */
   public void resetActions() {
     actionPoints = getMaxActionPoints();
-    notifyObservers();
   }
   
   /**
@@ -277,7 +273,6 @@ public class CrewMember extends Observable {
    */
   public void useAction() {
     actionPoints = Math.max(actionPoints - 1, 0);
-    notifyObservers();
   }
 
   /**
@@ -302,8 +297,10 @@ public class CrewMember extends Observable {
    * @param effect the effect to add
    */
   public void addEffect(CrewMemberEffect effect) {
-    activeEffects.add(effect);
-    notifyObservers();
+    if (!hasEffect(effect)) {
+      activeEffects.add(effect);
+      notifyObservers(new CrewEffectChangeObserverEvent(true, effect));
+    }
   }
   
   /**
@@ -311,8 +308,10 @@ public class CrewMember extends Observable {
    * @param effect the active effect to remove
    */
   public void removeEffect(CrewMemberEffect effect) {
-    activeEffects.remove(effect);
-    notifyObservers();
+    if (!hasEffect(effect)) {
+      activeEffects.remove(effect);
+      notifyObservers(new CrewEffectChangeObserverEvent(true, effect));
+    }
   }
   
   public boolean isDead() {

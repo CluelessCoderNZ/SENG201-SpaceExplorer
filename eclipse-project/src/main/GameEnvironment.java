@@ -5,7 +5,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
-public class GameEnvironment {
+public class GameEnvironment implements Observer{
   
   private GameEventManager eventManager;
   private Planet currentPlanet;
@@ -74,6 +74,12 @@ public class GameEnvironment {
   public void finishSetup(GameSetup setup) {
     setup.closeWindow();
     System.out.println(crewState);
+    
+    // Subscribe GameEnvironment to crew events.
+    for (CrewMember cm : crewState.getCrew()) {
+      cm.addObserver(this);
+    }
+    
     if (!setup.isCL()) {
       mainWindow();
     }
@@ -226,6 +232,31 @@ public class GameEnvironment {
     return currentScore;
   }
   
+  // Observes crew updates
+  @Override
+  public void update(Observable o, Object arg) {
+    if (arg instanceof CrewEffectChangeObserverEvent) {
+      CrewEffectChangeObserverEvent event = (CrewEffectChangeObserverEvent)arg;
+      CrewMember crewMember = (CrewMember)o;
+      
+      if (event.wasAdded()) {
+        switch(event.getEffect()) {
+          case PLAGUED:
+          case DEAD:
+            new EventPopupWindow(String.format("%s is now %s", crewMember.getName(), event.getEffect().name()), "This is unfortunate.");
+            break;
+          default:
+            new EventPopupWindow(String.format("%s is now %s", crewMember.getName(), event.getEffect().name()));
+        }
+        
+      }
+      
+      if (event.wasRemoved()) {
+        new EventPopupWindow(String.format("%s is no longer %s", crewMember.getName(), event.getEffect().name()));
+      }
+    }
+  }
+  
   /**
    * Entry point for the game.
    * @param args program arguments
@@ -235,13 +266,13 @@ public class GameEnvironment {
     
     // Parse Args
     boolean clMode = false;
-    if (args.length > 1) {
+    if (args.length > 0) {
       if (args[0].equals("cl")) {
         clMode = true;
       }
     }
     
-    if (args.length > 2) {
+    if (args.length > 1) {
       try {
         int seed = Integer.parseInt(args[1]);
         env.getRandomGenerator().setSeed(seed);
