@@ -98,8 +98,7 @@ public class GenericRestorationItem extends ConsumableItem {
   
   
   public String toString() {
-    return String.format("'%s': %d, %d, %d, %d", getName(), getValue(), healthRestoreAmount,
-        fullnessRestoreAmount, usesRemaining);
+    return getName();
   }
   
   @Override
@@ -107,16 +106,18 @@ public class GenericRestorationItem extends ConsumableItem {
     String result = "";
     
     if (getHealthRestoreAmount() > 0) {
-      result += "HP +" + getHealthRestoreAmount() + " ";
+      result += "HP: +" + getHealthRestoreAmount() + " ";
     } else if (getHealthRestoreAmount() < 0) {
-      result += "HP " + getHealthRestoreAmount() + " ";
+      result += "HP: " + getHealthRestoreAmount() + " ";
     }
     
     if (getFullnessRestoreAmount() > 0) {
-      result += "Food +" + getFullnessRestoreAmount();
+      result += "Food: +" + getFullnessRestoreAmount() + " ";
     } else if (getFullnessRestoreAmount() < 0) {
-      result += "Food " + getFullnessRestoreAmount();
+      result += "Food: " + getFullnessRestoreAmount() + " ";
     }
+    
+    result += "Uses: " + getRemainingUses();
     
     return result;
   }

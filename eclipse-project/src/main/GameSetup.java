@@ -70,7 +70,7 @@ public class GameSetup {
   /**
    * performs final setup steps (creating the crewState and applying bonuses).
    */
-  public void finishedSetup() {
+  private void finishedSetup() {
     setUpCrewState();
     env.finishSetup(this);
   }
@@ -197,6 +197,7 @@ public class GameSetup {
     txtName.setColumns(10);
     
     JTextPane txtpnClassDescription = new JTextPane();
+    txtpnClassDescription.setEditable(false);
     txtpnClassDescription.setText("Class description");
     txtpnClassDescription.setBounds(173, 210, 335, 56);
     frame.getContentPane().add(txtpnClassDescription);

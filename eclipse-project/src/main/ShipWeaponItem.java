@@ -21,6 +21,11 @@ public class ShipWeaponItem extends Item implements ShipUpgrade {
   }
   
   @Override
+  public String getEffectsString() {
+    return "Damage set to " + damage;
+  }
+  
+  @Override
   public Item copy() {
     ShipWeaponItem item = new ShipWeaponItem(this.getName(), 
                                              this.getValue(),

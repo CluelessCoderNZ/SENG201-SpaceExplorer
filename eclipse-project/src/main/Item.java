@@ -7,7 +7,7 @@ public class Item {
   ===============
   */
   private String name;
-  private String description;
+  private String description = "";
   private int value = 0;
   
   
@@ -78,7 +78,7 @@ public class Item {
   }
   
   public String toString() {
-    return String.format("'%s': %d", name, value);
+    return getName();
   }
 
   public boolean equals(Item item) {

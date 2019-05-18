@@ -8,4 +8,10 @@ public interface ShipUpgrade {
    */
   public void applyEffects(Ship ship);
   
+  /**
+   * returns a string that displays the effects of the ShipUpgrade.
+   * @return string that displays the effects of the ShipUpgrade
+   */
+  public String getEffectsString();
+  
 }

@@ -79,6 +79,16 @@ public class GameEnvironment {
   public void mainWindow() {
     MainWindow mainGame = new MainWindow(this);
   }
+  
+  public void openShop(MainWindow mainWindow) {
+    mainWindow.closeWindow();
+    ShopWindow shop = new ShopWindow(this);
+  }
+  
+  public void finishShop(ShopWindow shop) {
+    shop.closeWindow();
+    MainWindow mainWindow = new MainWindow(this);
+  }
 
   
   /**

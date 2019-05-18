@@ -11,6 +11,9 @@ import javax.swing.event.ListSelectionListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.ListSelectionModel;
 import javax.swing.JScrollPane;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import net.miginfocom.swing.MigLayout;
 
 public class MainWindow {
 
@@ -44,6 +47,10 @@ public class MainWindow {
     updateButtons();
     frame.setVisible(true);
   }
+  
+  public void closeWindow() {
+    frame.dispose();
+  }
 
   /**
    * Initialize the contents of the frame.
@@ -52,35 +59,29 @@ public class MainWindow {
     frame = new JFrame();
     frame.setBounds(100, 100, 704, 601);
     frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    frame.getContentPane().setLayout(null);
+    frame.getContentPane().setLayout(new MigLayout("", "[140px][15px][117px][12px][117px][17px][160px]", "[16px][29px][16px][80px][16px][3px][24px][29px][29px][29px][100px]"));
     
     JLabel lblShipName = new JLabel("SHIP: " + env.getCrewState().getShip().getName());
-    lblShipName.setBounds(6, 6, 181, 16);
-    frame.getContentPane().add(lblShipName);
+    frame.getContentPane().add(lblShipName, "cell 0 0 3 1,alignx left,aligny top");
     
     JLabel lblFunds = new JLabel("Funds: 0");
-    lblFunds.setBounds(29, 176, 181, 16);
-    frame.getContentPane().add(lblFunds);
+    frame.getContentPane().add(lblFunds, "cell 0 4 3 1,growx,aligny top");
     
     JLabel lblCrew = new JLabel("Crew:");
-    lblCrew.setBounds(29, 73, 61, 16);
-    frame.getContentPane().add(lblCrew);
+    frame.getContentPane().add(lblCrew, "cell 0 2,alignx center,aligny top");
     
     JLabel lblPartsCollected = new JLabel("Parts collected: 0");
-    lblPartsCollected.setBounds(29, 195, 181, 16);
-    frame.getContentPane().add(lblPartsCollected);
+    frame.getContentPane().add(lblPartsCollected, "cell 0 6 3 1,alignx center,aligny top");
     
     JLabel lblShield = new JLabel("SHIELD: " + env.getCrewState().getShip().getShieldLevel());
-    lblShield.setBounds(6, 27, 181, 16);
-    frame.getContentPane().add(lblShield);
+    frame.getContentPane().add(lblShield, "cell 0 1 3 1,growx,aligny center");
     
     JLabel lblInventory = new JLabel("Inventory:");
-    lblInventory.setBounds(291, 73, 78, 16);
-    frame.getContentPane().add(lblInventory);
+    frame.getContentPane().add(lblInventory, "cell 4 2,alignx left,aligny top");
+    
     
     planetScroll = new JScrollPane();
-    planetScroll.setBounds(39, 377, 239, 100);
-    frame.getContentPane().add(planetScroll);
+    frame.getContentPane().add(planetScroll, "cell 0 10 3 1,alignx right,growy");
     
     planetList = new JList<Planet>(planets);
     planetList.addListSelectionListener(new ListSelectionListener() {
@@ -92,8 +93,7 @@ public class MainWindow {
     planetScroll.setViewportView(planetList);
     
     JScrollPane crewScroll = new JScrollPane();
-    crewScroll.setBounds(29, 91, 249, 80);
-    frame.getContentPane().add(crewScroll);
+    frame.getContentPane().add(crewScroll, "cell 0 3 3 1,alignx right,growy");
     
     crewList = new JList<CrewMember>(crew);
     crewScroll.setViewportView(crewList);
@@ -104,8 +104,7 @@ public class MainWindow {
     });
     
     JScrollPane inventoryScroll = new JScrollPane();
-    inventoryScroll.setBounds(290, 91, 278, 80);
-    frame.getContentPane().add(inventoryScroll);
+    frame.getContentPane().add(inventoryScroll, "cell 4 3 3 1,grow");
     
     inventoryList = new JList<Item>(inventory);
     inventoryScroll.setViewportView(inventoryList);
@@ -116,37 +115,35 @@ public class MainWindow {
     });
     inventoryList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
     
+    
     JButton btnViewShop = new JButton("Visit Outpost");
-    btnViewShop.setBounds(424, 22, 160, 29);
-    frame.getContentPane().add(btnViewShop);
+    btnViewShop.addActionListener(new ActionListener() {
+      public void actionPerformed(ActionEvent e) {
+        visitOutpostButton();
+      }
+    });
+    frame.getContentPane().add(btnViewShop, "cell 6 1,growx,aligny top");
     
     explore = new JButton("Explore");
-    explore.setBounds(29, 223, 117, 29);
-    frame.getContentPane().add(explore);
+    frame.getContentPane().add(explore, "cell 0 7,growx,aligny top");
     
     sleep = new JButton("Sleep");
-    sleep.setBounds(161, 223, 117, 29);
-    frame.getContentPane().add(sleep);
+    frame.getContentPane().add(sleep, "cell 2 7,growx,aligny top");
     
     repair = new JButton("Repair");
-    repair.setBounds(29, 264, 117, 29);
-    frame.getContentPane().add(repair);
+    frame.getContentPane().add(repair, "cell 0 8,growx,aligny top");
     
     JButton btnViewPlanets = new JButton("View Planets");
-    btnViewPlanets.setBounds(29, 336, 141, 29);
-    frame.getContentPane().add(btnViewPlanets);
+    frame.getContentPane().add(btnViewPlanets, "cell 0 9 3 1,alignx left,aligny top");
     
     JButton btnNextDay = new JButton("Next Day");
-    btnNextDay.setBounds(290, 336, 117, 29);
-    frame.getContentPane().add(btnNextDay);
+    frame.getContentPane().add(btnNextDay, "cell 4 9,growx,aligny top");
     
     changePlanet = new JButton("Change Planet");
-    changePlanet.setBounds(161, 264, 141, 29);
-    frame.getContentPane().add(changePlanet);
+    frame.getContentPane().add(changePlanet, "cell 2 8 3 1,alignx left,aligny top");
     
     useItem = new JButton("Use item");
-    useItem.setBounds(290, 190, 117, 29);
-    frame.getContentPane().add(useItem);
+    frame.getContentPane().add(useItem, "cell 4 4 1 3,growx,aligny bottom");
   }
   
   /**
@@ -195,5 +192,9 @@ public class MainWindow {
         changePlanet.setEnabled(true);
       }
     }
+  }
+  
+  private void visitOutpostButton() {
+    env.openShop(this);
   }
 }
