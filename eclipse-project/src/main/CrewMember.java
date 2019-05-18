@@ -4,18 +4,18 @@ import java.util.EnumSet;
 
 
 public class CrewMember extends Observable {
-  private static final int HUNGER_THRESHOLD = 30;
-  private static final int TIRED_THRESHOLD = 30;
+  protected static final int HUNGER_THRESHOLD = 30;
+  protected static final int TIRED_THRESHOLD = 30;
   
-  private static final int HUNGER_DAMAGE = 30;
-  private static final int TIRED_DAMAGE = 40;
-  private static final int PLAGUED_DAMAGE = 30;
+  protected static final int HUNGER_DAMAGE = 30;
+  protected static final int TIRED_DAMAGE = 40;
+  protected static final int PLAGUED_DAMAGE = 30;
   
-  private static final int DAILY_SLEEP_DAMAGE = 30;
-  private static final int DAILY_HUNGER_DAMAGE = 20;
+  protected static final int DAILY_SLEEP_DAMAGE = 30;
+  protected static final int DAILY_HUNGER_DAMAGE = 20;
   
-  private static final int DEFAULT_SHIP_REPAIR = 50;
-  private static final int DEFAULT_SLEEP_RESTORE = 50;
+  protected static final int DEFAULT_SHIP_REPAIR = 50;
+  protected static final int DEFAULT_SLEEP_RESTORE = 50;
   
   /*
   ===============
@@ -35,7 +35,7 @@ public class CrewMember extends Observable {
   private int actionPoints;
   private int maxActionPoints = 2;
   
-  private EnumSet<CrewMemberEffect> activeEffects = EnumSet.noneOf(CrewMemberEffect.class);
+  protected EnumSet<CrewMemberEffect> activeEffects = EnumSet.noneOf(CrewMemberEffect.class);
 
   
   /**

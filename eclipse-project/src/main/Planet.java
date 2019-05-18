@@ -30,6 +30,19 @@ public class Planet {
     return name;
   }
   
+  /**
+   * Returns the name of the planet marked if it has a ship part.
+   * @return
+   */
+  public String getNameShowPart() {
+    if (hasShipPart()) {
+      return name + " *";
+    }else {
+      return name;
+    }
+    
+  }
+  
   public Shop getShop() {
     return shop;
   }

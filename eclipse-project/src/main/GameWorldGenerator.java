@@ -27,20 +27,22 @@ public class GameWorldGenerator {
     // DAY_START
     WeightedArrayList<GameEvent> dayStartEvents = new WeightedArrayList<GameEvent>();
     dayStartEvents.addItem(new NullEvent(), 1000);
-    dayStartEvents.addItem(new SpacePlagueEvent(), 500);
-    dayStartEvents.addItem(new PiratesEvent(), 1000);
+    dayStartEvents.addItem(new SpacePlagueEvent(), 1000);
+    dayStartEvents.addItem(new PiratesEvent(), 500);
     
     // CREW_TRAVEL
     WeightedArrayList<GameEvent> travelEvents = new WeightedArrayList<GameEvent>();
     travelEvents.addItem(new NullEvent(), 1000);
-    travelEvents.addItem(new SpacePlagueEvent(), 50);
     travelEvents.addItem(new PiratesEvent(), 200);
     travelEvents.addItem(new AsteroidEvent(), 1000);
     
     
     // CREW_EXPLORE
     WeightedArrayList<GameEvent> exploreEvents = new WeightedArrayList<GameEvent>();
-    exploreEvents.addItem(new NullEvent(), 1000);
+    exploreEvents.addItem(new NullEvent(), 200);
+    exploreEvents.addItem(new MoneyFindEvent(), 800);
+    exploreEvents.addItem(new ItemFindEvent(), 500);
+    exploreEvents.addItem(new ShipPartFindEvent(), 500);
     
     // Create manager
     GameEventManager eventManager = new GameEventManager();

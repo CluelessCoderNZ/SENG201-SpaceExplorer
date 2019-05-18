@@ -4,5 +4,6 @@ public enum CrewMemberEffect {
   PLAGUED,
   HUNGRY,
   TIRED,
-  DEAD
+  DEAD,
+  STRESSED
 }

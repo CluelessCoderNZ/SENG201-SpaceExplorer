@@ -85,6 +85,16 @@ public class CrewState implements Observer {
     return count;
   }
   
+  public boolean hasScientist() {
+    for (CrewMember cm : crew) {
+      if (cm instanceof Scientist) {
+        return true;
+      }
+    }
+    
+    return false;
+  }
+  
   /**
    * adds an item to the crew's inventory.
    * @param item item not already in the crew's inventory to add

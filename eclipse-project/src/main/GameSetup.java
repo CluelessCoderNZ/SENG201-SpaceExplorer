@@ -297,7 +297,7 @@ public class GameSetup {
     for (int i = 0; i <= (days * 2) / 3 && i < planets.size(); i++) {
       env.getPlanets().get(i).setPart(new ShipPart());
     }
-    Collections.shuffle(planets);
+    Collections.shuffle(planets, env.getRandomGenerator());
   }
   
   /**
@@ -371,7 +371,11 @@ public class GameSetup {
     do {
       crewTypeNum = cl.inputOptions("Select crew member type: ",
                                     "Investor -- " + Investor.getClassDescription(),
-                                    "Medic -- " + Medic.getClassDescription());
+                                    "Medic -- " + Medic.getClassDescription(),
+                                    "Engineer -- " + Engineer.getClassDescription(),
+                                    "Student -- " + Student.getClassDescription(),
+                                    "Scientist -- " + Scientist.getClassDescription(),
+                                    "Robot -- " + Robot.getClassDescription());
       
       crewName = cl.inputString("Enter crew member's name: ", 30);
       

@@ -252,14 +252,21 @@ public class CommandLineRunner {
     cl.print("\nPLANETS\n");
     cl.print("=====================================\n");
     
+    boolean visibleShipParts = env.getCrewState().hasScientist();
+    
     int counter = 0;
     for (Planet planet : env.getPlanets()) {
       String marked = " ";
       if (planet == env.getCurrentPlanet()) {
-        marked = "*";
+        marked = ">";
       }
       
-      cl.print(String.format("%-2d: %s%s\n", ++counter, marked, planet.getName()));
+      String planetName = planet.getName();
+      if (visibleShipParts) {
+        planetName = planet.getNameShowPart();
+      }
+      
+      cl.print(String.format("%-2d: %s%s\n", ++counter, marked, planetName));
     }
     
     cl.print("=====================================\n\n");

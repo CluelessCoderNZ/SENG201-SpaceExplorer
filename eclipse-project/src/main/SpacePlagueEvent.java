@@ -21,7 +21,9 @@ public class SpacePlagueEvent extends GameEvent {
       int index = (offset + i) % env.getCrewState().getCrew().size();
       CrewMember crewmember = env.getCrewState().getCrew().get(index);
       
-      if (!crewmember.hasEffect(CrewMemberEffect.PLAGUED) && crewmember.isDead()) {
+      if (!crewmember.hasEffect(CrewMemberEffect.PLAGUED) 
+          && crewmember.isDead() 
+          && !(crewmember instanceof Robot)) {
         event.target = crewmember;
         break;
       }

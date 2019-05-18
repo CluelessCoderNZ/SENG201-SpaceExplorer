@@ -15,6 +15,8 @@ public class GameEnvironment {
   private int maxDays;
   private Random randomGenerator = new Random();
   
+  private int currentScore = 0;
+  
   public void setEventManager(GameEventManager eventManager) {
     this.eventManager = eventManager;
   }
@@ -60,6 +62,7 @@ public class GameEnvironment {
   }
   
   public void setupGame(boolean cl) {
+    currentScore = 0;
     GameWorldGenerator.generateWorld(this);
     GameSetup setup = new GameSetup(this, cl);
   }
@@ -215,11 +218,39 @@ public class GameEnvironment {
     return active;
   }
   
+  public void addScore(int score) {
+    currentScore += score;
+  }
   
+  public int getScore() {
+    return currentScore;
+  }
   
+  /**
+   * Entry point for the game.
+   * @param args program arguments
+   */
   public static void main(String[] args) {
     GameEnvironment env = new GameEnvironment();
-    env.setupGame(false);
+    
+    // Parse Args
+    boolean clMode = false;
+    if (args.length > 1) {
+      if (args[0].equals("cl")) {
+        clMode = true;
+      }
+    }
+    
+    if (args.length > 2) {
+      try {
+        int seed = Integer.parseInt(args[1]);
+        env.getRandomGenerator().setSeed(seed);
+      } catch (NumberFormatException e) {
+        System.out.println("Error: Seed must be int");
+      }
+    }
+    
+    env.setupGame(clMode);
   }
 
 }
