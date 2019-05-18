@@ -12,6 +12,7 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.ListSelectionModel;
 import javax.swing.JScrollPane;
 import java.awt.event.ActionListener;
+import java.util.List;
 import java.awt.event.ActionEvent;
 import net.miginfocom.swing.MigLayout;
 
@@ -125,21 +126,46 @@ public class MainWindow {
     frame.getContentPane().add(btnViewShop, "cell 6 1,growx,aligny top");
     
     explore = new JButton("Explore");
+    explore.addActionListener(new ActionListener() {
+      public void actionPerformed(ActionEvent e) {
+        exploreButtonPressed();
+      }
+    });
     frame.getContentPane().add(explore, "cell 0 7,growx,aligny top");
     
     sleep = new JButton("Sleep");
+    sleep.addActionListener(new ActionListener() {
+      public void actionPerformed(ActionEvent e) {
+        sleepButtonPressed();
+      }
+    });
     frame.getContentPane().add(sleep, "cell 2 7,growx,aligny top");
     
     repair = new JButton("Repair");
+    repair.addActionListener(new ActionListener() {
+      public void actionPerformed(ActionEvent e) {
+        repairButtonPressed();
+      }
+    });
     frame.getContentPane().add(repair, "cell 0 8,growx,aligny top");
     
     JButton btnViewPlanets = new JButton("View Planets");
     frame.getContentPane().add(btnViewPlanets, "cell 0 9 3 1,alignx left,aligny top");
     
     JButton btnNextDay = new JButton("Next Day");
+    btnNextDay.addActionListener(new ActionListener() {
+      public void actionPerformed(ActionEvent e) {
+        nextDayButtonPressed();
+      }
+    });
     frame.getContentPane().add(btnNextDay, "cell 4 9,growx,aligny top");
     
     changePlanet = new JButton("Change Planet");
+    changePlanet.addActionListener(new ActionListener() {
+      public void actionPerformed(ActionEvent e) {
+        changePlanetButtonPressed();
+      }
+    });
     frame.getContentPane().add(changePlanet, "cell 2 8 3 1,alignx left,aligny top");
     
     useItem = new JButton("Use item");
@@ -196,5 +222,26 @@ public class MainWindow {
   
   private void visitOutpostButton() {
     env.openShop(this);
+  }
+  
+  private void exploreButtonPressed() {
+    CrewMember selectedCrewMember = crewList.getSelectedValue();
+  }
+  
+  private void sleepButtonPressed() {
+    CrewMember selectedCrewMember = crewList.getSelectedValue();
+  }
+  
+  private void repairButtonPressed() {
+    CrewMember selectedCrewMember = crewList.getSelectedValue();
+  }
+  
+  private void changePlanetButtonPressed() {
+    List<CrewMember> selectedCrewMembers = crewList.getSelectedValuesList();
+    Planet selectedPlanet = planetList.getSelectedValue();
+  }
+  
+  private void nextDayButtonPressed() {
+    
   }
 }

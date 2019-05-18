@@ -133,7 +133,6 @@ public class CrewMember extends Observable {
   
   public void changeHealth(int amount) {
     setHealth(getHealth() + amount);
-    notifyObservers();
   }
   
   /**
