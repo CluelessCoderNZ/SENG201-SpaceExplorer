@@ -11,4 +11,12 @@ public class Student extends CrewMember {
     return String.format("Has 3 AP but has low stats");
   }
 
+  @Override
+  public void setHealth(int health) {
+    super.setHealth(health);
+    
+    if (hasEffect(CrewMemberEffect.DEAD)) {
+      removeEffect(CrewMemberEffect.STRESSED);
+    }
+  }
 }
