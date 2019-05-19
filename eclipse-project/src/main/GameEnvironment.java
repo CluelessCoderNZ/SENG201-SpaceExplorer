@@ -91,6 +91,15 @@ public class GameEnvironment implements Observer {
   
   public void finishMainGame(MainWindow mainWindow) {
     mainWindow.closeWindow();
+    
+    if (crewState.getShipPartsFoundCount() >= getShipPartsNeededCount()) {
+      addScore(crewState.getLivingCrewCount() * 500);
+      addScore((maxDays - daysPassed) * 1000);
+      
+      displayWinScreen();
+    } else {
+      displayLoseScreen();
+    }
   }
   
   public void openShop(MainWindow mainWindow) {
@@ -223,7 +232,11 @@ public class GameEnvironment implements Observer {
     // Check there is still living crew members
     active = active && crewState.getLivingCrewCount() > 0;
     
+    // Check ship is not destroyed
     active = active && crewState.getShip().getShieldLevel() > 0;
+    
+    // Check ship parts have not been found.
+    active = active && crewState.getShipPartsFoundCount() < getShipPartsNeededCount();
     
     return active;
   }
@@ -234,6 +247,20 @@ public class GameEnvironment implements Observer {
   
   public int getScore() {
     return currentScore;
+  }
+  
+  private void displayWinScreen() {
+    new EventPopupWindow(String.format("You Won:\nYou managed to collect all %d parts.\n\n"
+                                       + "Score: %d",
+                                       getShipPartsNeededCount(),
+                                       getScore()));
+  }
+  
+  private void displayLoseScreen() {
+    new EventPopupWindow(String.format("GAME OVER:\nYou failed to collect all %d parts.\n\n"
+        + "Score: %d",
+        getShipPartsNeededCount(),
+        getScore()));
   }
   
   // Observes crew updates

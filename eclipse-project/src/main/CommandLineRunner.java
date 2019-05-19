@@ -211,7 +211,7 @@ public class CommandLineRunner {
       
       switch (selectedOption) {
         case 0:
-          // Check not empty
+          // Check not empty 
           if (env.getCrewState().getInventory().size() == 0) {
             cl.printError("Inventory is empty!");
             break;

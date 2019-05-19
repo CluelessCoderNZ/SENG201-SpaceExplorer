@@ -281,6 +281,9 @@ public class MainWindow {
     
     if (event != null) {
       new EventPopupWindow("While Exploring:\n" + event.getEventMessage());
+    } else {
+      new EventPopupWindow(String.format("%s found nothing on the barren planet.", 
+                                         selectedCrewMember.getName()));
     }
     
     updateGuiLists(env.getCrewState());
@@ -322,19 +325,31 @@ public class MainWindow {
     
     if (event != null) {
       new EventPopupWindow("While Traveling:\n" + event.getEventMessage());
+    } else {
+      new EventPopupWindow("You managed to safely travel to " + selectedPlanet.getName());
     }
     
     updateGuiLists(env.getCrewState());
   }
   
   private void nextDayButtonPressed() {
+    
+    if (!env.gameStillActive()) {
+      finishedMainGame();
+      return;
+    }
+    
     GameEvent event;
     event = env.moveForwardADay();
     
     if (event != null) {
       new EventPopupWindow("During The Night:\n" + event.getEventMessage());
+    } else {
+      new EventPopupWindow("The dawn of a new day shines upon you.", "Onwards!");
     }
     
     updateGuiLists(env.getCrewState());
   }
+  
+  
 }
