@@ -37,6 +37,7 @@ public class MainWindow {
   private JButton changePlanet;
   private JLabel funds;
   private JLabel shield;
+  private JLabel currentWeapon;
   private JLabel partsCollected;
 
   /**
@@ -81,8 +82,8 @@ public class MainWindow {
     shield = new JLabel("SHIELD: " + env.getCrewState().getShip().getShieldLevel());
     panel.add(shield, "cell 0 0,growx,aligny top");
     
-    JLabel lblCurrentWeapon = new JLabel("Current Weapon:");
-    panel.add(lblCurrentWeapon, "cell 0 1");
+    currentWeapon = new JLabel("Current Weapon:");
+    panel.add(currentWeapon, "cell 0 1");
     
     repair = new JButton("Repair Shields");
     panel.add(repair, "cell 0 2");
@@ -208,6 +209,9 @@ public class MainWindow {
     shield.setText(String.format("Shield: %d/%d", crewState.getShip().getShieldLevel(),
         crewState.getShip().getMaxShieldLevel()));
     partsCollected.setText("Parts collected: " + crewState.getShipPartsFoundCount());
+    currentWeapon.setText(String.format("Current weapon: %s (%d damage)",
+        crewState.getShip().getWeapon().getName(),
+        crewState.getShip().getWeapon().getDamage()));
   }
   
   /**
