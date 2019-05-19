@@ -42,9 +42,9 @@ public class Planet {
    */
   public String getNameShowPart() {
     if (hasShipPart()) {
-      return name + " *";
-    }else {
-      return name;
+      return getName() + " *";
+    } else {
+      return getName();
     }
     
   }
@@ -74,7 +74,7 @@ public class Planet {
   
   @Override
   public String toString() {
-    return name;
+    return getName();
   }
   
 }

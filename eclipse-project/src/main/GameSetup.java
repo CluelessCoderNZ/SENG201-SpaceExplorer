@@ -310,7 +310,7 @@ public class GameSetup {
    */
   private void scatterParts(int days) {
     List<Planet> planets = env.getPlanets();
-    for (int i = 0; i <= (days * 2) / 3 && i < planets.size(); i++) {
+    for (int i = 0; i < (days * 2) / 3 && i < planets.size(); i++) {
       env.getPlanets().get(i).setPart(new ShipPart());
     }
     Collections.shuffle(planets, env.getRandomGenerator());

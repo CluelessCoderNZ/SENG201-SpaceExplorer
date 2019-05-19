@@ -39,6 +39,7 @@ public class MainWindow {
   private JLabel shield;
   private JLabel currentWeapon;
   private JLabel partsCollected;
+  private JLabel currentPlanet;
 
   /**
    * Create the application.
@@ -122,10 +123,13 @@ public class MainWindow {
     
     JPanel observationDeck = new JPanel();
     tabbedPane.addTab("Observation Deck", null, observationDeck, null);
-    observationDeck.setLayout(new MigLayout("", "[grow][4px]", "[grow][][4px]"));
+    observationDeck.setLayout(new MigLayout("", "[grow][4px]", "[][grow][][4px]"));
+    
+    currentPlanet = new JLabel("Current planet: ");
+    observationDeck.add(currentPlanet, "cell 0 0");
     
     JScrollPane planetScroll = new JScrollPane();
-    observationDeck.add(planetScroll, "cell 0 0,grow");
+    observationDeck.add(planetScroll, "cell 0 1,grow");
     
     planetList = new JList<Planet>(planets);
     planetScroll.setViewportView(planetList);
@@ -135,9 +139,12 @@ public class MainWindow {
       }
     });
     planetList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+    if (env.getCrewState().hasScientist()) {
+      planetList.setCellRenderer(new CustomPlanetListCellRenderer());
+    }
     
     changePlanet = new JButton("Change Planet");
-    observationDeck.add(changePlanet, "cell 0 1");
+    observationDeck.add(changePlanet, "cell 0 2");
     changePlanet.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent e) {
         changePlanetButtonPressed();
@@ -217,6 +224,11 @@ public class MainWindow {
     currentWeapon.setText(String.format("Current weapon: %s (%d damage)",
         crewState.getShip().getWeapon().getName(),
         crewState.getShip().getWeapon().getDamage()));
+    if (crewState.hasScientist()) {
+      currentPlanet.setText("Current Planet: " + env.getCurrentPlanet().getNameShowPart());
+    } else {
+      currentPlanet.setText("Current Planet: " + env.getCurrentPlanet().getName());
+    }
   }
   
   /**
@@ -231,6 +243,10 @@ public class MainWindow {
     
     List<CrewMember> selectedCrew = crewList.getSelectedValuesList();
     Item selectedItem = inventoryList.getSelectedValue();
+    
+    if (selectedItem != null && !(selectedItem instanceof ConsumableItem)) {
+      useItem.setEnabled(true);
+    }
     
     if (selectedCrew.size() == 1 && selectedCrew.get(0).canAct()) {
       explore.setEnabled(true);
