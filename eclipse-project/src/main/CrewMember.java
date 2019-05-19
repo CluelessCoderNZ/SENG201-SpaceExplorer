@@ -330,6 +330,14 @@ public class CrewMember extends Observable {
     resetActions();
   }
   
+  public boolean canAct() {
+    return canAct(1);
+  }
+  
+  public boolean canAct(int actionPoints) {
+    return getActionPoints() >= actionPoints && !isDead();
+  }
+  
   /**
    * Returns in game text representation of crew member.
    * @return
