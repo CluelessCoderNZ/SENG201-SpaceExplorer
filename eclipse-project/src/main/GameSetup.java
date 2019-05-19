@@ -91,6 +91,7 @@ public class GameSetup {
   private void initializeWindow() {
     frame = new JFrame();
     frame.setBounds(100, 100, 735, 592);
+    frame.setLocationRelativeTo(null);
     frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     frame.getContentPane().setLayout(null);
     

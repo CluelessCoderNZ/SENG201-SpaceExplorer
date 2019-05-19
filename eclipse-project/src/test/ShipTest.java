@@ -49,10 +49,6 @@ class ShipTest {
     assertThrows(IllegalArgumentException.class, () -> {
       ship.decreaseMaxShield(-10);
     });
-    
-    assertThrows(IllegalArgumentException.class, () -> {
-      ship.decreaseMaxShield(100);
-    });
   }
 
 }

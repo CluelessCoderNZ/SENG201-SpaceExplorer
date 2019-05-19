@@ -31,6 +31,7 @@ public class EventPopupWindow {
   private void initialize(String message, String buttonText) {
     frame = new JFrame();
     frame.setBounds(100, 100, 294, 216);
+    frame.setLocationRelativeTo(null);
     frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     frame.getContentPane().setLayout(new MigLayout("", "[grow]", "[grow][23.00]"));
     

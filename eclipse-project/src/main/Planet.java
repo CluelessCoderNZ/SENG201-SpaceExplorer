@@ -9,6 +9,12 @@ public class Planet {
   private String name;
   
   
+  /**
+   * Default constructor for Planet.
+   * @param name planet name
+   * @param shop the shop on the planet
+   * @param lootTable used as the list of items which can be found on the planet.
+   */
   public Planet(String name, Shop shop, WeightedArrayList<Item> lootTable) {
     this.name = name;
     this.shop = shop;

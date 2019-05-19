@@ -23,7 +23,7 @@ class CrewMemberTest {
     assertEquals(crew1.getRestedness(), crew1.getMaxRestedness());
     assertEquals(crew1.getActionPoints(), crew1.getMaxActionPoints());
     
-    CrewMember crew2 = new CrewMember("Mrs.Test", "Accountant", 120, -100, 0, 3);
+    CrewMember crew2 = new CrewMember("Mrs.Test", "Accountant", 120, 00, 0, 3);
     
     assertEquals(crew2.getHealth(), 120);
     assertEquals(crew2.getFullness(), 0);

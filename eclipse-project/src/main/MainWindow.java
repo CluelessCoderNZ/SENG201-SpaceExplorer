@@ -61,6 +61,7 @@ public class MainWindow {
   private void initialize() {
     frame = new JFrame();
     frame.setBounds(100, 100, 704, 601);
+    frame.setLocationRelativeTo(null);
     frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     frame.getContentPane().setLayout(new MigLayout("", "[257.00px][160px,grow]",
         "[16px][29px][16px][149.00px,grow][36.00px][38.00][32.00px]"));

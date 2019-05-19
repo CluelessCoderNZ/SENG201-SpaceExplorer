@@ -5,6 +5,7 @@ import main.Shop;
 import main.ShipPart;
 import main.Item;
 import main.Planet;
+import main.WeightedArrayList;
 import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.BeforeAll;
@@ -26,7 +27,7 @@ class PlanetTest {
 
   @Test
   void testShop() {
-    Planet planet = new Planet("Earth", shop);
+    Planet planet = new Planet("Earth", shop, new WeightedArrayList<Item>());
     assertEquals(shop, planet.getShop());
   }
   
@@ -34,7 +35,7 @@ class PlanetTest {
   @Test
   void testPart() {
     ShipPart part = new ShipPart();
-    Planet planet = new Planet("Mars", shop);
+    Planet planet = new Planet("Mars", shop, new WeightedArrayList<Item>());
     assertFalse(planet.hasShipPart());
     
     assertEquals(null, planet.removeShipPart());

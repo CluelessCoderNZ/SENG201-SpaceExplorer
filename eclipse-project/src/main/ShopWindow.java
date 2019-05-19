@@ -59,6 +59,7 @@ public class ShopWindow {
   private void initialize() {
     frame = new JFrame();
     frame.setBounds(100, 100, 358, 441);
+    frame.setLocationRelativeTo(null);
     frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
     frame.getContentPane().setLayout(new MigLayout("", "[49.72%,grow]",
         "[16px][grow][][][18.00,grow][-2.00][][30.00][][grow][]"));

@@ -25,6 +25,12 @@ public class Item {
     this.description = description;
   }
   
+  /**
+   * Constructor of Item.
+   * @param name item name
+   * @param value item value
+   * @param description item description
+   */
   public Item(String name, int value, String description) {
     this.name = name;
     setValue(value);
@@ -71,6 +77,7 @@ public class Item {
   
   /**
    * Returns a short string of the effects of the item.
+   * Used in short displays of what the item does.
    * @return
    */
   public String getEffectsString() {
