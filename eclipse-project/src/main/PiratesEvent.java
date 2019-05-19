@@ -21,6 +21,16 @@ public class PiratesEvent extends GameEvent {
   @Override
   public void applyEvent(GameEnvironment env) {
     env.getCrewState().removeItemFromInventory(targetItem);
+    
+    // If they steal a ship part redistribute to another planet.
+    if (targetItem instanceof ShipPart) {
+      for (Planet planet : env.getPlanets()) {
+        if (!planet.hasShipPart()) {
+          planet.setPart((ShipPart)targetItem);
+          break;
+        }
+      }
+    }
   }
   
   @Override
