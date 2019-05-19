@@ -242,6 +242,7 @@ public class GameEnvironment implements Observer {
       if (event.wasAdded()) {
         switch (event.getEffect()) {
           case PLAGUED:
+            break;
           case DEAD:
             new EventPopupWindow(String.format("%s is now %s", 
                                                crewMember.getName(),
