@@ -208,7 +208,7 @@ public class GameSetup {
         updateCrewTypeDescription(txtpnClassDescription, comboBox.getSelectedItem().toString());
       }
     });
-    comboBox.setModel(new DefaultComboBoxModel<String>(new String[] {"Investor", "Medic"}));
+    comboBox.setModel(new DefaultComboBoxModel<String>(new String[] {"Investor", "Medic", "Engineer", "Student", "Scientist", "Robot"}));
     comboBox.setBounds(390, 178, 118, 27);
     frame.getContentPane().add(comboBox);
     updateCrewTypeDescription(txtpnClassDescription, comboBox.getSelectedItem().toString());
@@ -239,12 +239,27 @@ public class GameSetup {
   
   
   private void updateCrewTypeDescription(JTextPane description, String typeString) {
-    if (typeString.equals("Investor")) {
-      description.setText(typeString + ": " + Investor.getClassDescription());
-    } else if (typeString.equals("Medic")) {
-      description.setText(typeString + ": " + Medic.getClassDescription());
-    } else {
-      description.setText("This class has no description!");
+    switch (typeString) {
+      case "Investor":
+        description.setText(typeString + ": " + Investor.getClassDescription());
+        break;
+      case "Medic":
+        description.setText(typeString + ": " + Medic.getClassDescription());
+        break;
+      case "Engineer":
+        description.setText(typeString + ": " + Engineer.getClassDescription());
+        break;
+      case "Student":
+        description.setText(typeString + ": " + Student.getClassDescription());
+        break;
+      case "Scientist":
+        description.setText(typeString + ": " + Scientist.getClassDescription());
+        break;
+      case "Robot":
+        description.setText(typeString + ": " + Robot.getClassDescription());
+        break;
+      default:
+        description.setText("This class has no description!");
     }
   }
   

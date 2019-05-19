@@ -298,6 +298,7 @@ public class CrewMember extends Observable {
   public void addEffect(CrewMemberEffect effect) {
     if (!hasEffect(effect)) {
       activeEffects.add(effect);
+      setChanged();
       notifyObservers(new CrewEffectChangeObserverEvent(true, effect));
     }
   }
@@ -307,9 +308,10 @@ public class CrewMember extends Observable {
    * @param effect the active effect to remove
    */
   public void removeEffect(CrewMemberEffect effect) {
-    if (!hasEffect(effect)) {
+    if (hasEffect(effect)) {
       activeEffects.remove(effect);
-      notifyObservers(new CrewEffectChangeObserverEvent(true, effect));
+      setChanged();
+      notifyObservers(new CrewEffectChangeObserverEvent(false, effect));
     }
   }
   

@@ -226,22 +226,57 @@ public class MainWindow {
   
   private void exploreButtonPressed() {
     CrewMember selectedCrewMember = crewList.getSelectedValue();
+    
+    GameEvent event;
+    event = env.explorePlanet(selectedCrewMember);
+    
+    if (event != null) {
+      new EventPopupWindow("While Exploring:\n" + event.getEventMessage());
+    }
+    
+    updateGuiLists(env.getCrewState());
   }
   
   private void sleepButtonPressed() {
     CrewMember selectedCrewMember = crewList.getSelectedValue();
+    
+    selectedCrewMember.sleep();
+    
+    updateGuiLists(env.getCrewState());
   }
   
   private void repairButtonPressed() {
     CrewMember selectedCrewMember = crewList.getSelectedValue();
+    
+    selectedCrewMember.repairShip(env.getCrewState().getShip());
+    
+    updateGuiLists(env.getCrewState());
   }
   
   private void changePlanetButtonPressed() {
     List<CrewMember> selectedCrewMembers = crewList.getSelectedValuesList();
     Planet selectedPlanet = planetList.getSelectedValue();
+    
+    GameEvent event;
+    event = env.travelToPlanet(selectedCrewMembers.get(0), 
+                               selectedCrewMembers.get(1),
+                               selectedPlanet);
+    
+    if (event != null) {
+      new EventPopupWindow("While Traveling:\n" + event.getEventMessage());
+    }
+    
+    updateGuiLists(env.getCrewState());
   }
   
   private void nextDayButtonPressed() {
+    GameEvent event;
+    event = env.moveForwardADay();
     
+    if (event != null) {
+      new EventPopupWindow("During The Night:\n" + event.getEventMessage());
+    }
+    
+    updateGuiLists(env.getCrewState());
   }
 }

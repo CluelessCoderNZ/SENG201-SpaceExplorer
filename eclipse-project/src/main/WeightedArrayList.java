@@ -51,6 +51,29 @@ public class WeightedArrayList<T> {
     weightSum += weight;
   }
   
+  /**
+   * Removes an item from the list.
+   * @param item item to remove.
+   */
+  public void removeItem(T item) {
+    
+    // Find WeightedItem in list using item as key
+    WeightedItem<T> foundItem = null;
+    for (WeightedItem<T> arrayItem : itemList) {
+      if (arrayItem.getItem() == item) {
+        foundItem = arrayItem;
+        break;
+      }
+    }
+    
+    // Remove WeightedItem if found in list
+    if (foundItem != null) {
+      weightSum -= foundItem.getWeight();
+      itemList.remove(foundItem);
+    }
+    
+  }
+  
   
   /**
    * Returns a random item using item weights.
