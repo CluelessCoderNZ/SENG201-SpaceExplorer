@@ -89,6 +89,10 @@ public class GameEnvironment implements Observer {
     MainWindow mainGame = new MainWindow(this);
   }
   
+  public void finishMainGame(MainWindow mainWindow) {
+    mainWindow.closeWindow();
+  }
+  
   public void openShop(MainWindow mainWindow) {
     mainWindow.closeWindow();
     ShopWindow shop = new ShopWindow(this);

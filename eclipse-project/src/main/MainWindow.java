@@ -52,6 +52,10 @@ public class MainWindow {
     frame.setVisible(true);
   }
   
+  private void finishedMainGame() {
+    env.finishMainGame(this);
+  }
+  
   public void closeWindow() {
     frame.dispose();
   }
@@ -258,7 +262,8 @@ public class MainWindow {
     } else if (selectedCrew.size() == 2
         && selectedCrew.get(0).canAct()
         && selectedCrew.get(1).canAct()) {
-      if (planetList.getSelectedIndex() != -1) {
+      if (planetList.getSelectedIndex() != -1
+          && planetList.getSelectedValue() != env.getCurrentPlanet()) {
         changePlanet.setEnabled(true);
       }
     }
