@@ -15,6 +15,8 @@ import java.awt.event.ActionListener;
 import java.util.List;
 import java.awt.event.ActionEvent;
 import net.miginfocom.swing.MigLayout;
+import javax.swing.JTabbedPane;
+import javax.swing.JPanel;
 
 public class MainWindow {
 
@@ -33,10 +35,9 @@ public class MainWindow {
   private JButton repair;
   private JButton useItem;
   private JButton changePlanet;
-  private JScrollPane planetScroll;
-  
-  private boolean showPlanetList = false;
-  
+  private JLabel funds;
+  private JLabel shield;
+  private JLabel partsCollected;
 
   /**
    * Create the application.
@@ -60,52 +61,45 @@ public class MainWindow {
     frame = new JFrame();
     frame.setBounds(100, 100, 704, 601);
     frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    frame.getContentPane().setLayout(new MigLayout("", "[140px][15px][117px][12px][117px][17px][160px]", "[16px][29px][16px][80px][16px][3px][24px][29px][29px][29px][100px]"));
-    
-    JLabel lblShipName = new JLabel("SHIP: " + env.getCrewState().getShip().getName());
-    frame.getContentPane().add(lblShipName, "cell 0 0 3 1,alignx left,aligny top");
-    
-    JLabel lblFunds = new JLabel("Funds: 0");
-    frame.getContentPane().add(lblFunds, "cell 0 4 3 1,growx,aligny top");
+    frame.getContentPane().setLayout(new MigLayout("", "[257.00px][160px,grow]",
+        "[16px][29px][16px][149.00px,grow][36.00px][38.00][32.00px]"));
     
     JLabel lblCrew = new JLabel("Crew:");
     frame.getContentPane().add(lblCrew, "cell 0 2,alignx center,aligny top");
     
-    JLabel lblPartsCollected = new JLabel("Parts collected: 0");
-    frame.getContentPane().add(lblPartsCollected, "cell 0 6 3 1,alignx center,aligny top");
+    JLabel lblShipName = new JLabel("Ship: " + env.getCrewState().getShip().getName());
+    frame.getContentPane().add(lblShipName, "cell 1 2,alignx center,aligny top");
     
-    JLabel lblShield = new JLabel("SHIELD: " + env.getCrewState().getShip().getShieldLevel());
-    frame.getContentPane().add(lblShield, "cell 0 1 3 1,growx,aligny center");
+    JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
+    frame.getContentPane().add(tabbedPane, "cell 1 3 1 3,grow");
     
-    JLabel lblInventory = new JLabel("Inventory:");
-    frame.getContentPane().add(lblInventory, "cell 4 2,alignx left,aligny top");
+    JPanel panel = new JPanel();
+    tabbedPane.addTab("Combat Room", null, panel, null);
+    panel.setLayout(new MigLayout("", "[grow]", "[][][]"));
     
+    shield = new JLabel("SHIELD: " + env.getCrewState().getShip().getShieldLevel());
+    panel.add(shield, "cell 0 0,growx,aligny top");
     
-    planetScroll = new JScrollPane();
-    frame.getContentPane().add(planetScroll, "cell 0 10 3 1,alignx right,growy");
+    JLabel lblCurrentWeapon = new JLabel("Current Weapon:");
+    panel.add(lblCurrentWeapon, "cell 0 1");
     
-    planetList = new JList<Planet>(planets);
-    planetList.addListSelectionListener(new ListSelectionListener() {
-      public void valueChanged(ListSelectionEvent e) {
-        updateButtons();
+    repair = new JButton("Repair Shields");
+    panel.add(repair, "cell 0 2");
+    repair.addActionListener(new ActionListener() {
+      public void actionPerformed(ActionEvent e) {
+        repairButtonPressed();
       }
     });
-    planetList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-    planetScroll.setViewportView(planetList);
     
-    JScrollPane crewScroll = new JScrollPane();
-    frame.getContentPane().add(crewScroll, "cell 0 3 3 1,alignx right,growy");
+    JPanel cargoHold = new JPanel();
+    tabbedPane.addTab("Cargo Hold", null, cargoHold, null);
+    cargoHold.setLayout(new MigLayout("", "[grow][4px]", "[][grow][][][4px]"));
     
-    crewList = new JList<CrewMember>(crew);
-    crewScroll.setViewportView(crewList);
-    crewList.addListSelectionListener(new ListSelectionListener() {
-      public void valueChanged(ListSelectionEvent e) {
-        updateButtons();
-      }
-    });
+    partsCollected = new JLabel("Parts collected: 0");
+    cargoHold.add(partsCollected, "cell 0 0");
     
     JScrollPane inventoryScroll = new JScrollPane();
-    frame.getContentPane().add(inventoryScroll, "cell 4 3 3 1,grow");
+    cargoHold.add(inventoryScroll, "cell 0 1,grow");
     
     inventoryList = new JList<Item>(inventory);
     inventoryScroll.setViewportView(inventoryList);
@@ -116,6 +110,44 @@ public class MainWindow {
     });
     inventoryList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
     
+    useItem = new JButton("Use item");
+    cargoHold.add(useItem, "flowy,cell 0 2");
+    
+    JPanel observationDeck = new JPanel();
+    tabbedPane.addTab("Observation Deck", null, observationDeck, null);
+    observationDeck.setLayout(new MigLayout("", "[grow][4px]", "[grow][][4px]"));
+    
+    JScrollPane planetScroll = new JScrollPane();
+    observationDeck.add(planetScroll, "cell 0 0,grow");
+    
+    planetList = new JList<Planet>(planets);
+    planetScroll.setViewportView(planetList);
+    planetList.addListSelectionListener(new ListSelectionListener() {
+      public void valueChanged(ListSelectionEvent e) {
+        updateButtons();
+      }
+    });
+    planetList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+    
+    changePlanet = new JButton("Change Planet");
+    observationDeck.add(changePlanet, "cell 0 1");
+    changePlanet.addActionListener(new ActionListener() {
+      public void actionPerformed(ActionEvent e) {
+        changePlanetButtonPressed();
+      }
+    });
+    
+    JScrollPane crewScroll = new JScrollPane();
+    frame.getContentPane().add(crewScroll, "cell 0 3,alignx right,growy");
+    
+    crewList = new JList<CrewMember>(crew);
+    crewScroll.setViewportView(crewList);
+    crewList.addListSelectionListener(new ListSelectionListener() {
+      public void valueChanged(ListSelectionEvent e) {
+        updateButtons();
+      }
+    });
+    
     
     JButton btnViewShop = new JButton("Visit Outpost");
     btnViewShop.addActionListener(new ActionListener() {
@@ -123,7 +155,10 @@ public class MainWindow {
         visitOutpostButton();
       }
     });
-    frame.getContentPane().add(btnViewShop, "cell 6 1,growx,aligny top");
+    
+    funds = new JLabel("Funds: 0");
+    frame.getContentPane().add(funds, "flowx,cell 1 1,alignx right,aligny center");
+    frame.getContentPane().add(btnViewShop, "cell 1 1,alignx right,aligny center");
     
     explore = new JButton("Explore");
     explore.addActionListener(new ActionListener() {
@@ -131,7 +166,7 @@ public class MainWindow {
         exploreButtonPressed();
       }
     });
-    frame.getContentPane().add(explore, "cell 0 7,growx,aligny top");
+    frame.getContentPane().add(explore, "cell 0 4,growx,aligny top");
     
     sleep = new JButton("Sleep");
     sleep.addActionListener(new ActionListener() {
@@ -139,18 +174,7 @@ public class MainWindow {
         sleepButtonPressed();
       }
     });
-    frame.getContentPane().add(sleep, "cell 2 7,growx,aligny top");
-    
-    repair = new JButton("Repair");
-    repair.addActionListener(new ActionListener() {
-      public void actionPerformed(ActionEvent e) {
-        repairButtonPressed();
-      }
-    });
-    frame.getContentPane().add(repair, "cell 0 8,growx,aligny top");
-    
-    JButton btnViewPlanets = new JButton("View Planets");
-    frame.getContentPane().add(btnViewPlanets, "cell 0 9 3 1,alignx left,aligny top");
+    frame.getContentPane().add(sleep, "cell 0 5,growx,aligny top");
     
     JButton btnNextDay = new JButton("Next Day");
     btnNextDay.addActionListener(new ActionListener() {
@@ -158,18 +182,7 @@ public class MainWindow {
         nextDayButtonPressed();
       }
     });
-    frame.getContentPane().add(btnNextDay, "cell 4 9,growx,aligny top");
-    
-    changePlanet = new JButton("Change Planet");
-    changePlanet.addActionListener(new ActionListener() {
-      public void actionPerformed(ActionEvent e) {
-        changePlanetButtonPressed();
-      }
-    });
-    frame.getContentPane().add(changePlanet, "cell 2 8 3 1,alignx left,aligny top");
-    
-    useItem = new JButton("Use item");
-    frame.getContentPane().add(useItem, "cell 4 4 1 3,growx,aligny bottom");
+    frame.getContentPane().add(btnNextDay, "cell 1 6,alignx right,growy");
   }
   
   /**
@@ -189,6 +202,11 @@ public class MainWindow {
     for (Planet planet : env.getPlanets()) {
       planets.addElement(planet);
     }
+    
+    funds.setText("Funds: $" + crewState.getFunds());
+    shield.setText(String.format("Shield: %d/%d", crewState.getShip().getShieldLevel(),
+        crewState.getShip().getMaxShieldLevel()));
+    partsCollected.setText("Parts collected: " + crewState.getShipPartsFoundCount());
   }
   
   /**
@@ -200,7 +218,6 @@ public class MainWindow {
     repair.setEnabled(false);
     useItem.setEnabled(false);
     changePlanet.setEnabled(false);
-    planetScroll.setVisible(showPlanetList);
     
     int[] selectedCrew = crewList.getSelectedIndices();
     int selectedItem = inventoryList.getSelectedIndex();
@@ -213,7 +230,6 @@ public class MainWindow {
         useItem.setEnabled(true);
       }
     } else if (selectedCrew.length == 2) {
-      planetScroll.setVisible(true);
       if (planetList.getSelectedIndex() != -1) {
         changePlanet.setEnabled(true);
       }
