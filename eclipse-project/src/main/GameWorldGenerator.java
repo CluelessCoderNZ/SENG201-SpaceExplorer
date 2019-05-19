@@ -98,6 +98,9 @@ public class GameWorldGenerator {
     planetNames.addItem("Corolina",             100);
     planetNames.addItem("Alpha Centari Prime",  100);
     planetNames.addItem("Oregon",               100);
+    planetNames.addItem("Mars",                 100);
+    planetNames.addItem("Titan",                100);
+    planetNames.addItem("Magrathea",            100);
     
     
     // Generate Planets
@@ -118,6 +121,8 @@ public class GameWorldGenerator {
       
       // Create Planet
       String planetName = planetNames.getRandomItem(env.getRandomGenerator());
+      planetNames.removeItem(planetName);
+      
       Planet planet = new Planet(planetName, shop, lootTable);
       
       // Add Planet

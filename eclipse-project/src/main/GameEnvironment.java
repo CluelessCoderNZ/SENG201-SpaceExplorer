@@ -5,7 +5,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
-public class GameEnvironment implements Observer{
+public class GameEnvironment implements Observer {
   
   private GameEventManager eventManager;
   private Planet currentPlanet;
@@ -240,19 +240,26 @@ public class GameEnvironment implements Observer{
       CrewMember crewMember = (CrewMember)o;
       
       if (event.wasAdded()) {
-        switch(event.getEffect()) {
+        switch (event.getEffect()) {
           case PLAGUED:
           case DEAD:
-            new EventPopupWindow(String.format("%s is now %s", crewMember.getName(), event.getEffect().name()), "This is unfortunate.");
+            new EventPopupWindow(String.format("%s is now %s", 
+                                               crewMember.getName(),
+                                               event.getEffect().name()), 
+                                               "This is unfortunate.");
             break;
           default:
-            new EventPopupWindow(String.format("%s is now %s", crewMember.getName(), event.getEffect().name()));
+            new EventPopupWindow(String.format("%s is now %s", 
+                                               crewMember.getName(), 
+                                               event.getEffect().name()));
         }
         
       }
       
       if (event.wasRemoved()) {
-        new EventPopupWindow(String.format("%s is no longer %s", crewMember.getName(), event.getEffect().name()));
+        new EventPopupWindow(String.format("%s is no longer %s", 
+                                           crewMember.getName(), 
+                                           event.getEffect().name()));
       }
     }
   }
@@ -264,7 +271,7 @@ public class GameEnvironment implements Observer{
   public static void main(String[] args) {
     GameEnvironment env = new GameEnvironment();
     
-    // Parse Args
+    // Parse args
     boolean clMode = false;
     if (args.length > 0) {
       if (args[0].equals("cl")) {
