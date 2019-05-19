@@ -17,6 +17,7 @@ import java.awt.event.ActionEvent;
 import net.miginfocom.swing.MigLayout;
 import javax.swing.JTabbedPane;
 import javax.swing.JPanel;
+import javax.swing.JTextPane;
 
 public class MainWindow {
 
@@ -40,6 +41,8 @@ public class MainWindow {
   private JLabel currentWeapon;
   private JLabel partsCollected;
   private JLabel currentPlanet;
+  private JTextPane selectedCrewStats;
+  private JScrollPane scrollPane;
 
   /**
    * Create the application.
@@ -47,8 +50,9 @@ public class MainWindow {
   public MainWindow(GameEnvironment env) {
     this.env = env;
     initialize();
-    updateGuiLists(env.getCrewState());
+    updateGuiInfo(env.getCrewState());
     updateButtons();
+    updateCrewStatsMessage();
     frame.setVisible(true);
   }
   
@@ -68,17 +72,16 @@ public class MainWindow {
     frame.setBounds(100, 100, 704, 601);
     frame.setLocationRelativeTo(null);
     frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    frame.getContentPane().setLayout(new MigLayout("", "[257.00px][160px,grow]",
-        "[16px][29px][16px][149.00px,grow][36.00px][38.00][32.00px]"));
+    frame.getContentPane().setLayout(new MigLayout("", "[304.00px][160px,grow]", "[29px][16px][249.00px,grow][109.00][36.00px][38.00][32.00px]"));
     
     JLabel lblCrew = new JLabel("Crew:");
-    frame.getContentPane().add(lblCrew, "cell 0 2,alignx center,aligny top");
+    frame.getContentPane().add(lblCrew, "cell 0 1,alignx center,aligny top");
     
     JLabel lblShipName = new JLabel("Ship: " + env.getCrewState().getShip().getName());
-    frame.getContentPane().add(lblShipName, "cell 1 2,alignx center,aligny top");
+    frame.getContentPane().add(lblShipName, "cell 1 1,alignx center,aligny top");
     
     JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
-    frame.getContentPane().add(tabbedPane, "cell 1 3 1 3,grow");
+    frame.getContentPane().add(tabbedPane, "cell 1 2 1 4,grow");
     
     JPanel panel = new JPanel();
     tabbedPane.addTab("Combat Room", null, panel, null);
@@ -156,13 +159,14 @@ public class MainWindow {
     });
     
     JScrollPane crewScroll = new JScrollPane();
-    frame.getContentPane().add(crewScroll, "cell 0 3,alignx right,growy");
+    frame.getContentPane().add(crewScroll, "cell 0 2,grow");
     
     crewList = new JList<CrewMember>(crew);
     crewScroll.setViewportView(crewList);
     crewList.addListSelectionListener(new ListSelectionListener() {
       public void valueChanged(ListSelectionEvent e) {
         updateButtons();
+        updateCrewStatsMessage();
       }
     });
     
@@ -175,8 +179,8 @@ public class MainWindow {
     });
     
     funds = new JLabel("Funds: 0");
-    frame.getContentPane().add(funds, "flowx,cell 1 1,alignx right,aligny center");
-    frame.getContentPane().add(btnViewShop, "cell 1 1,alignx right,aligny center");
+    frame.getContentPane().add(funds, "flowx,cell 1 0,alignx right,aligny center");
+    frame.getContentPane().add(btnViewShop, "cell 1 0,alignx right,aligny center");
     
     explore = new JButton("Explore");
     explore.addActionListener(new ActionListener() {
@@ -184,6 +188,14 @@ public class MainWindow {
         exploreButtonPressed();
       }
     });
+    
+    scrollPane = new JScrollPane();
+    frame.getContentPane().add(scrollPane, "cell 0 3,grow");
+    
+    selectedCrewStats = new JTextPane();
+    scrollPane.setViewportView(selectedCrewStats);
+    selectedCrewStats.setEditable(false);
+    selectedCrewStats.setText("Selected Crew Descriptions");
     frame.getContentPane().add(explore, "cell 0 4,growx,aligny top");
     
     sleep = new JButton("Sleep");
@@ -207,7 +219,7 @@ public class MainWindow {
    * updates the GUI contents to match the game state.
    * @param crewState the crew state containing the crew and item lists
    */
-  public void updateGuiLists(CrewState crewState) {
+  private void updateGuiInfo(CrewState crewState) {
     crew.clear();
     for (CrewMember member : crewState.getCrew()) {
       crew.addElement(member);
@@ -269,6 +281,15 @@ public class MainWindow {
     }
   }
   
+  private void updateCrewStatsMessage() {
+    String crewStatusString = "";
+    for (CrewMember crewMember : crewList.getSelectedValuesList()) {
+      crewStatusString += crewMember.getStatus() + "\n\n";
+    }
+    selectedCrewStats.setText(crewStatusString);
+    selectedCrewStats.setCaretPosition(0);
+  }
+  
   private void visitOutpostButton() {
     env.openShop(this);
   }
@@ -283,7 +304,7 @@ public class MainWindow {
       new EventPopupWindow("While Exploring:\n" + event.getEventMessage());
     }
     
-    updateGuiLists(env.getCrewState());
+    updateGuiInfo(env.getCrewState());
   }
   
   private void sleepButtonPressed() {
@@ -291,7 +312,7 @@ public class MainWindow {
     
     selectedCrewMember.sleep();
     
-    updateGuiLists(env.getCrewState());
+    updateGuiInfo(env.getCrewState());
   }
   
   private void repairButtonPressed() {
@@ -299,7 +320,7 @@ public class MainWindow {
     
     selectedCrewMember.repairShip(env.getCrewState().getShip());
     
-    updateGuiLists(env.getCrewState());
+    updateGuiInfo(env.getCrewState());
   }
   
   private void useItemButtonPressed() {
@@ -308,7 +329,7 @@ public class MainWindow {
     
     // TODO code here
     
-    updateGuiLists(env.getCrewState());
+    updateGuiInfo(env.getCrewState());
   }
   
   private void changePlanetButtonPressed() {
@@ -324,7 +345,7 @@ public class MainWindow {
       new EventPopupWindow("While Traveling:\n" + event.getEventMessage());
     }
     
-    updateGuiLists(env.getCrewState());
+    updateGuiInfo(env.getCrewState());
   }
   
   private void nextDayButtonPressed() {
@@ -335,6 +356,6 @@ public class MainWindow {
       new EventPopupWindow("During The Night:\n" + event.getEventMessage());
     }
     
-    updateGuiLists(env.getCrewState());
+    updateGuiInfo(env.getCrewState());
   }
 }
