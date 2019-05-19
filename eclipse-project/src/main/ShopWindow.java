@@ -30,10 +30,12 @@ public class ShopWindow {
   private DefaultListModel<Item> shopInventory = new DefaultListModel<Item>();
   private DefaultListModel<Item> playerInventory = new DefaultListModel<Item>();
   private JList<Item> shopInventoryList;
+  private JList<Item> playerInventoryList;
   private JLabel itemStats;
   private JLabel playerFunds;
   private JTextPane shopItemDescription;
   private JButton btnBuyItem;
+  private JButton btnSellItem;
 
   /**
    * Create the application.
@@ -85,6 +87,16 @@ public class ShopWindow {
     shopInventoryList.setSelectedIndex(0);
     shopInventoryScroll.setViewportView(shopInventoryList);
     
+    playerInventoryList = new JList<Item>(playerInventory);
+    playerInventoryList.addListSelectionListener(new ListSelectionListener() {
+      public void valueChanged(ListSelectionEvent e) {
+        updatePlayerItemDisplay(playerInventoryList.getSelectedValue());
+      }
+    });
+    playerInventoryList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+    
+    
+    
     btnBuyItem = new JButton("Buy");
     btnBuyItem.setEnabled(false);
     btnBuyItem.addActionListener(new ActionListener() {
@@ -93,6 +105,15 @@ public class ShopWindow {
       }
     });
     frame.getContentPane().add(btnBuyItem, "cell 0 2,alignx left,aligny center");
+    
+    btnSellItem = new JButton("Sell");
+    btnSellItem.setEnabled(false);
+    btnSellItem.addActionListener(new ActionListener() {
+      public void actionPerformed(ActionEvent e) {
+        sellSelectedItem();
+      }
+    });
+    frame.getContentPane().add(btnSellItem, "cell 0 10,alignx left,aligny center");
     
     shopItemDescription = new JTextPane();
     shopItemDescription.setEditable(false);
@@ -108,7 +129,7 @@ public class ShopWindow {
         finishedShop();
       }
     });
-    frame.getContentPane().add(btnLeaveShop, "cell 0 6 1 2,alignx left,aligny bottom");
+    frame.getContentPane().add(btnLeaveShop, "cell 0 10 1 2,alignx right,aligny bottom");
     
     playerFunds = new JLabel("Player funds: 0");
     frame.getContentPane().add(playerFunds, "cell 0 8");
@@ -121,7 +142,6 @@ public class ShopWindow {
     lblPlayerInventory.setFont(new Font("Lucida Grande", Font.PLAIN, 16));
     lblPlayerInventory.setForeground(Color.GRAY);
     
-    JList<Item> playerInventoryList = new JList<Item>(playerInventory);
     playerInventoryScroll.setViewportView(playerInventoryList);
   }
   
@@ -163,6 +183,15 @@ public class ShopWindow {
     }
   }
   
+  private void updatePlayerItemDisplay(Item item) {
+    btnSellItem.setEnabled(false);
+    btnSellItem.setText("Sell");
+    if (item != null) {
+      btnSellItem.setEnabled(true);
+      btnSellItem.setText("Sell ($" + this.env.getCurrentPlanet().getShop().getBuyPrice(item) + ")");
+    }
+  }
+  
   
   private void buySelectedItem() {
     Item item = shopInventoryList.getSelectedValue();
@@ -171,5 +200,11 @@ public class ShopWindow {
     env.getCrewState().removeFunds(price);
     updateGuiData();
   }
-
+  
+  private void sellSelectedItem() {
+    Item item = playerInventoryList.getSelectedValue();
+    env.getCrewState().addFunds(this.env.getCurrentPlanet().getShop().buyItem(item));
+    env.getCrewState().removeItemFromInventory(item);
+    updateGuiData();
+  }
 }
