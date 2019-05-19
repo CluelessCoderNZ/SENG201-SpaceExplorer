@@ -113,6 +113,11 @@ public class MainWindow {
     inventoryList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
     
     useItem = new JButton("Use item");
+    useItem.addActionListener(new ActionListener() {
+      public void actionPerformed(ActionEvent e) {
+        useItemButtonPressed();
+      }
+    });
     cargoHold.add(useItem, "flowy,cell 0 2");
     
     JPanel observationDeck = new JPanel();
@@ -224,17 +229,19 @@ public class MainWindow {
     useItem.setEnabled(false);
     changePlanet.setEnabled(false);
     
-    int[] selectedCrew = crewList.getSelectedIndices();
-    int selectedItem = inventoryList.getSelectedIndex();
+    List<CrewMember> selectedCrew = crewList.getSelectedValuesList();
+    Item selectedItem = inventoryList.getSelectedValue();
     
-    if (selectedCrew.length == 1) {
+    if (selectedCrew.size() == 1 && selectedCrew.get(0).canAct()) {
       explore.setEnabled(true);
       sleep.setEnabled(true);
       repair.setEnabled(true);
-      if (selectedItem != -1) {
+      if (selectedItem != null) {
         useItem.setEnabled(true);
       }
-    } else if (selectedCrew.length == 2) {
+    } else if (selectedCrew.size() == 2
+        && selectedCrew.get(0).canAct()
+        && selectedCrew.get(1).canAct()) {
       if (planetList.getSelectedIndex() != -1) {
         changePlanet.setEnabled(true);
       }
@@ -270,6 +277,15 @@ public class MainWindow {
     CrewMember selectedCrewMember = crewList.getSelectedValue();
     
     selectedCrewMember.repairShip(env.getCrewState().getShip());
+    
+    updateGuiLists(env.getCrewState());
+  }
+  
+  private void useItemButtonPressed() {
+    CrewMember selectedCrewMember = crewList.getSelectedValue();
+    Item selectedItem = inventoryList.getSelectedValue();
+    
+    // TODO code here
     
     updateGuiLists(env.getCrewState());
   }
