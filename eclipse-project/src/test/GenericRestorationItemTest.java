@@ -81,7 +81,7 @@ class GenericRestorationItemTest {
   @Test
   void testToString() {
     Item item = new GenericRestorationItem("Crystal Meth", 50, 20, -20);
-    assertEquals("'Crystal Meth': 50, 20, -20, 1", item.toString());
+    assertEquals("Crystal Meth", item.toString());
   }
 
 }

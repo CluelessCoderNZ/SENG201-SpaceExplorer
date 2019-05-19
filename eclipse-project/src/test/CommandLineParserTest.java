@@ -82,8 +82,7 @@ class CommandLineParserTest {
                                "Boolean value: ",
                                "Boolean value: ",
                                "Boolean value: ",
-                               "Boolean value: "
-                               };
+                               "Boolean value: "};
     
     // Setup CommandLineParser
     InputStream inputStream = new ByteArrayInputStream(inputSource.getBytes(StandardCharsets.UTF_8));
@@ -122,8 +121,7 @@ class CommandLineParserTest {
                        + "correct\n";
     String[] expectedOutput = {"String value: ", 
                                "Error: Text must be less than or equal to 10 characters, currently 14.",
-                               "String value: ",
-                               };
+                               "String value: "};
     
     // Setup CommandLineParser
     InputStream inputStream = new ByteArrayInputStream(inputSource.getBytes(StandardCharsets.UTF_8));
@@ -186,8 +184,7 @@ class CommandLineParserTest {
                                "1: Simon", 
                                "2: Lewis",
                                "3: Jeff",
-                               "Select one: "
-                               };
+                               "Select one: "};
     
     // Setup CommandLineParser
     InputStream inputStream = new ByteArrayInputStream(inputSource.getBytes(StandardCharsets.UTF_8));

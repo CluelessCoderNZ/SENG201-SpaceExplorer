@@ -32,7 +32,7 @@ class ItemTest {
   @Test
   void testToString() {
     Item item = new Item("Ham Sandwich", 25);
-    assertEquals("'Ham Sandwich': 25", item.toString());
+    assertEquals("Ham Sandwich", item.toString());
   }
   
   @Test
