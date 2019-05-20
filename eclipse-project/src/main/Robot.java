@@ -20,7 +20,7 @@ public class Robot extends CrewMember {
   }
   
   @Override
-  public String getStatusString() {
+  public String toString() {
     String output = getFullTitle() + " ("
         + String.format("HP: %d/%d, ", getHealth(), getMaxHealth())
         + String.format("AP: %d/%d)", getActionPoints(), getMaxActionPoints());

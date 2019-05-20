@@ -339,10 +339,33 @@ public class CrewMember extends Observable {
   }
   
   /**
-   * Returns in game text representation of crew member.
-   * @return
+   * Returns formatted text representation of crew member stats.
+   * @return 
    */
-  public String getStatusString() {
+  public String getFormattedStatusString() {
+    String output = getFullTitle() + ":\n";
+    if (isDead()) {
+      output += "  He's dead Jim!";
+    } else {
+      output += String.format("  HP: %d/%d \n", health, maxHealth)
+          + String.format("  Fullness: %d/%d \n", fullness, maxFullness)
+          + String.format("  Restedness: %d/%d \n", restedness, maxRestedness)
+          + String.format("  AP: %d/%d \n", actionPoints, maxActionPoints);
+      
+      output += "  Status effects:";
+      if (activeEffects.size() == 0) {
+        output += " None"; 
+      }
+      for (CrewMemberEffect effect : activeEffects) {
+        output += " " + effect.name();
+      }
+    }
+    
+    return output;
+  }
+  
+  @Override
+  public String toString() {
     String output = getFullTitle() + " ("
         + String.format("HP: %d/%d, ", health, maxHealth)
         + String.format("Fullness: %d/%d, ", fullness, maxFullness)
@@ -354,11 +377,6 @@ public class CrewMember extends Observable {
     }
     
     return output;
-  }
-  
-  @Override
-  public String toString() {
-    return getStatusString();
   }
   
   /**

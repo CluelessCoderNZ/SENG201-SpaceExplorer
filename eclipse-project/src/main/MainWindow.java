@@ -46,6 +46,7 @@ public class MainWindow {
   private JLabel currentPlanet;
   private JTextPane selectedCrewStats;
   private JScrollPane scrollPane;
+  private JLabel daysRemaining;
 
   /**
    * Create the application.
@@ -81,8 +82,7 @@ public class MainWindow {
     frame.setBounds(100, 100, 704, 601);
     frame.setLocationRelativeTo(null);
     frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    frame.getContentPane().setLayout(new MigLayout("", "[304.00px][160px,grow]",
-        "[29px][16px][249.00px,grow][109.00][36.00px][38.00][32.00px]"));
+    frame.getContentPane().setLayout(new MigLayout("", "[304.00px][160px,grow]", "[29px][16px][152.00px][109.00,grow][36.00px][38.00][32.00px]"));
     
     JLabel lblCrew = new JLabel("Crew:");
     frame.getContentPane().add(lblCrew, "cell 0 1,alignx center,aligny top");
@@ -223,6 +223,9 @@ public class MainWindow {
         nextDayButtonPressed();
       }
     });
+    
+    daysRemaining = new JLabel("Days remaining: 0");
+    frame.getContentPane().add(daysRemaining, "flowx,cell 1 6,alignx right");
     frame.getContentPane().add(btnNextDay, "cell 1 6,alignx right,growy");
   }
   
@@ -271,6 +274,7 @@ public class MainWindow {
     } else {
       currentPlanet.setText("Current Planet: " + env.getCurrentPlanet().getName());
     }
+    daysRemaining.setText("Days remaining: " + (env.getMaxDays() - env.getCurrentDay()));
   }
   
   /**
@@ -314,7 +318,7 @@ public class MainWindow {
   private void updateCrewStatsMessage() {
     String crewStatusString = "";
     for (CrewMember crewMember : crewList.getSelectedValuesList()) {
-      crewStatusString += crewMember.getStatusString() + "\n\n";
+      crewStatusString += crewMember.getFormattedStatusString() + "\n\n";
     }
     selectedCrewStats.setText(crewStatusString);
     selectedCrewStats.setCaretPosition(0);
