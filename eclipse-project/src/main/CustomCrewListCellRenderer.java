@@ -5,16 +5,17 @@ import java.awt.Component;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.ListCellRenderer;
+import javax.swing.ImageIcon;
 
 
-public class CustomPlanetListCellRenderer extends JLabel implements ListCellRenderer<Planet> {
+public class CustomCrewListCellRenderer extends JLabel implements ListCellRenderer<CrewMember> {
   
-  public CustomPlanetListCellRenderer() {
+  public CustomCrewListCellRenderer() {
     setOpaque(true);
   }
   
   @Override
-  public Component getListCellRendererComponent(JList<? extends Planet> list, Planet planet,
+  public Component getListCellRendererComponent(JList<? extends CrewMember> list, CrewMember crew,
       int index,
       boolean isSelected, boolean cellHasFocus) {
 
@@ -26,8 +27,10 @@ public class CustomPlanetListCellRenderer extends JLabel implements ListCellRend
       setForeground(list.getForeground());
     }
     
-    setText(planet.getNameShowPart());
-
+    if (crew.isDead()) {
+    	setIcon(new ImageIcon(CustomCrewListCellRenderer.class.getResource("/img/grave.png")));
+    }
+    setText(crew.getFullTitle() + " (AP: " + crew.getActionPoints() + ")");
     return this;
   }
    

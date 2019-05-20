@@ -180,6 +180,7 @@ public class MainWindow {
         updateCrewStatsMessage();
       }
     });
+    crewList.setCellRenderer(new CustomCrewListCellRenderer());
     
     JButton btnViewShop = new JButton("Visit Outpost");
     btnViewShop.addActionListener(new ActionListener() {
@@ -313,7 +314,7 @@ public class MainWindow {
   private void updateCrewStatsMessage() {
     String crewStatusString = "";
     for (CrewMember crewMember : crewList.getSelectedValuesList()) {
-      crewStatusString += crewMember.getStatus() + "\n\n";
+      crewStatusString += crewMember.getStatusString() + "\n\n";
     }
     selectedCrewStats.setText(crewStatusString);
     selectedCrewStats.setCaretPosition(0);

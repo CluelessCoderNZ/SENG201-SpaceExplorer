@@ -342,11 +342,11 @@ public class CrewMember extends Observable {
    * Returns in game text representation of crew member.
    * @return
    */
-  public String getStatus() {
+  public String getStatusString() {
     String output = getFullTitle() + " ("
         + String.format("HP: %d/%d, ", health, maxHealth)
         + String.format("Fullness: %d/%d, ", fullness, maxFullness)
-        + String.format("ZZZ: %d/%d, ", restedness, maxRestedness)
+        + String.format("Restedness: %d/%d, ", restedness, maxRestedness)
         + String.format("AP: %d/%d)", actionPoints, maxActionPoints);
     
     for (CrewMemberEffect effect : activeEffects) {
@@ -358,17 +358,7 @@ public class CrewMember extends Observable {
   
   @Override
   public String toString() {
-    String output = getFullTitle() + " ("
-         + String.format("health: %d/%d, ", health, maxHealth)
-         + String.format("fullness: %d/%d, ", fullness, maxFullness)
-         + String.format("rested: %d/%d, ", restedness, maxRestedness)
-         + String.format("action points: %d/%d)", actionPoints, maxActionPoints);
-    
-    for (CrewMemberEffect effect : activeEffects) {
-      output += " " + effect.name();
-    }
-    
-    return output;
+    return getStatusString();
   }
   
   /**

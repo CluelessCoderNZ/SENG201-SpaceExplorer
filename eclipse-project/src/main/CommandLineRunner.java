@@ -107,7 +107,7 @@ public class CommandLineRunner {
     cl.print("-------------------------------------\n");
     
     for (CrewMember crewmember : env.getCrewState().getCrew()) {
-      cl.print(crewmember.getStatus() + '\n');
+      cl.print(crewmember.getStatusString() + '\n');
     }
     
     cl.print("=====================================\n\n");
