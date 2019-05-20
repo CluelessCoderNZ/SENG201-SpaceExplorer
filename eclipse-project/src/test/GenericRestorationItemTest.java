@@ -1,10 +1,5 @@
 package test;
 
-import main.CrewMember;
-import main.GenericRestorationItem;
-import main.Item;
-import main.InvalidCrewMemberException;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.AfterAll;
@@ -12,6 +7,11 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import crew.CrewMember;
+import crew.InvalidCrewMemberException;
+import items.GenericRestorationItem;
+import items.Item;
 
 class GenericRestorationItemTest {
 

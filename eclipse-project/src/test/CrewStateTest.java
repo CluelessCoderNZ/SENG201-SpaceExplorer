@@ -1,10 +1,5 @@
 package test;
 
-import main.CrewMember;
-import main.CrewState;
-import main.Item;
-import main.Ship;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -13,6 +8,11 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import crew.CrewMember;
+import crew.CrewState;
+import crew.Ship;
+import items.Item;
 
 class CrewStateTest {
   

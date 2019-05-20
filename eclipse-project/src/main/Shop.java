@@ -3,6 +3,8 @@ package main;
 import java.util.ArrayList;
 import java.util.List;
 
+import items.Item;
+
 public class Shop {
   private String name;
   private List<Item> inventory = new ArrayList<Item>();

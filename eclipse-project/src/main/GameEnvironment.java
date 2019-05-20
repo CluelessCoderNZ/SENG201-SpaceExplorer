@@ -5,6 +5,16 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
+import crew.CrewEffectChangeObserverEvent;
+import crew.CrewMember;
+import crew.CrewState;
+import eventmanager.GameAction;
+import eventmanager.GameEvent;
+import eventmanager.GameEventManager;
+import gui.EventPopupWindow;
+import gui.MainWindow;
+import gui.ShopWindow;
+
 public class GameEnvironment implements Observer {
   
   private GameEventManager eventManager;

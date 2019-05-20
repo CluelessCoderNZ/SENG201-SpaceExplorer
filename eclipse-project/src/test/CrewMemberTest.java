@@ -1,12 +1,9 @@
 package test;
 
+import crew.CrewMember;
+import crew.CrewMemberEffect;
 import static org.junit.jupiter.api.Assertions.*;
-
-import main.CrewMember;
-import main.CrewMemberEffect;
-
 import org.junit.jupiter.api.Test;
-
 
 
 class CrewMemberTest {
@@ -56,7 +53,7 @@ class CrewMemberTest {
   
   @Test
   void testStats() {
-    CrewMember crew = new CrewMember("Mickey", "Mouse");
+    CrewMember crew = new CrewMember("Mickey", "Mouse", 100, 100, 100, 2);
     
     // Check Limits
     crew.setFullness(1000);
@@ -65,7 +62,26 @@ class CrewMemberTest {
     
     assertEquals(crew.getHealth(), crew.getMaxHealth());
     assertEquals(crew.getFullness(), crew.getMaxFullness());
-    assertEquals(crew.getRestedness(), crew.getMaxRestedness());    
+    assertEquals(crew.getRestedness(), crew.getMaxRestedness());
+    
+    crew.setFullness(-1000);
+    crew.setHealth(-90);
+    crew.setRestedness(-1000);
+    
+    assertEquals(crew.getHealth(), 10);
+    assertEquals(crew.getFullness(), 0);
+    assertEquals(crew.getRestedness(), 0);
+    
+    // Check changes
+    crew.changeFullness(40);
+    assertEquals(crew.getFullness(), 40);
+    
+    crew.setRestedness(50);
+    crew.changeRestedness(-30);
+    assertEquals(crew.getRestedness(), 20);
+    
+    crew.changeHealth(-30);
+    assertEquals(crew.getHealth(), 0);
   }
   
   @Test

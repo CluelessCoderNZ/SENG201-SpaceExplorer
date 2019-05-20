@@ -2,15 +2,17 @@ package test;
 
 import java.util.ArrayList;
 import main.Shop;
-import main.ShipPart;
-import main.Item;
 import main.Planet;
-import main.WeightedArrayList;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import eventmanager.WeightedArrayList;
+import items.Item;
+import items.ShipPart;
 
 class PlanetTest {
   

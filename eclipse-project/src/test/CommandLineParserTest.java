@@ -4,7 +4,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
 
-import main.CommandLineParser;
+import commandline.CommandLineParser;
 
 import java.io.InputStream;
 import java.io.PrintStream;

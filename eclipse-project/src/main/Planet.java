@@ -2,6 +2,10 @@ package main;
 
 import java.util.Random;
 
+import eventmanager.WeightedArrayList;
+import items.Item;
+import items.ShipPart;
+
 public class Planet {
   private ShipPart part = null;
   private Shop shop;

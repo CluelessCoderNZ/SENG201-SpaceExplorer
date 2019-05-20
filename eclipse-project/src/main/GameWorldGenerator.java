@@ -1,5 +1,22 @@
 package main;
 
+import eventmanager.AsteroidEvent;
+import eventmanager.GameAction;
+import eventmanager.GameEvent;
+import eventmanager.GameEventManager;
+import eventmanager.ItemFindEvent;
+import eventmanager.MoneyFindEvent;
+import eventmanager.NullEvent;
+import eventmanager.PiratesEvent;
+import eventmanager.ShipPartFindEvent;
+import eventmanager.SpacePlagueEvent;
+import eventmanager.WeightedArrayList;
+import items.GenericRestorationItem;
+import items.Item;
+import items.PlagueCure;
+import items.ShipShieldUpgradeItem;
+import items.ShipWeaponItem;
+
 import java.util.ArrayList;
 
 public class GameWorldGenerator {
@@ -68,12 +85,12 @@ public class GameWorldGenerator {
     lootTable.addItem(new GenericRestorationItem("Ham Sandwich", 20, 5, 25),              100);
     lootTable.addItem(new GenericRestorationItem("Space Candy", 20, 0, 1, 10),            400);
     lootTable.addItem(new ShipShieldUpgradeItem("Shield Upgrade A", 30, 50),              150);
-    lootTable.addItem(new Item("Photon Cannons", 100),                                    100);
-    lootTable.addItem(new Item("Pulsar Beam", 200),                                       100);
+    lootTable.addItem(new ShipWeaponItem("Photon Cannons", 100, 0),                       100);
+    lootTable.addItem(new ShipWeaponItem("Pulsar Beam", 200, 40),                         100);
     lootTable.addItem(new GenericRestorationItem("Hamburger", 40, 10, 50),                100);
     lootTable.addItem(new GenericRestorationItem("Scrambled Eggs", 20, 0, 20),            100);
-    lootTable.addItem(new Item("Golden Spork", 100),                                      100);
-    lootTable.addItem(new Item("Golden Bars", 1000),                                       50);
+    lootTable.addItem(new Item("Golden Spork", 100, "Shiny. Not good for eating with."),  100);
+    lootTable.addItem(new Item("Golden Bars", 1000, "We're rich!"),                        50);
     lootTable.addItem(new GenericRestorationItem("Antimatter Brownies", 40, 0, -30, 3),   100);
     lootTable.addItem(new GenericRestorationItem("Bountiful Feast", 300, 0, 50, 10),      100);
     lootTable.addItem(new PlagueCure("Plague-Away", 300),                                 150);
