@@ -2,6 +2,9 @@ package crew;
 
 import items.ShipWeaponItem;
 
+/**
+ * Ship class has a name, shield level and weapon.
+ */
 public class Ship {
   
   private String name;
@@ -45,6 +48,10 @@ public class Ship {
     return shieldLevel;
   }
   
+  /**
+   * returns the max shield level of the ship.
+   * @return maximum shield level as an int
+   */
   public int getMaxShieldLevel() {
     return maxShieldLevel;
   }
@@ -116,6 +123,10 @@ public class Ship {
     return oldWeapon;
   }
   
+  /**
+   * returns the ship's current weapon.
+   * @return the ship's currently assigned ShipWeaponItem, null if none exists
+   */
   public ShipWeaponItem getWeapon() {
     return weapon;
   }

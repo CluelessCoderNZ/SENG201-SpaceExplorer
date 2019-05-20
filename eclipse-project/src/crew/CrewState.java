@@ -11,7 +11,10 @@ import java.util.List;
 import main.Observable;
 import main.Observer;
 
-public class CrewState implements Observer {
+/**
+ * class to handle the state of the game's crew, including their funds, current ship, and inventory.
+ */
+public class CrewState {
   
   private int funds = 0;
   private List<Item> inventory = new ArrayList<Item>();
@@ -47,13 +50,10 @@ public class CrewState implements Observer {
   
   /**
    * sets the funds of the player's crew.
-   * @param funds integer to set the crew's funds to
+   * @param funds non negative integer to set the crew's funds to
    */
   public void setFunds(int funds) {
-    if (funds < 0) {
-      throw new IllegalArgumentException("cannot set funds to a negative value");
-    }
-    this.funds = funds;
+    this.funds = Math.max(0, funds);
   }
   
   /**
@@ -75,13 +75,17 @@ public class CrewState implements Observer {
     if (funds < 0) {
       throw new IllegalArgumentException("cannot remove negative funds, use addFunds(int funds)");
     }
-    this.funds = Math.max(0, this.funds - funds);
+    setFunds(getFunds() - funds);
   }
   
   public List<Item> getInventory() {
     return inventory;
   }
   
+  /**
+   * returns the current number of found ShipParts.
+   * @return integer count of ShipParts in the inventory
+   */
   public int getShipPartsFoundCount() {
     int count = 0;
     for (Item item : inventory) {
@@ -93,6 +97,10 @@ public class CrewState implements Observer {
     return count;
   }
   
+  /**
+   * returns whether the current crew contains a scientist.
+   * @return True if the current crew contains a scientist
+   */
   public boolean hasScientist() {
     for (CrewMember cm : crew) {
       if (cm instanceof Scientist) {
@@ -257,13 +265,5 @@ public class CrewState implements Observer {
     }
     return crewStateString;
   }
-
-
-  @Override
-  public void update(Observable o, Object arg) {
-    CrewMember crewMember = (CrewMember)o;
-    //TODO: handle crew member state change
-  }
-  
 
 }

@@ -19,6 +19,7 @@ import crew.CrewMemberEffect;
  */
 public class CustomCrewListCellRenderer extends JPanel implements ListCellRenderer<CrewMember> {
   
+  // images
   private static final ImageIcon plagueIcon = new ImageIcon(
       CustomCrewListCellRenderer.class.getResource("/img/plague.png"));
   private static final ImageIcon hungryIcon = new ImageIcon(
@@ -30,15 +31,18 @@ public class CustomCrewListCellRenderer extends JPanel implements ListCellRender
   private static final ImageIcon deadIcon = new ImageIcon(
       CustomCrewListCellRenderer.class.getResource("/img/dead.png"));
   
+  // JLabels for the status effect icons
   private JLabel plaguedLabel = new JLabel();
   private JLabel hungryLabel = new JLabel();
   private JLabel tiredLabel = new JLabel();
   private JLabel stressedLabel = new JLabel();
   private JLabel deadLabel = new JLabel();
+  
+  // JLabel to show the text in the JList
   private JLabel crewText = new JLabel();
   
   /**
-   * sets up the icons for each status effect label and adds them to the renderer.
+   * sets up the icons for each status effect label and the crew text and adds them to the renderer.
    */
   public CustomCrewListCellRenderer() {
     setOpaque(true);

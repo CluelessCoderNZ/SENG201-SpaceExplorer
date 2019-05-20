@@ -74,7 +74,7 @@ public class GameEnvironment implements Observer {
   public void setupGame(boolean cl) {
     currentScore = 0;
     GameWorldGenerator.generateWorld(this);
-    GameSetup setup = new GameSetup(this, cl);
+    new GameSetup(this, cl);
   }
   
   /**

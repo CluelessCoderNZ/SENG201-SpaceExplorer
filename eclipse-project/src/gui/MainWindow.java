@@ -90,7 +90,8 @@ public class MainWindow {
     frame.setBounds(100, 100, 704, 601);
     frame.setLocationRelativeTo(null);
     frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    frame.getContentPane().setLayout(new MigLayout("", "[304.00px][160px,grow]", "[29px][16px][152.00px][109.00,grow][36.00px][38.00][32.00px]"));
+    frame.getContentPane().setLayout(new MigLayout("", "[304.00px][160px,grow]",
+        "[29px][16px][152.00px][109.00,grow][36.00px][38.00][32.00px]"));
     
     JLabel lblCrew = new JLabel("Crew:");
     frame.getContentPane().add(lblCrew, "cell 0 1,alignx center,aligny top");

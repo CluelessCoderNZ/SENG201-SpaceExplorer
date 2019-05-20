@@ -194,7 +194,8 @@ public class ShopWindow {
     btnSellItem.setText("Sell");
     if (item != null) {
       btnSellItem.setEnabled(true);
-      btnSellItem.setText("Sell ($" + this.env.getCurrentPlanet().getShop().getBuyPrice(item) + ")");
+      int buyPrice = this.env.getCurrentPlanet().getShop().getBuyPrice(item);
+      btnSellItem.setText("Sell ($" + buyPrice + ")");
     }
   }
   

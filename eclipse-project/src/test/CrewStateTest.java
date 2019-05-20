@@ -48,11 +48,8 @@ class CrewStateTest {
       crewState.removeFunds(-10);
     });
     
-    assertThrows(IllegalArgumentException.class, () -> {
-      crewState.setFunds(-10);
-    });
-    
-    assertEquals(100, crewState.getFunds());
+    crewState.setFunds(-10);
+    assertEquals(0, crewState.getFunds());
   }
   
   @Test

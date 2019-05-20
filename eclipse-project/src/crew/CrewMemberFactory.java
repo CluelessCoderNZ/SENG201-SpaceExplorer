@@ -1,11 +1,19 @@
 package crew;
 
+/**
+ * singleton class to create CrewMember subtypes.
+ */
 public class CrewMemberFactory {
 
   /**
    * creates crew member of a given type with the given name.
    * @param newCrewMemberType integer to select new crew member subtype.
    *        1 for Investor
+   *        2 for Medic
+   *        3 for Engineer
+   *        4 for Student
+   *        5 for Scientist
+   *        6 for Robot
    * @param name name for the new crew member
    * @return the created CrewMember object
    */
@@ -32,6 +40,11 @@ public class CrewMemberFactory {
    * creates crew member of a given type with the given name.
    * @param typeString String to select new crew member subtype.
    *        "Investor" for Investor
+   *        "Medic" for Medic
+   *        "Engineer" for Engineer
+   *        "Student" for Student
+   *        "Scientist" for Scientist
+   *        "Robot" for Robot
    * @param name name for the new crew member
    * @return the created CrewMember object
    */

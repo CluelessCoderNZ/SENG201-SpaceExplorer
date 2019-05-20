@@ -1,11 +1,23 @@
 package crew;
 
+/**
+ * the CrewMember subclass Robot cannot have the CrewMemberEffects
+ * HUNGRY, TIRED, or PLAGUED. Has a maximum of only 1 action point.
+ */
 public class Robot extends CrewMember {
 
+  /**
+   * creates a Robot with the given name.
+   * @param name name for the Robot to display.
+   */
   public Robot(String name) {
     super(name, "Robot", 120, 0, 0, 1);
   }
   
+  /**
+   * static method to return the description of the special attributes of the Robot class.
+   * @return description of the special attributes of the Robot class.
+   */
   public static String getClassDescription() {
     return String.format("Doesn't need to eat or sleep but has 1 AP");
   }
