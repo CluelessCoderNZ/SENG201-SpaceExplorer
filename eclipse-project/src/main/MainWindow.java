@@ -27,7 +27,6 @@ public class MainWindow {
   private DefaultListModel<Item> inventory = new DefaultListModel<Item>();
   private DefaultListModel<Planet> planets = new DefaultListModel<Planet>();
   
-  
   private JList<CrewMember> crewList;
   private JList<Item> inventoryList;
   private JList<Planet> planetList;
@@ -50,16 +49,22 @@ public class MainWindow {
   public MainWindow(GameEnvironment env) {
     this.env = env;
     initialize();
-    updateGuiInfo(env.getCrewState());
+    updateGuiInfo();
     updateButtons();
     updateCrewStatsMessage();
     frame.setVisible(true);
   }
   
+  /**
+   * finishes the main game loop.
+   */
   private void finishedMainGame() {
     env.finishMainGame(this);
   }
   
+  /**
+   * disposes the MainWindow frame.
+   */
   public void closeWindow() {
     frame.dispose();
   }
@@ -72,7 +77,8 @@ public class MainWindow {
     frame.setBounds(100, 100, 704, 601);
     frame.setLocationRelativeTo(null);
     frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    frame.getContentPane().setLayout(new MigLayout("", "[304.00px][160px,grow]", "[29px][16px][249.00px,grow][109.00][36.00px][38.00][32.00px]"));
+    frame.getContentPane().setLayout(new MigLayout("", "[304.00px][160px,grow]",
+        "[29px][16px][249.00px,grow][109.00][36.00px][38.00][32.00px]"));
     
     JLabel lblCrew = new JLabel("Crew:");
     frame.getContentPane().add(lblCrew, "cell 0 1,alignx center,aligny top");
@@ -146,6 +152,7 @@ public class MainWindow {
       }
     });
     planetList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+    // shows a custom label for planets with a ship part if there is a scientist in the crew
     if (env.getCrewState().hasScientist()) {
       planetList.setCellRenderer(new CustomPlanetListCellRenderer());
     }
@@ -169,7 +176,6 @@ public class MainWindow {
         updateCrewStatsMessage();
       }
     });
-    
     
     JButton btnViewShop = new JButton("Visit Outpost");
     btnViewShop.addActionListener(new ActionListener() {
@@ -217,9 +223,18 @@ public class MainWindow {
   
   /**
    * updates the GUI contents to match the game state.
-   * @param crewState the crew state containing the crew and item lists
    */
-  private void updateGuiInfo(CrewState crewState) {
+  private void updateGuiInfo() {
+    updateGuiLists();
+    updateGuiLabels();
+  }
+  
+  /**
+   * updates the GUI representations of the crew list, crew inventory and planet list.
+   */
+  private void updateGuiLists() {
+    CrewState crewState = env.getCrewState();
+    
     crew.clear();
     for (CrewMember member : crewState.getCrew()) {
       crew.addElement(member);
@@ -232,7 +247,13 @@ public class MainWindow {
     for (Planet planet : env.getPlanets()) {
       planets.addElement(planet);
     }
-    
+  }
+  
+  /**
+   * updates the GUI labels to display the current game state.
+   */
+  private void updateGuiLabels() {
+    CrewState crewState = env.getCrewState();
     funds.setText("Funds: $" + crewState.getFunds());
     shield.setText(String.format("Shield: %d/%d", crewState.getShip().getShieldLevel(),
         crewState.getShip().getMaxShieldLevel()));
@@ -248,7 +269,8 @@ public class MainWindow {
   }
   
   /**
-   * changes clickability of the crew member action buttons. 
+   * changes clickability of the action buttons depending on the current list selections.
+   * stops buttons being clickable if the required preconditions are not met.
    */
   private void updateButtons() {
     explore.setEnabled(false);
@@ -281,6 +303,9 @@ public class MainWindow {
     }
   }
   
+  /**
+   * updates the contents of the GUI crew stats message box.
+   */
   private void updateCrewStatsMessage() {
     String crewStatusString = "";
     for (CrewMember crewMember : crewList.getSelectedValuesList()) {
@@ -290,10 +315,16 @@ public class MainWindow {
     selectedCrewStats.setCaretPosition(0);
   }
   
+  /**
+   * action to perform when the visit outpost button is clicked.
+   */
   private void visitOutpostButton() {
     env.openShop(this);
   }
   
+  /**
+   * action to perform when the explore button is clicked.
+   */
   private void exploreButtonPressed() {
     CrewMember selectedCrewMember = crewList.getSelectedValue();
     
@@ -307,34 +338,46 @@ public class MainWindow {
                                          selectedCrewMember.getName()));
     }
     
-    updateGuiInfo(env.getCrewState());
+    updateGuiInfo();
   }
   
+  /**
+   * action to perform when the sleep button is clicked.
+   */
   private void sleepButtonPressed() {
     CrewMember selectedCrewMember = crewList.getSelectedValue();
     
     selectedCrewMember.sleep();
     
-    updateGuiInfo(env.getCrewState());
+    updateGuiInfo();
   }
   
+  /**
+   * action to perform when the repair button is clicked.
+   */
   private void repairButtonPressed() {
     CrewMember selectedCrewMember = crewList.getSelectedValue();
     
     selectedCrewMember.repairShip(env.getCrewState().getShip());
     
-    updateGuiInfo(env.getCrewState());
+    updateGuiInfo();
   }
   
+  /**
+   * action to perform when the use item button is clicked.
+   */
   private void useItemButtonPressed() {
     CrewMember selectedCrewMember = crewList.getSelectedValue();
     Item selectedItem = inventoryList.getSelectedValue();
     
     // TODO code here
     
-    updateGuiInfo(env.getCrewState());
+    updateGuiInfo();
   }
   
+  /**
+   * action to perform when the change planet button is clicked.
+   */
   private void changePlanetButtonPressed() {
     List<CrewMember> selectedCrewMembers = crewList.getSelectedValuesList();
     Planet selectedPlanet = planetList.getSelectedValue();
@@ -350,9 +393,12 @@ public class MainWindow {
       new EventPopupWindow("You managed to safely travel to " + selectedPlanet.getName());
     }
     
-    updateGuiInfo(env.getCrewState());
+    updateGuiInfo();
   }
   
+  /**
+   * action to perform when the next day button is clicked.
+   */
   private void nextDayButtonPressed() {
     
     if (!env.gameStillActive()) {
@@ -369,8 +415,7 @@ public class MainWindow {
       new EventPopupWindow("The dawn of a new day shines upon you.", "Onwards!");
     }
     
-    updateGuiInfo(env.getCrewState());
+    updateGuiInfo();
   }
-  
   
 }
