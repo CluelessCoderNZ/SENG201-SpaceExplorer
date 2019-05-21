@@ -86,6 +86,7 @@ public class CustomCrewListCellRenderer extends JPanel implements ListCellRender
     
     displayIcons(crew);
 
+    // displays AP remaining for living crew, and custom label for dead crew.
     if (crew.isDead()) {
       crewText.setText(crew.getName() + " the Deceased");
     } else {
@@ -95,7 +96,7 @@ public class CustomCrewListCellRenderer extends JPanel implements ListCellRender
   }
   
   /**
-   * handles the displaying of status effect icons next to the given crew member.
+   * handles the displaying of active status effect icons next to the given crew member.
    * @param the CrewMember to display the status effects of
    */
   private void displayIcons(CrewMember crew) {

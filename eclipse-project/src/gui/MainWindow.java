@@ -42,22 +42,25 @@ public class MainWindow {
   private JList<CrewMember> crewList;
   private JList<Item> inventoryList;
   private JList<Planet> planetList;
+  
+  private JTextPane selectedCrewStats;
+  
   private JButton explore;
   private JButton sleep;
   private JButton repair;
   private JButton useItem;
   private JButton changePlanet;
+  
   private JLabel funds;
   private JLabel shield;
   private JLabel currentWeapon;
   private JLabel partsCollected;
   private JLabel currentPlanet;
-  private JTextPane selectedCrewStats;
-  private JScrollPane scrollPane;
   private JLabel daysRemaining;
-
+  
   /**
-   * Create the application.
+   * Create the application window and set elements to the correct initial values.
+   * @param env the GameEnvironment to model the window off of
    */
   public MainWindow(GameEnvironment env) {
     this.env = env;
@@ -83,7 +86,7 @@ public class MainWindow {
   }
 
   /**
-   * Initialize the contents of the frame.
+   * Initialize the contents of the window.
    */
   private void initialize() {
     frame = new JFrame();
@@ -93,90 +96,25 @@ public class MainWindow {
     frame.getContentPane().setLayout(new MigLayout("", "[304.00px][160px,grow]",
         "[29px][16px][152.00px][109.00,grow][36.00px][38.00][32.00px]"));
     
-    JLabel lblCrew = new JLabel("Crew:");
-    frame.getContentPane().add(lblCrew, "cell 0 1,alignx center,aligny top");
-    
-    JLabel lblShipName = new JLabel("Ship: " + env.getCrewState().getShip().getName());
-    frame.getContentPane().add(lblShipName, "cell 1 1,alignx center,aligny top");
-    
     JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
     frame.getContentPane().add(tabbedPane, "cell 1 2 1 4,grow");
     
-    JPanel panel = new JPanel();
-    tabbedPane.addTab("Combat Room", null, panel, null);
-    panel.setLayout(new MigLayout("", "[grow]", "[][][]"));
-    
-    shield = new JLabel("SHIELD: " + env.getCrewState().getShip().getShieldLevel());
-    panel.add(shield, "cell 0 0,growx,aligny top");
-    
-    currentWeapon = new JLabel("Current Weapon:");
-    panel.add(currentWeapon, "cell 0 1");
-    
-    repair = new JButton("Repair Shields");
-    panel.add(repair, "cell 0 2");
-    repair.addActionListener(new ActionListener() {
-      public void actionPerformed(ActionEvent e) {
-        repairButtonPressed();
-      }
-    });
+    JPanel combatRoom = new JPanel();
+    tabbedPane.addTab("Combat Room", null, combatRoom, null);
+    combatRoom.setLayout(new MigLayout("", "[grow]", "[][][]"));
     
     JPanel cargoHold = new JPanel();
     tabbedPane.addTab("Cargo Hold", null, cargoHold, null);
     cargoHold.setLayout(new MigLayout("", "[grow][4px]", "[][grow][][][4px]"));
     
-    partsCollected = new JLabel("Parts collected: 0");
-    cargoHold.add(partsCollected, "cell 0 0");
-    
-    JScrollPane inventoryScroll = new JScrollPane();
-    cargoHold.add(inventoryScroll, "cell 0 1,grow");
-    
-    inventoryList = new JList<Item>(inventory);
-    inventoryScroll.setViewportView(inventoryList);
-    inventoryList.addListSelectionListener(new ListSelectionListener() {
-      public void valueChanged(ListSelectionEvent e) {
-        updateButtons();
-      }
-    });
-    inventoryList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-    
-    useItem = new JButton("Use item");
-    useItem.addActionListener(new ActionListener() {
-      public void actionPerformed(ActionEvent e) {
-        useItemButtonPressed();
-      }
-    });
-    cargoHold.add(useItem, "flowy,cell 0 2");
-    
     JPanel observationDeck = new JPanel();
     tabbedPane.addTab("Observation Deck", null, observationDeck, null);
     observationDeck.setLayout(new MigLayout("", "[grow][4px]", "[][grow][][4px]"));
     
-    currentPlanet = new JLabel("Current planet: ");
-    observationDeck.add(currentPlanet, "cell 0 0");
-    
-    JScrollPane planetScroll = new JScrollPane();
-    observationDeck.add(planetScroll, "cell 0 1,grow");
-    
-    planetList = new JList<Planet>(planets);
-    planetScroll.setViewportView(planetList);
-    planetList.addListSelectionListener(new ListSelectionListener() {
-      public void valueChanged(ListSelectionEvent e) {
-        updateButtons();
-      }
-    });
-    planetList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-    // shows a custom label for planets with a ship part if there is a scientist in the crew
-    if (env.getCrewState().hasScientist()) {
-      planetList.setCellRenderer(new CustomPlanetListCellRenderer());
-    }
-    
-    changePlanet = new JButton("Change Planet");
-    observationDeck.add(changePlanet, "cell 0 2");
-    changePlanet.addActionListener(new ActionListener() {
-      public void actionPerformed(ActionEvent e) {
-        changePlanetButtonPressed();
-      }
-    });
+    initializeLabels();
+    initializeCombatRoomPanel(combatRoom);
+    initializeCargoHoldPanel(cargoHold);
+    initializeObservationDeckPanel(observationDeck);
     
     JScrollPane crewScroll = new JScrollPane();
     frame.getContentPane().add(crewScroll, "cell 0 2,grow");
@@ -209,11 +147,11 @@ public class MainWindow {
       }
     });
     
-    scrollPane = new JScrollPane();
-    frame.getContentPane().add(scrollPane, "cell 0 3,grow");
+    JScrollPane crewStatsScroll = new JScrollPane();
+    frame.getContentPane().add(crewStatsScroll, "cell 0 3,grow");
     
     selectedCrewStats = new JTextPane();
-    scrollPane.setViewportView(selectedCrewStats);
+    crewStatsScroll.setViewportView(selectedCrewStats);
     selectedCrewStats.setEditable(false);
     selectedCrewStats.setText("Selected Crew Descriptions");
     frame.getContentPane().add(explore, "cell 0 4,growx,aligny top");
@@ -236,6 +174,84 @@ public class MainWindow {
     daysRemaining = new JLabel("Days remaining: 0");
     frame.getContentPane().add(daysRemaining, "flowx,cell 1 6,alignx right");
     frame.getContentPane().add(btnNextDay, "cell 1 6,alignx right,growy");
+  }
+  
+  private void initializeLabels() {
+    JLabel lblCrew = new JLabel("Crew:");
+    frame.getContentPane().add(lblCrew, "cell 0 1,alignx center,aligny top");
+    
+    JLabel lblShipName = new JLabel("Ship: " + env.getCrewState().getShip().getName());
+    frame.getContentPane().add(lblShipName, "cell 1 1,alignx center,aligny top");
+  }
+  
+  private void initializeCombatRoomPanel(JPanel combatRoom) {
+    shield = new JLabel("SHIELD: " + env.getCrewState().getShip().getShieldLevel());
+    combatRoom.add(shield, "cell 0 0,growx,aligny top");
+    
+    currentWeapon = new JLabel("Current Weapon:");
+    combatRoom.add(currentWeapon, "cell 0 1");
+    
+    repair = new JButton("Repair Shields");
+    combatRoom.add(repair, "cell 0 2");
+    repair.addActionListener(new ActionListener() {
+      public void actionPerformed(ActionEvent e) {
+        repairButtonPressed();
+      }
+    });
+  }
+  
+  private void initializeCargoHoldPanel(JPanel cargoHold) {
+    partsCollected = new JLabel("Parts collected: 0");
+    cargoHold.add(partsCollected, "cell 0 0");
+    
+    JScrollPane inventoryScroll = new JScrollPane();
+    cargoHold.add(inventoryScroll, "cell 0 1,grow");
+    
+    inventoryList = new JList<Item>(inventory);
+    inventoryScroll.setViewportView(inventoryList);
+    inventoryList.addListSelectionListener(new ListSelectionListener() {
+      public void valueChanged(ListSelectionEvent e) {
+        updateButtons();
+      }
+    });
+    inventoryList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+    
+    useItem = new JButton("Use item");
+    useItem.addActionListener(new ActionListener() {
+      public void actionPerformed(ActionEvent e) {
+        useItemButtonPressed();
+      }
+    });
+    cargoHold.add(useItem, "flowy,cell 0 2");
+  }
+  
+  private void initializeObservationDeckPanel(JPanel observationDeck) {
+    currentPlanet = new JLabel("Current planet: ");
+    observationDeck.add(currentPlanet, "cell 0 0");
+    
+    JScrollPane planetScroll = new JScrollPane();
+    observationDeck.add(planetScroll, "cell 0 1,grow");
+    
+    planetList = new JList<Planet>(planets);
+    planetScroll.setViewportView(planetList);
+    planetList.addListSelectionListener(new ListSelectionListener() {
+      public void valueChanged(ListSelectionEvent e) {
+        updateButtons();
+      }
+    });
+    planetList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+    // shows a custom label for planets with a ship part if there is a scientist in the crew
+    if (env.getCrewState().hasScientist()) {
+      planetList.setCellRenderer(new CustomPlanetListCellRenderer());
+    }
+    
+    changePlanet = new JButton("Change Planet");
+    observationDeck.add(changePlanet, "cell 0 2");
+    changePlanet.addActionListener(new ActionListener() {
+      public void actionPerformed(ActionEvent e) {
+        changePlanetButtonPressed();
+      }
+    });
   }
   
   /**

@@ -8,9 +8,15 @@ import javax.swing.ListCellRenderer;
 
 import main.Planet;
 
-
+/**
+ * custom renderer for Planets that shows a star if the planet has a part to be used
+ * in the MainWindow planet list if the crew has a scientist.
+ */
 public class CustomPlanetListCellRenderer extends JLabel implements ListCellRenderer<Planet> {
   
+  /**
+   * constructs a CustomPlanetListCellRenderer object.
+   */
   public CustomPlanetListCellRenderer() {
     setOpaque(true);
   }
