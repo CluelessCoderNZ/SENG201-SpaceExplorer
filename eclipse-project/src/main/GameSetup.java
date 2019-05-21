@@ -19,7 +19,7 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * GameSetup handles both the gui and cl setup of the game.
+ * GameSetup handles setup of the game.
  * It instantiates members within game environment so its ready for the main game play loop.
  * It makes use of GameWorldGenerator. After it's done it calls finishedSetup in GameEnvironment.
  */
@@ -204,6 +204,10 @@ public class GameSetup {
     
   }
   
+  /**
+   * returns whether the game is using the command line for gameplay.
+   * @return True if the command line is the desired input method
+   */
   public boolean isCL() {
     return useCl;
   }

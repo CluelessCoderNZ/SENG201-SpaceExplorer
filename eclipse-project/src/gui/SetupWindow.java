@@ -35,6 +35,9 @@ import main.GameEnvironment;
 import main.GameSetup;
 import net.miginfocom.swing.MigLayout;
 
+/**
+ * handles the gui user input for the game setup.
+ */
 public class SetupWindow {
 
   private static final int MAX_TEXT_SIZE = 20;
@@ -54,7 +57,7 @@ public class SetupWindow {
 
 
   /**
-   * Create the application.
+   * Create the application window.
    */
   public SetupWindow(GameEnvironment env) {
     this.env = env;
@@ -63,14 +66,23 @@ public class SetupWindow {
     updateGuiInfo();
   }
   
+  /**
+   * finishes the setup window interaction, passing control back to the GameEnvironment.
+   */
   private void finishedSetup() {
     env.finishSetup(this);
   }
   
+  /**
+   * closes the SetupWindow.
+   */
   public void closeWindow() {
     frame.dispose();
   }
   
+  /**
+   * initializes the SetupWindow JFrame and its contents.
+   */
   private void initialize() {
     frame = new JFrame();
     frame.setBounds(100, 100, 609, 592);
@@ -211,6 +223,9 @@ public class SetupWindow {
     frame.getContentPane().add(crewComboBox, "cell 3 4,growx,aligny center");
   }
   
+  /**
+   * initializes the JLabels shown in the gui and the JTextPane for the crew class descriptions.
+   */
   private void initializeDisplayedText() {
     JLabel welcomeLabel = new JLabel("Welcome to Space Explorer!");
     welcomeLabel.setFont(new Font("Lucida Grande", Font.PLAIN, 18));
@@ -237,7 +252,10 @@ public class SetupWindow {
     frame.getContentPane().add(crewClassDescription, "cell 0 5 4 1,grow");
   }
   
-  
+  /**
+   * updates the crew type description text pane and the clickability of the add and delete crew
+   * member and start game buttons.
+   */
   private void updateGuiInfo() {
     String typeString = crewComboBox.getSelectedItem().toString();
     switch (typeString) {
@@ -282,14 +300,15 @@ public class SetupWindow {
     }
   }
   
-  
+  /**
+   * adds a crew member to the gui list if there is space remaining,
+   * or shows a popup if the max crew size has been reached.
+   */
   private void addCrewButtonPressed() {
     String name = crewNameField.getText();
     String typeString = crewComboBox.getSelectedItem().toString();
     
-    if (name.equals("")) {
-      new EventPopupWindow("cannot add crew member: please enter a name");
-    } else if (crewGuiList.getSize() >= GameSetup.MAX_CREW) {
+    if (crewGuiList.getSize() >= GameSetup.MAX_CREW) {
       new EventPopupWindow("cannot add crew member: max crew size reached");
     } else {
       CrewMember crewMember = CrewMemberFactory.createCrewMember(typeString, name);
@@ -297,12 +316,17 @@ public class SetupWindow {
     }
   }
   
-  
+  /**
+   * deletes the selected CrewMember from the list model.
+   */
   private void deleteSelectedButtonPressed() {
     crewGuiList.removeElement(crewMembersList.getSelectedValue());
   }
   
-  
+  /**
+   * tries to start the game if a ship name is entered and number of days is selected.
+   * shows a popup if an invalid number of CrewMembers have been created.
+   */
   private void startGameButtonPressed() {
     String shipName = shipNameField.getText();
     int numDays = gameLengthSlider.getValue();

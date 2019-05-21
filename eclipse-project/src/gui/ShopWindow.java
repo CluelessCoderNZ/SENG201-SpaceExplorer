@@ -49,16 +49,22 @@ public class ShopWindow {
     updateGuiData();
   }
   
+  /**
+   * finishes the shop window interaction, passing control back to the GameEnvironment.
+   */
   private void finishedShop() {
     env.finishShop(this);
   }
   
+  /**
+   * closes the ShopWindow.
+   */
   public void closeWindow() {
     frame.dispose();
   }
 
   /**
-   * Initialize the contents of the frame.
+   * Initialize the JFrame and its contents.
    */
   private void initialize() {
     frame = new JFrame();
@@ -147,6 +153,9 @@ public class ShopWindow {
     playerInventoryScroll.setViewportView(playerInventoryList);
   }
   
+  /**
+   * refreshes the labels and lists that appear in the gui.
+   */
   private void updateGuiData() {
     playerFunds.setText("Crew funds: " + env.getCrewState().getFunds());
     
@@ -161,6 +170,11 @@ public class ShopWindow {
     }
   }
   
+  /**
+   * displays information about a certain item in the shop's inventory.
+   * updates the sell button text.
+   * @param item the Item to display information about
+   */
   private void updateShopItemDisplay(Item item) {
     btnBuyItem.setEnabled(false);
     itemStats.setText("");
@@ -185,9 +199,14 @@ public class ShopWindow {
     }
   }
   
+  /**
+   * updates the player item sell button text and clickability.
+   * @param item the Item to base the view on
+   */
   private void updatePlayerItemDisplay(Item item) {
     btnSellItem.setEnabled(false);
     btnSellItem.setText("Sell");
+    
     if (item != null) {
       btnSellItem.setEnabled(true);
       int buyPrice = this.env.getCurrentPlanet().getShop().getBuyPrice(item);
@@ -195,7 +214,9 @@ public class ShopWindow {
     }
   }
   
-  
+  /**
+   * buys the selected Item from the shop and adds it to the crew's inventory.
+   */
   private void buySelectedItem() {
     Item item = shopInventoryList.getSelectedValue();
     int price = env.getCurrentPlanet().getShop().sellItem(item);
@@ -204,6 +225,9 @@ public class ShopWindow {
     updateGuiData();
   }
   
+  /**
+   * sells the selected Item to the shop and removes it from the crew's inventory.
+   */
   private void sellSelectedItem() {
     Item item = playerInventoryList.getSelectedValue();
     env.getCrewState().addFunds(this.env.getCurrentPlanet().getShop().buyItem(item));
