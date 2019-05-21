@@ -1,7 +1,8 @@
 package crew;
 
 /**
- * CrewEffectChangeObserverEvent acts as a container for notify events by CrewMember to state changes.
+ * CrewEffectChangeObserverEvent acts as a container for information regarding
+ * CrewMember active effect changes.
  * It holds onto this state information so it may be passed onto observers.
  */ 
 public class CrewEffectChangeObserverEvent {

@@ -1,10 +1,5 @@
 package main;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Random;
-
 import crew.CrewEffectChangeObserverEvent;
 import crew.CrewMember;
 import crew.CrewState;
@@ -14,6 +9,9 @@ import eventmanager.GameEventManager;
 import gui.EventPopupWindow;
 import gui.MainWindow;
 import gui.ShopWindow;
+
+import java.util.List;
+import java.util.Random;
 
 /**
  * GameEnvironment is the central class to the game having all game related objects as its members.
@@ -35,46 +33,90 @@ public class GameEnvironment implements Observer {
   
   private int currentScore = 0;
   
+  /**
+   * sets the game's GameEventManager.
+   * @param eventManager GameEventManager to use for this GameEnvironment
+   */
   public void setEventManager(GameEventManager eventManager) {
     this.eventManager = eventManager;
   }
   
+  /**
+   * sets the random generator seed to be used by the event system.
+   * @param seed long seed to use for the Random object
+   */
   public void setRandomSeed(long seed) {
     randomGenerator.setSeed(seed);
   }
   
+  /**
+   * returns the Random object used for random generation.
+   * @return the random generator used by this GameEnvironment
+   */
   public Random getRandomGenerator() {
     return randomGenerator;
   }
   
+  /**
+   * sets the GameEnvironment's CrewState.
+   * @param state CrewState to track using this GameEnvironment
+   */
   public void setCrewState(CrewState state) {
     crewState = state;
   }
   
+  /**
+   * return the CrewState.
+   * @return CrewState object this GameEnvironment is tracking
+   */
   public CrewState getCrewState() {
     return crewState;
   }
   
+  /**
+   * sets the maximum number of days the game will last.
+   * @param days max days the game will last
+   */
   public void setNumDays(int days) {
     maxDays = days;
   }
   
+  /**
+   * returns the number of days passed so far.
+   * @return the days passed so far as an int
+   */
   public int getCurrentDay() {
     return daysPassed;
   }
   
+  /**
+   * returns the maximum days the game will last.
+   * @return max number of days as an int
+   */
   public int getMaxDays() {
     return maxDays;
   }
   
+  /**
+   * returns the number of ship parts needed in total to complete the game.
+   * @return total ship parts needed as an int
+   */
   public int getShipPartsNeededCount() {
     return (maxDays * 2) / 3;
   }
   
+  /**
+   * sets the List of planets the player can travel to.
+   * @param planets List of available Planets
+   */
   public void setPlanets(List<Planet> planets) {
     planetList = planets;
   }
   
+  /**
+   * returns the List of Planets the player can travel to.
+   * @return List of available Planets
+   */
   public List<Planet> getPlanets() {
     return planetList;
   }
@@ -111,7 +153,7 @@ public class GameEnvironment implements Observer {
    * Launches main gui window.
    */
   public void mainWindow() {
-    MainWindow mainGame = new MainWindow(this);
+    new MainWindow(this);
   }
   
   /**
@@ -131,14 +173,22 @@ public class GameEnvironment implements Observer {
     }
   }
   
+  /**
+   * closes the main window and opens the shop window.
+   * @param mainWindow the MainWindow to close
+   */
   public void openShop(MainWindow mainWindow) {
     mainWindow.closeWindow();
-    ShopWindow shop = new ShopWindow(this);
+    new ShopWindow(this);
   }
   
+  /**
+   * closes the shop window and opens the main window.
+   * @param shop the ShopWindow to close
+   */
   public void finishShop(ShopWindow shop) {
     shop.closeWindow();
-    MainWindow mainWindow = new MainWindow(this);
+    new MainWindow(this);
   }
 
   
@@ -270,14 +320,25 @@ public class GameEnvironment implements Observer {
     return active;
   }
   
+  /**
+   * increase the player's score by an integer amount.
+   * @param score int to add to the current score
+   */
   public void addScore(int score) {
     currentScore += score;
   }
   
+  /**
+   * returns the player's current score.
+   * @return player's current score as an int
+   */
   public int getScore() {
     return currentScore;
   }
   
+  /**
+   * shows the success popup for the game with the number of parts collected and the player's score.
+   */
   private void displayWinScreen() {
     new EventPopupWindow(String.format("You Won:\nYou managed to collect all %d parts.\n\n"
                                        + "Score: %d",
@@ -285,6 +346,9 @@ public class GameEnvironment implements Observer {
                                        getScore()));
   }
   
+  /**
+   * shows the lose popup for the game with the number of parts collected and the player's score.
+   */
   private void displayLoseScreen() {
     new EventPopupWindow(String.format("GAME OVER:\nYou failed to collect all %d parts.\n\n"
         + "Score: %d",
@@ -292,7 +356,9 @@ public class GameEnvironment implements Observer {
         getScore()));
   }
   
-  // Observes crew updates
+  /**
+   * Observes crew members and shows popups when their active effect set changes.
+   */
   @Override
   public void update(Observable o, Object arg) {
     if (arg instanceof CrewEffectChangeObserverEvent) {

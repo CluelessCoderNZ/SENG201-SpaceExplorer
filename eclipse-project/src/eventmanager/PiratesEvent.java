@@ -1,9 +1,10 @@
 package eventmanager;
 
-import java.util.Random;
-
 import items.Item;
 import items.ShipPart;
+
+import java.util.Random;
+
 import main.GameEnvironment;
 import main.Planet;
 

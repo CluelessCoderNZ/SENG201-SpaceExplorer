@@ -311,7 +311,8 @@ public class MainWindow {
     funds.setText("Funds: $" + crewState.getFunds());
     shield.setText(String.format("Shield: %d/%d", crewState.getShip().getShieldLevel(),
         crewState.getShip().getMaxShieldLevel()));
-    partsCollected.setText("Parts collected: " + crewState.getShipPartsFoundCount() + "/" + env.getShipPartsNeededCount());
+    partsCollected.setText(String.format("Parts collected: %d/%d",
+        crewState.getShipPartsFoundCount(), env.getShipPartsNeededCount()));
     currentWeapon.setText(String.format("Current weapon: %s (%d damage)",
         crewState.getShip().getWeapon().getName(),
         crewState.getShip().getWeapon().getDamage()));
@@ -328,6 +329,7 @@ public class MainWindow {
    * stops buttons being clickable if the required preconditions are not met.
    */
   private void updateButtons() {
+    // deactivates each button
     explore.setEnabled(false);
     sleep.setEnabled(false);
     repair.setEnabled(false);
@@ -338,19 +340,23 @@ public class MainWindow {
     List<CrewMember> selectedCrew = crewList.getSelectedValuesList();
     Item selectedItem = inventoryList.getSelectedValue();
     
-    if (selectedItem != null && !(selectedItem instanceof ConsumableItem)) {
+    // if the item can be used without an action point
+    if (selectedItem != null && selectedItem instanceof ShipUpgrade) {
       useItem.setEnabled(true);
     }
     
+    // if a selected crew member can act, enable the action buttons
     if (selectedCrew.size() == 1 && selectedCrew.get(0).canAct()) {
       explore.setEnabled(true);
       sleep.setEnabled(true);
       repair.setEnabled(true);
+      // use item button requires an item to be selected as well
       if (selectedItem != null && selectedItem instanceof ConsumableItem) {
         useItem.setEnabled(true);
         itemUsesRemaining.setText("Uses Remaining: "
                                    + ((ConsumableItem)selectedItem).getRemainingUses());
       }
+    // if two selected crew members can both act, and a planet is selected, allow travel
     } else if (selectedCrew.size() == 2
         && selectedCrew.get(0).canAct()
         && selectedCrew.get(1).canAct()) {

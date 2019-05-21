@@ -1,11 +1,16 @@
 package main;
 
-import java.util.Random;
-
 import eventmanager.WeightedArrayList;
 import items.Item;
 import items.ShipPart;
 
+import java.util.Random;
+
+/**
+ * Planet class holds information about the planets in the game. has a name,
+ * a Shop, and a loot table of items that can be found on the planet.
+ * optionally has a ShipPart that can be found on the Planet.
+ */
 public class Planet {
   private ShipPart part = null;
   private Shop shop;
@@ -53,15 +58,27 @@ public class Planet {
     
   }
   
+  /**
+   * returns the Shop attached to this Planet.
+   * @return the Planet's Shop
+   */
   public Shop getShop() {
     return shop;
   }
   
+  /**
+   * returns a random Item from the Planet's loot table.
+   * @param generator the Random object to use to choose the Item.
+   * @return the Item chosen by the random generator.
+   */
   public Item getRandomItem(Random generator) {
     return lootTable.getRandomItem(generator).copy();
   }
   
-  
+  /**
+   * returns whether the planet has a ShipPart on it.
+   * @return True if the ShipPart attached to the Planet is not null 
+   */
   public boolean hasShipPart() {
     return part != null;
   }

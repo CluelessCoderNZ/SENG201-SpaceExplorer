@@ -1,8 +1,9 @@
 package eventmanager;
 
+import items.ShipPart;
+
 import java.util.Random;
 
-import items.ShipPart;
 import main.GameEnvironment;
 
 /**

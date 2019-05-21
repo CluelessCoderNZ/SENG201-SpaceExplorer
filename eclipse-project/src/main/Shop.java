@@ -1,10 +1,17 @@
 package main;
 
+import items.Item;
+
 import java.util.ArrayList;
 import java.util.List;
 
-import items.Item;
-
+/**
+ * Shop is a shop that players can buy and sell items to.
+ * Has a name and a List of Items that can be bought, and a modifier
+ * that sets the percentage of an Item's base price it is sold for.
+ * @author jackbreurkes
+ *
+ */
 public class Shop {
   private String name;
   private List<Item> inventory = new ArrayList<Item>();
@@ -38,10 +45,18 @@ public class Shop {
   
   /* METHODS */
   
+  /**
+   * returns the Shop's inventory of Items.
+   * @return List of Items that can be bought from the Shop
+   */
   public List<Item> getInventory() {
     return inventory;
   }
   
+  /**
+   * returns the Shop's name.
+   * @return Shop name as a String
+   */
   public String getName() {
     return name;
   }

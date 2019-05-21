@@ -230,7 +230,8 @@ public class GameSetup {
         updateCrewTypeDescription(txtpnClassDescription, comboBox.getSelectedItem().toString());
       }
     });
-    comboBox.setModel(new DefaultComboBoxModel<String>(new String[] {"Investor", "Medic", "Engineer", "Student", "Scientist", "Robot"}));
+    comboBox.setModel(new DefaultComboBoxModel<String>(
+        new String[] {"Investor", "Medic", "Engineer", "Student", "Scientist", "Robot"}));
     comboBox.setBounds(390, 178, 118, 27);
     frame.getContentPane().add(comboBox);
     updateCrewTypeDescription(txtpnClassDescription, comboBox.getSelectedItem().toString());

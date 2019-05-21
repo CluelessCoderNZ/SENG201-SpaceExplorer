@@ -1,8 +1,9 @@
 package eventmanager;
 
+import items.Item;
+
 import java.util.Random;
 
-import items.Item;
 import main.GameEnvironment;
 
 /**
