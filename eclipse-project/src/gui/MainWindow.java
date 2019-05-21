@@ -24,6 +24,7 @@ import crew.CrewState;
 import eventmanager.GameEvent;
 import items.ConsumableItem;
 import items.Item;
+import items.ShipUpgrade;
 import main.GameEnvironment;
 import main.Planet;
 import net.miginfocom.swing.MigLayout;
@@ -404,7 +405,11 @@ public class MainWindow {
     CrewMember selectedCrewMember = crewList.getSelectedValue();
     Item selectedItem = inventoryList.getSelectedValue();
     
-    // TODO code here
+    if (selectedItem instanceof ConsumableItem) {
+      env.getCrewState().useItem((ConsumableItem) selectedItem, selectedCrewMember);
+    } else if (selectedItem instanceof ShipUpgrade) {
+      env.getCrewState().useItem((ShipUpgrade) selectedItem);
+    }
     
     updateGuiInfo();
   }
