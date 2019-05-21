@@ -22,7 +22,7 @@ import java.util.ArrayList;
 public class GameWorldGenerator {
   
   private static final int DEFAULT_PLANET_NUM = 8;
-  private static final int NUM_STORE_ITEMS = 16;
+  private static final int NUM_STORE_ITEMS = 5;
   private static final double SHOP_SELL_MODIFER = 1.15;
   private static final double SHOP_BUY_MODIFER = 0.85;
   
@@ -43,20 +43,20 @@ public class GameWorldGenerator {
   private static void buildDefaultEventManager(GameEnvironment env) {
     // DAY_START
     WeightedArrayList<GameEvent> dayStartEvents = new WeightedArrayList<GameEvent>();
-    dayStartEvents.addItem(new NullEvent(), 1000);
+    dayStartEvents.addItem(new NullEvent(), 500);
     dayStartEvents.addItem(new SpacePlagueEvent(), 1000);
     dayStartEvents.addItem(new PiratesEvent(), 500);
     
     // CREW_TRAVEL
     WeightedArrayList<GameEvent> travelEvents = new WeightedArrayList<GameEvent>();
-    travelEvents.addItem(new NullEvent(), 1000);
+    travelEvents.addItem(new NullEvent(), 500);
     travelEvents.addItem(new PiratesEvent(), 200);
-    travelEvents.addItem(new AsteroidEvent(), 1000);
+    travelEvents.addItem(new AsteroidEvent(), 2000);
     
     
     // CREW_EXPLORE
     WeightedArrayList<GameEvent> exploreEvents = new WeightedArrayList<GameEvent>();
-    exploreEvents.addItem(new NullEvent(), 200);
+    exploreEvents.addItem(new NullEvent(), 500);
     exploreEvents.addItem(new MoneyFindEvent(), 800);
     exploreEvents.addItem(new ItemFindEvent(), 500);
     exploreEvents.addItem(new ShipPartFindEvent(), 500);

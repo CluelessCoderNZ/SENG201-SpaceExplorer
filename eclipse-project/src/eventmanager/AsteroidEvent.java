@@ -8,8 +8,10 @@ public class AsteroidEvent extends GameEvent {
   static final int MAXBASE_DAMAGE = 50;
   static final int SCALED_DAMAGE = 80;
   
-  boolean isLethalDamage = false;
-  int shieldDamage = 0;
+  private boolean isLethalDamage = false;
+  private int shieldDamage = 0;
+  private int reducedDamage = 0;
+  private int overallDamage = 0;
 
   @Override
   public GameEvent createEvent(Random randomGenerator, GameEnvironment env) {
@@ -22,14 +24,18 @@ public class AsteroidEvent extends GameEvent {
     
     event.shieldDamage += (1.0 - shieldPrecent) * SCALED_DAMAGE;
     
-    event.isLethalDamage = event.shieldDamage > env.getCrewState().getShip().getShieldLevel();
+    event.reducedDamage = env.getCrewState().getShip().getWeapon().getDamage();
+        
+    event.overallDamage = Math.max(0, event.shieldDamage - event.reducedDamage);
+    
+    event.isLethalDamage =  event.overallDamage > env.getCrewState().getShip().getShieldLevel();
     
     return event;
   }
 
   @Override
   public void applyEvent(GameEnvironment env) {
-    env.getCrewState().getShip().takeDamage(shieldDamage);
+    env.getCrewState().getShip().takeDamage(overallDamage);
   }
 
   @Override
@@ -39,8 +45,9 @@ public class AsteroidEvent extends GameEvent {
           + "To think this could of all been avoided if someone had repaired the ship.";
     }
     
-    return String.format("We got bombarded by asteroids, doing %d damage to the shields", 
-                          shieldDamage);
+    return String.format("We got bombarded by asteroids, doing %d damage to the shields. "
+                         + "Our ship's weapon shot a few and protected us from %d damage", 
+                          overallDamage, reducedDamage);
   }
 
 }
