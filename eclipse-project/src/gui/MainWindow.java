@@ -25,6 +25,15 @@ import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
+<<<<<<< HEAD
+=======
+import crew.CrewMember;
+import crew.CrewState;
+import eventmanager.GameEvent;
+import items.ConsumableItem;
+import items.Item;
+import items.ShipUpgrade;
+>>>>>>> 0a1c22ae5957e5236ed03fc8ebb35d0f14919f27
 import main.GameEnvironment;
 import main.Planet;
 import net.miginfocom.swing.MigLayout;
@@ -420,7 +429,11 @@ public class MainWindow {
     CrewMember selectedCrewMember = crewList.getSelectedValue();
     Item selectedItem = inventoryList.getSelectedValue();
     
-    // TODO code here
+    if (selectedItem instanceof ConsumableItem) {
+      env.getCrewState().useItem((ConsumableItem) selectedItem, selectedCrewMember);
+    } else if (selectedItem instanceof ShipUpgrade) {
+      env.getCrewState().useItem((ShipUpgrade) selectedItem);
+    }
     
     updateGuiInfo();
   }
