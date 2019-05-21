@@ -8,6 +8,7 @@ import eventmanager.GameEvent;
 import eventmanager.GameEventManager;
 import gui.EventPopupWindow;
 import gui.MainWindow;
+import gui.SetupWindow;
 import gui.ShopWindow;
 
 import java.util.List;
@@ -21,6 +22,7 @@ import java.util.Random;
  */
 public class GameEnvironment implements Observer {
   
+  private GameSetup setup;
   private GameEventManager eventManager;
   private Planet currentPlanet;
   private List<Planet> planetList;
@@ -122,22 +124,33 @@ public class GameEnvironment implements Observer {
   }
   
   /**
+   * returns the GameEnvironment's GameSetup object.
+   * @return the GameEnvironment's GameSetup object
+   */
+  public GameSetup getGameSetup() {
+    return setup;
+  }
+  
+  /**
    * Creates a GameSetup object to initialise GameEnvironment.
    * @param cl whether to start game in command line mode
    */
   public void setupGame(boolean cl) {
     currentScore = 0;
     GameWorldGenerator.generateWorld(this);
-    new GameSetup(this, cl);
+    setup = new GameSetup(this, cl);
+    if (!cl) {
+      new SetupWindow(this);
+    }
   }
   
   /**
    * closes the game setup window and starts the main game.
-   * @param setup the setup window to close
+   * @param setupWindow the setup window to close
    */
-  public void finishSetup(GameSetup setup) {
-    setup.closeWindow();
-    System.out.println(crewState);
+  public void finishSetup(SetupWindow setupWindow) {
+    setupWindow.closeWindow();
+    setup.finishedSetup();
     
     // Subscribe GameEnvironment to crew events.
     for (CrewMember cm : crewState.getCrew()) {
