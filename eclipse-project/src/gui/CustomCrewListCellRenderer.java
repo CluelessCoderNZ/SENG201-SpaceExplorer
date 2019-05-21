@@ -1,18 +1,16 @@
 package gui;
 
-import java.awt.Component;
-import java.awt.Dimension;
+import crew.CrewMember;
+import crew.CrewMemberEffect;
 
-import javax.swing.Box;
+import java.awt.Component;
+
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.ListCellRenderer;
-
-import crew.CrewMember;
-import crew.CrewMemberEffect;
 
 /**
  * custom renderer for CrewMembers to be used in the MainWindow crew list.

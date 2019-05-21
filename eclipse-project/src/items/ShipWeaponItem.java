@@ -2,6 +2,10 @@ package items;
 
 import crew.Ship;
 
+/**
+ * Item subclass that implements ShipUpgrade and acts as a weapon that can
+ * be attached to a Ship object.
+ */
 public class ShipWeaponItem extends Item implements ShipUpgrade {
 
   private int damage = 0;

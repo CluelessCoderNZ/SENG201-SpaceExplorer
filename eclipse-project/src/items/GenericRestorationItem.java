@@ -3,6 +3,9 @@ package items;
 import crew.CrewMember;
 import crew.InvalidCrewMemberException;
 
+/**
+ * generic ConsumableItem subclass that can increase a CrewMember's fullness or health (or both).
+ */
 public class GenericRestorationItem extends ConsumableItem {
   
   /*
@@ -56,11 +59,18 @@ public class GenericRestorationItem extends ConsumableItem {
     return item;
   }
   
-  
+  /**
+   * returns the amount by which a CrewMember's health will be restored by this item.
+   * @return the health restore amount as an int
+   */
   public int getHealthRestoreAmount() {
     return healthRestoreAmount;
   }
   
+  /**
+   * returns the amount by which a CrewMember's fullness will be restored by this item.
+   * @return the fullness restore amount as an int
+   */
   public int getFullnessRestoreAmount() {
     return fullnessRestoreAmount;
   }
@@ -99,7 +109,7 @@ public class GenericRestorationItem extends ConsumableItem {
         && item.getFullnessRestoreAmount() == getFullnessRestoreAmount();
   }
   
-  
+  @Override
   public String toString() {
     return getName();
   }

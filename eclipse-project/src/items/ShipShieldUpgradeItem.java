@@ -2,6 +2,10 @@ package items;
 
 import crew.Ship;
 
+/**
+ * Item subclass that implements the ShipUpgrade interface.
+ * increases a Ship object's max shield level when used.
+ */
 public class ShipShieldUpgradeItem extends Item implements ShipUpgrade {
 
   private int maxShieldIncrease = 0;

@@ -3,11 +3,21 @@ package items;
 import crew.CrewMember;
 import crew.CrewMemberEffect;
 
+/**
+ * ConsumableItem subclass that has the effect of removing the
+ * PLAGUED effect from a CrewMember.
+ */
 public class PlagueCure extends ConsumableItem {
   boolean beenUsed = false;
 
+  /**
+   * constructor creates a new PlagueCure with a given name and value.
+   * @param name the name to give the PlagueCure
+   * @param value the value of the PlagueCure object in funds as an int
+   */
   public PlagueCure(String name, int value) {
     super(name, value);
+    setDescription("cures the space plague ailment");
   }
 
   @Override
