@@ -1,13 +1,12 @@
 package gui;
 
-import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import net.miginfocom.swing.MigLayout;
-import javax.swing.JTextPane;
-import javax.swing.JButton;
-import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JTextPane;
+
+import net.miginfocom.swing.MigLayout;
 
 /**
  * popup window for displaying any game event or general message

@@ -2,8 +2,16 @@ package items;
 
 import crew.CrewMember;
 
+/**
+ * Item abstract subclass that can be used on a CrewMember a limited number of times.
+ */
 public abstract class ConsumableItem extends Item {
   
+  /**
+   * default constructor mirrors the Item superclass constructor.
+   * @param name the name to give the item
+   * @param value the funds value of the item
+   */
   public ConsumableItem(String name, int value) {
     super(name, value);
   }
@@ -20,12 +28,25 @@ public abstract class ConsumableItem extends Item {
    */
   public abstract void applyEffects(CrewMember crew);
   
+  /**
+   * returns the remaining number of times the item can be used.
+   * @return number of remaining uses as an int
+   */
   public abstract int getRemainingUses();
     
+  /**
+   * returns whether the item has no remaining uses.
+   * @return True if remaining uses is 0
+   */
   public boolean isEmpty() {
     return getRemainingUses() == 0;
   }
   
+  /**
+   * equality check for two ConsumableItems.
+   * @param item the ConsumableItem to check this object for equality to
+   * @return whether the two items have the same name, value and remaining uses
+   */
   public boolean equals(ConsumableItem item) {
     return super.equals(item) && item.getRemainingUses() == getRemainingUses();
   }

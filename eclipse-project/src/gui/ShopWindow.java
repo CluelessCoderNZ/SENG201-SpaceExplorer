@@ -1,32 +1,28 @@
 package gui;
 
-import java.awt.BorderLayout;
-import java.awt.EventQueue;
-import java.util.Collections;
+import items.GenericRestorationItem;
+import items.Item;
+import items.ShipUpgrade;
+
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.DefaultListModel;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JScrollPane;
-import java.awt.FlowLayout;
-import javax.swing.SpringLayout;
-import net.miginfocom.swing.MigLayout;
-import javax.swing.JButton;
-import javax.swing.ListSelectionModel;
 import javax.swing.JTextPane;
+import javax.swing.ListSelectionModel;
+import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
-import items.GenericRestorationItem;
-import items.Item;
-import items.ShipUpgrade;
 import main.GameEnvironment;
 
-import javax.swing.event.ListSelectionEvent;
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
+import net.miginfocom.swing.MigLayout;
 
 public class ShopWindow {
 

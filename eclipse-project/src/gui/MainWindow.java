@@ -1,5 +1,11 @@
 package gui;
 
+import crew.CrewMember;
+import crew.CrewState;
+import eventmanager.GameEvent;
+import items.ConsumableItem;
+import items.Item;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -19,11 +25,6 @@ import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
-import crew.CrewMember;
-import crew.CrewState;
-import eventmanager.GameEvent;
-import items.ConsumableItem;
-import items.Item;
 import main.GameEnvironment;
 import main.Planet;
 import net.miginfocom.swing.MigLayout;
@@ -135,9 +136,6 @@ public class MainWindow {
         visitOutpostButton();
       }
     });
-    
-    funds = new JLabel("Funds: 0");
-    frame.getContentPane().add(funds, "flowx,cell 1 0,alignx right,aligny center");
     frame.getContentPane().add(btnViewShop, "cell 1 0,alignx right,aligny center");
     
     explore = new JButton("Explore");
@@ -170,20 +168,30 @@ public class MainWindow {
         nextDayButtonPressed();
       }
     });
-    
-    daysRemaining = new JLabel("Days remaining: 0");
-    frame.getContentPane().add(daysRemaining, "flowx,cell 1 6,alignx right");
     frame.getContentPane().add(btnNextDay, "cell 1 6,alignx right,growy");
   }
   
+  /**
+   * creates the JLabels that appear in the MainWindow frame.
+   */
   private void initializeLabels() {
     JLabel lblCrew = new JLabel("Crew:");
     frame.getContentPane().add(lblCrew, "cell 0 1,alignx center,aligny top");
     
     JLabel lblShipName = new JLabel("Ship: " + env.getCrewState().getShip().getName());
     frame.getContentPane().add(lblShipName, "cell 1 1,alignx center,aligny top");
+    
+    funds = new JLabel("Funds: 0");
+    frame.getContentPane().add(funds, "flowx,cell 1 0,alignx right,aligny center");
+    
+    daysRemaining = new JLabel("Days remaining: 0");
+    frame.getContentPane().add(daysRemaining, "flowx,cell 1 6,alignx right");
   }
   
+  /**
+   * initializes the contents of the combat room JPanel.
+   * @param combatRoom the JPanel to add the components to
+   */
   private void initializeCombatRoomPanel(JPanel combatRoom) {
     shield = new JLabel("SHIELD: " + env.getCrewState().getShip().getShieldLevel());
     combatRoom.add(shield, "cell 0 0,growx,aligny top");
@@ -200,6 +208,10 @@ public class MainWindow {
     });
   }
   
+  /**
+   * initializes the contents of the cargo hold JPanel.
+   * @param combatRoom the JPanel to add the components to
+   */
   private void initializeCargoHoldPanel(JPanel cargoHold) {
     partsCollected = new JLabel("Parts collected: 0");
     cargoHold.add(partsCollected, "cell 0 0");
@@ -225,6 +237,10 @@ public class MainWindow {
     cargoHold.add(useItem, "flowy,cell 0 2");
   }
   
+  /**
+   * initializes the contents of the observation deck JPanel.
+   * @param combatRoom the JPanel to add the components to
+   */
   private void initializeObservationDeckPanel(JPanel observationDeck) {
     currentPlanet = new JLabel("Current planet: ");
     observationDeck.add(currentPlanet, "cell 0 0");

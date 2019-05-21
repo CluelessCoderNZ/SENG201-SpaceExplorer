@@ -1,5 +1,8 @@
 package items;
 
+/**
+ * base class for items in the game. Have a name, description and value.
+ */
 public class Item {
   /*
   ===============
@@ -10,26 +13,42 @@ public class Item {
   private String description = "";
   private int value = 0;
   
-  
+  /**
+   * default constructor creates an Item with the given name
+   * with a value of 0 and no description.
+   * @param name the name to give the Item
+   */
   public Item(String name) {
     this.name = name;
   }
   
+  /**
+   * extended constructor creates an Item with the given name and value
+   * with no description.
+   * @param name the name to give the Item
+   * @param value the value of the item in funds as an int
+   */
   public Item(String name, int value) {
     this.name = name;
     setValue(value);
   }
   
+  /**
+   * extended constructor creates an Item with the given name and description
+   * with a value of 0.
+   * @param name the name to give the Item
+   * @param description the description to give the Item
+   */
   public Item(String name, String description) {
     this.name = name;
     this.description = description;
   }
   
   /**
-   * Constructor of Item.
-   * @param name item name
-   * @param value item value
-   * @param description item description
+   * extended constructor creates an Item with the given name, value and description.
+   * @param name the name to give the Item
+   * @param value the value of the item in funds as an int
+   * @param description the description to give the Item
    */
   public Item(String name, int value, String description) {
     this.name = name;
@@ -37,6 +56,10 @@ public class Item {
     this.description = description;
   }
   
+  /**
+   * creates a new copy of this Item.
+   * @return a new Item with the exact same values as this one.
+   */
   public Item copy() {
     Item item = new Item(this.name, this.value, this.description);
     return item;
@@ -84,10 +107,16 @@ public class Item {
     return "";
   }
   
+  @Override
   public String toString() {
     return getName();
   }
 
+  /**
+   * checks for equality of two Items.
+   * @param item the Item to check this Item against
+   * @return whether the two Items are the same
+   */
   public boolean equals(Item item) {
     return this.getName() == item.getName() && this.getValue() == item.getValue();
   }

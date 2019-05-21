@@ -2,6 +2,9 @@ package items;
 
 import crew.Ship;
 
+/**
+ * interface to be used by Items that affect a Ship object.
+ */
 public interface ShipUpgrade {
   
   /**

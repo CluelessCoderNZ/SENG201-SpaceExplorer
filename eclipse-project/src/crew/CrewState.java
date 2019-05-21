@@ -8,9 +8,6 @@ import items.ShipUpgrade;
 import java.util.ArrayList;
 import java.util.List;
 
-import main.Observable;
-import main.Observer;
-
 /**
  * class to handle the state of the game's crew, including their funds, current ship, and inventory.
  */
