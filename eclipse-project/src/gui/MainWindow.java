@@ -59,6 +59,7 @@ public class MainWindow {
   private JLabel partsCollected;
   private JLabel currentPlanet;
   private JLabel daysRemaining;
+  private JLabel itemUsesRemaining;
   
   /**
    * Create the application window and set elements to the correct initial values.
@@ -214,7 +215,7 @@ public class MainWindow {
    * @param combatRoom the JPanel to add the components to
    */
   private void initializeCargoHoldPanel(JPanel cargoHold) {
-    partsCollected = new JLabel("Parts collected: 0");
+    partsCollected = new JLabel("Parts collected: 0/" + env.getShipPartsNeededCount());
     cargoHold.add(partsCollected, "cell 0 0");
     
     JScrollPane inventoryScroll = new JScrollPane();
@@ -236,6 +237,9 @@ public class MainWindow {
       }
     });
     cargoHold.add(useItem, "flowy,cell 0 2");
+    
+    itemUsesRemaining = new JLabel("");
+    cargoHold.add(itemUsesRemaining, "alignx,cell 0 2");
   }
   
   /**
@@ -307,7 +311,7 @@ public class MainWindow {
     funds.setText("Funds: $" + crewState.getFunds());
     shield.setText(String.format("Shield: %d/%d", crewState.getShip().getShieldLevel(),
         crewState.getShip().getMaxShieldLevel()));
-    partsCollected.setText("Parts collected: " + crewState.getShipPartsFoundCount());
+    partsCollected.setText("Parts collected: " + crewState.getShipPartsFoundCount() + "/" + env.getShipPartsNeededCount());
     currentWeapon.setText(String.format("Current weapon: %s (%d damage)",
         crewState.getShip().getWeapon().getName(),
         crewState.getShip().getWeapon().getDamage()));
@@ -329,6 +333,7 @@ public class MainWindow {
     repair.setEnabled(false);
     useItem.setEnabled(false);
     changePlanet.setEnabled(false);
+    itemUsesRemaining.setText("");
     
     List<CrewMember> selectedCrew = crewList.getSelectedValuesList();
     Item selectedItem = inventoryList.getSelectedValue();
@@ -341,8 +346,10 @@ public class MainWindow {
       explore.setEnabled(true);
       sleep.setEnabled(true);
       repair.setEnabled(true);
-      if (selectedItem != null) {
+      if (selectedItem != null && selectedItem instanceof ConsumableItem) {
         useItem.setEnabled(true);
+        itemUsesRemaining.setText("Uses Remaining: "
+                                   + ((ConsumableItem)selectedItem).getRemainingUses());
       }
     } else if (selectedCrew.size() == 2
         && selectedCrew.get(0).canAct()

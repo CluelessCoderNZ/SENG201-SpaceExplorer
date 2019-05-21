@@ -49,7 +49,7 @@ public class GameWorldGenerator {
     // DAY_START
     WeightedArrayList<GameEvent> dayStartEvents = new WeightedArrayList<GameEvent>();
     dayStartEvents.addItem(new NullEvent(), 500);
-    dayStartEvents.addItem(new SpacePlagueEvent(), 1000);
+    dayStartEvents.addItem(new SpacePlagueEvent(), 800);
     dayStartEvents.addItem(new PiratesEvent(), 500);
     
     // CREW_TRAVEL
@@ -95,10 +95,10 @@ public class GameWorldGenerator {
     lootTable.addItem(new GenericRestorationItem("Hamburger", 40, 10, 50),                100);
     lootTable.addItem(new GenericRestorationItem("Scrambled Eggs", 20, 0, 20),            100);
     lootTable.addItem(new Item("Golden Spork", 100, "Shiny. Not good for eating with."),  100);
-    lootTable.addItem(new Item("Golden Bars", 1000, "We're rich!"),                        50);
+    lootTable.addItem(new Item("Golden Bars", 800, "We're rich!"),                        50);
     lootTable.addItem(new GenericRestorationItem("Antimatter Brownies", 40, 0, -30, 3),   100);
-    lootTable.addItem(new GenericRestorationItem("Bountiful Feast", 300, 0, 50, 10),      100);
-    lootTable.addItem(new PlagueCure("Plague-Away", 300),                                 150);
+    lootTable.addItem(new GenericRestorationItem("Bountiful Feast", 300, 0, 50, 5),      100);
+    lootTable.addItem(new PlagueCure("Plague-Away", 100),                                 300);
 
     
     // Shop Name Table

@@ -13,7 +13,7 @@ public class Shop {
   
   
   /**
-   * initializes a Shop object that sells items in a given inventory.
+   * Initialises a Shop object that sells items in a given inventory.
    * @param galacticMedItems the inventory for the shop to sell items from
    */
   public Shop(String name, List<Item> galacticMedItems) {
@@ -22,7 +22,7 @@ public class Shop {
   }
   
   /**
-   * initializes a Shop that sells items in a given inventory with buy and sell price modifiers.
+   * Initialises a Shop that sells items in a given inventory with buy and sell price modifiers.
    * @param inventory ArrayList of items for the shop to sell items from
    * @param buyModifier the fraction of an item's value the shop will buy it for
    * @param sellModifier the fraction of an item's value the shop will sell it for
