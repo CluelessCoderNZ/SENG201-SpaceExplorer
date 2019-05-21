@@ -5,6 +5,7 @@ import crew.CrewState;
 import eventmanager.GameEvent;
 import items.ConsumableItem;
 import items.Item;
+import items.ShipUpgrade;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -25,15 +26,6 @@ import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
-<<<<<<< HEAD
-=======
-import crew.CrewMember;
-import crew.CrewState;
-import eventmanager.GameEvent;
-import items.ConsumableItem;
-import items.Item;
-import items.ShipUpgrade;
->>>>>>> 0a1c22ae5957e5236ed03fc8ebb35d0f14919f27
 import main.GameEnvironment;
 import main.Planet;
 import net.miginfocom.swing.MigLayout;
