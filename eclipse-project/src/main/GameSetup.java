@@ -159,7 +159,8 @@ public class GameSetup {
       @Override
       public void keyTyped(KeyEvent e) {
         char c = e.getKeyChar();
-        if (!Character.isAlphabetic(c) || shipNameField.getText().length() > MAX_TEXT_SIZE) {
+        if (!(Character.isAlphabetic(c) || Character.isDigit(c) || Character.isSpaceChar(c)) 
+            || shipNameField.getText().length() > MAX_TEXT_SIZE) {
           e.consume();
         }
       }
@@ -203,7 +204,8 @@ public class GameSetup {
       @Override
       public void keyTyped(KeyEvent e) {
         char c = e.getKeyChar();
-        if (!Character.isAlphabetic(c) || txtName.getText().length() > MAX_TEXT_SIZE) {
+        if (!(Character.isAlphabetic(c) || Character.isDigit(c) || Character.isSpaceChar(c)) 
+            || txtName.getText().length() > MAX_TEXT_SIZE) {
           e.consume();
         }
       }
