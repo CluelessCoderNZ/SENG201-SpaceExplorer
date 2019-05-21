@@ -15,6 +15,12 @@ import gui.EventPopupWindow;
 import gui.MainWindow;
 import gui.ShopWindow;
 
+/**
+ * GameEnvironment is the central class to the game having all game related objects as its members.
+ * The main entry point for the program is from GameEnvironment. It then calls GameSetup to 
+ * instantiate some of it's members. Throughout much of the application GameEnvironment is used as
+ * an argument to pass context to the game state, such as in GameEvent.
+ */
 public class GameEnvironment implements Observer {
   
   private GameEventManager eventManager;
@@ -23,6 +29,8 @@ public class GameEnvironment implements Observer {
   private CrewState crewState;
   private int daysPassed = 0;
   private int maxDays;
+  
+  // The central randomGenerator allows for seeds to deterministically produce games.
   private Random randomGenerator = new Random();
   
   private int currentScore = 0;
@@ -71,6 +79,10 @@ public class GameEnvironment implements Observer {
     return planetList;
   }
   
+  /**
+   * Creates a GameSetup object to initialise GameEnvironment.
+   * @param cl whether to start game in command line mode
+   */
   public void setupGame(boolean cl) {
     currentScore = 0;
     GameWorldGenerator.generateWorld(this);
@@ -95,10 +107,17 @@ public class GameEnvironment implements Observer {
     }
   }
   
+  /**
+   * Launches main gui window.
+   */
   public void mainWindow() {
     MainWindow mainGame = new MainWindow(this);
   }
   
+  /**
+   * Called at the end of the game. Calculates final score and displays final game end message.
+   * @param mainWindow reference to the main window to close.
+   */
   public void finishMainGame(MainWindow mainWindow) {
     mainWindow.closeWindow();
     

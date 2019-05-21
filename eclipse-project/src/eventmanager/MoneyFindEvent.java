@@ -4,6 +4,9 @@ import java.util.Random;
 
 import main.GameEnvironment;
 
+/**
+ * MoneyFindEvent gives a random amount of money to the crew.
+ */
 public class MoneyFindEvent extends GameEvent {
   static final int MIN_MONEY_FOUND = 5;
   static final int MAX_MONEY_FOUND = 50;

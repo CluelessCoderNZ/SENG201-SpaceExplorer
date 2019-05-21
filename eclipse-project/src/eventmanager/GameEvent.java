@@ -4,6 +4,13 @@ import java.util.Random;
 
 import main.GameEnvironment;
 
+/**
+ * GameEvent is the abstract base class for all random events in the game.
+ * It requires the implementation of three functions.
+ *  + createEvent : A function which clones the event and instantiates any random members.
+ *  + applyEvent : A function which applies the event's actions to the GameEnvironment.
+ *  + getEventMessage : A function which return's a flavoured message about the event for display.
+ */
 public abstract class GameEvent {
   
   /**
@@ -27,5 +34,10 @@ public abstract class GameEvent {
     return true;
   }
   
+  /**
+   * Returns a message for display about the event.
+   * May include numbers about the details of the event.
+   * @return message
+   */
   public abstract String getEventMessage();
 }

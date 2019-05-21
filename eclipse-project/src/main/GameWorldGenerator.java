@@ -19,6 +19,11 @@ import items.ShipWeaponItem;
 
 import java.util.ArrayList;
 
+/**
+ * GameWorldGenerator contains many factory functions for building key game aspects. 
+ * Such as the event builder, shops and planets. 
+ * A lot of the game balance and configuration can be done out of this class.
+ */
 public class GameWorldGenerator {
   
   private static final int DEFAULT_PLANET_NUM = 8;

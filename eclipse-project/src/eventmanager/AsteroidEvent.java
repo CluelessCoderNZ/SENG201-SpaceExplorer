@@ -4,6 +4,10 @@ import java.util.Random;
 
 import main.GameEnvironment;
 
+/**
+ * An Asteroid event damages the ship in a GameEnvironment by a random scaled amount to it's shield.
+ * The damage is mitigated by the ship's weapon damage.
+ */
 public class AsteroidEvent extends GameEvent {
   static final int MAXBASE_DAMAGE = 50;
   static final int SCALED_DAMAGE = 80;

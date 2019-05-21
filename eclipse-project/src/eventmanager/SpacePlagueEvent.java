@@ -7,6 +7,11 @@ import crew.CrewMemberEffect;
 import crew.Robot;
 import main.GameEnvironment;
 
+/**
+ * SpacePlagueEvent gives a random crew member the PLAGUED effect and a random amount of damage.
+ * A crew member must be eligible(not plagued, not dead, not robot) for space plague
+ * for the event to occur otherwise it does nothing.
+ */
 public class SpacePlagueEvent extends GameEvent {
   static final int MAX_DAMAGE = 20;
   static final int MIN_DAMAGE = 10;

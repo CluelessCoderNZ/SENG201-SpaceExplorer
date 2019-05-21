@@ -5,6 +5,9 @@ import java.util.Random;
 import items.Item;
 import main.GameEnvironment;
 
+/**
+ * ItemFindEvent gives a random item from the planet's loot table to the crew.
+ */
 public class ItemFindEvent extends GameEvent {
   
   private Item foundItem;

@@ -4,6 +4,10 @@ import java.util.Random;
 
 import main.GameEnvironment;
 
+/**
+ * NullEvent represents the GameEvent of nothing happening. As such it can never be applied.
+ * This event can be used to increase the odds of nothing happening for a GameAction.
+ */
 public class NullEvent extends GameEvent {
 
   

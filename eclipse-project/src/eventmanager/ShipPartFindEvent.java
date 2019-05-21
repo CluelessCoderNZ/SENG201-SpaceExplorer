@@ -5,6 +5,10 @@ import java.util.Random;
 import items.ShipPart;
 import main.GameEnvironment;
 
+/**
+ * ShipPartFindEvent adds the Planet ShipPart to the Crew's Inventory.
+ * If the planet has no ship part the player gets a message about the planet not having a ShipPart.
+ */
 public class ShipPartFindEvent extends GameEvent {
   ShipPart partFound = null;
   

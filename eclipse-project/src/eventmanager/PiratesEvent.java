@@ -7,6 +7,12 @@ import items.ShipPart;
 import main.GameEnvironment;
 import main.Planet;
 
+/**
+ * PiratesEvent takes a targetItem from the Crew's Inventory if their inventory
+ * is empty the event does nothing.
+ * Special Case: If the targetItem is a ShipPart it is given back to the first planet without one
+ * to prevent a permanent lose state.
+ */
 public class PiratesEvent extends GameEvent {
 
   private Item targetItem = null;

@@ -44,6 +44,11 @@ import items.ShipPart;
 
 import javax.swing.event.ListSelectionEvent;
 
+/**
+ * GameSetup handles both the gui and cl setup of the game.
+ * It instantiates members within game environment so its ready for the main game play loop.
+ * It makes use of GameWorldGenerator. After it's done it calls finishedSetup in GameEnvironment.
+ */
 public class GameSetup {
   
   private static final int MIN_CREW = 2;
@@ -54,7 +59,6 @@ public class GameSetup {
   
   private boolean useCl = false;
   
-  //private List<CrewMember> crewMembers = new ArrayList<CrewMember>();
   private DefaultListModel<CrewMember> crewGuiList = new DefaultListModel<CrewMember>();
   private Ship ship = null;
   private JList<CrewMember> crewMembersList;

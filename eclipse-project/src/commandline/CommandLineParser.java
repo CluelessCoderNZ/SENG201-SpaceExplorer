@@ -7,7 +7,12 @@ import java.util.List;
 import java.util.Scanner;
 
 
-
+/**
+ * CommandLineParser acts as an input layer between some input stream and the game.
+ * It acts as a higher level of abstraction by applying error checking above the Scanner class.
+ * It can be given any input stream which can allow for easier testing in future by 
+ * running automatic game play tests.
+ */
 public class CommandLineParser {
   private PrintStream output;
   private Scanner inputScanner;

@@ -14,12 +14,22 @@ import main.GameEnvironment;
 import main.Planet;
 import main.Shop;
 
+/**
+ * CommandLineRunner controls the main game loop of the Command Line version of the game.
+ * It can be started via startGame() only returning upon the end of the game.
+ * It uses a CommandLineParser for input
+ */
 public class CommandLineRunner {
   
   
   private GameEnvironment env;
   private CommandLineParser cl;
   
+  /**
+   * CommandLineRunner constructor 
+   * @param env gives context the game.
+   * @param cl gives the input and output streams for the game.
+   */
   public CommandLineRunner(GameEnvironment env, CommandLineParser cl) {
     this.env = env;
     this.cl = cl;

@@ -11,6 +11,10 @@ import java.util.Random;
  */
 public class WeightedArrayList<T> {
   
+  /**
+   * Internal atomic data type for weighted items used by WeightedArrayList.
+   * @param <I> This type is always instantiated with T
+   */
   private class WeightedItem<I> {
     private I   item;
     private int weight;
