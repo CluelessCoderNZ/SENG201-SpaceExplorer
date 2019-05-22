@@ -265,6 +265,8 @@ public class CommandLineRunner {
             cl.printError("Item is not usable.");
           }
           break;
+        case 1:
+          break;
         default:
           throw new IllegalArgumentException("Invalid option selected.");
       }
@@ -338,6 +340,8 @@ public class CommandLineRunner {
           }
 
           break;
+        case 1:
+          break;
         default:
           throw new IllegalArgumentException("Invalid option selected.");
       }
@@ -399,6 +403,8 @@ public class CommandLineRunner {
           } else {
             cl.print("You can't afford to buy this.\n");
           }
+          break;
+        case 1:
           break;
         default:
           throw new IllegalArgumentException("Invalid option selected.");
