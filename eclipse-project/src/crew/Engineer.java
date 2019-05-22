@@ -26,7 +26,7 @@ public class Engineer extends CrewMember {
   
   @Override
   public void repairShip(Ship ship) {
-    if (hasActionAvaliable()) {
+    if (canAct()) {
       ship.increaseShield((int)(CrewMember.DEFAULT_SHIP_REPAIR * REPAIR_MODIFIER));
       useAction();
     }

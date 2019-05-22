@@ -42,10 +42,10 @@ class GenericRestorationItemTest {
     
     
     crew.setFullness(50);
-    GenericRestorationItem dissapear = new GenericRestorationItem("Thin Air", 0, 10, 10, 0);
+    GenericRestorationItem dissapear = new GenericRestorationItem("Thin Air", 0, 0, 10, 0);
     dissapear.applyEffects(crew);
+    assertTrue(dissapear.isEmpty());
     assertEquals(50, crew.getFullness());
-    
     
     GenericRestorationItem oofJuice = new GenericRestorationItem("Oof Juice", 1000, -100, -100);
     oofJuice.applyEffects(crew);
@@ -75,13 +75,22 @@ class GenericRestorationItemTest {
     GenericRestorationItem item3 = new GenericRestorationItem("Item", 10, 10, 3);
     GenericRestorationItem item4 = new GenericRestorationItem("Item", 10, 5, 3);
     assertFalse(item3.equals(item4));
+    
+    GenericRestorationItem item5 = new GenericRestorationItem("Item", 10, 10, 5);
+    GenericRestorationItem item6 = new GenericRestorationItem("Item", 10, 10, 4);
+    assertFalse(item5.equals(item6));
+    
+    GenericRestorationItem item6copy = (GenericRestorationItem)item6.copy();
+    assertTrue(item6.equals(item6copy));
+    
   }
   
   
   @Test
   void testToString() {
-    Item item = new GenericRestorationItem("Crystal Meth", 50, 20, -20);
-    assertEquals("Crystal Meth", item.toString());
+    Item item = new GenericRestorationItem("Crystal Meth", 50, 20, -20, 4);
+    assertEquals("Crystal Meth (4 uses)", item.toString());
+    assertEquals("HP: +20 Food: -20 Uses: 4", item.getEffectsString());
   }
 
 }

@@ -88,12 +88,12 @@ public class GenericRestorationItem extends ConsumableItem {
   
   @Override
   public void applyEffects(CrewMember crew) {
-    if (crew.getHealth() == 0 || crew.getFullness() == 0) {
-      throw new InvalidCrewMemberException("crew member health or fullness is 0");
+    if (crew.isDead()) {
+      throw new InvalidCrewMemberException("crew member is dead");
     }
     if (!isEmpty()) {
-      crew.setHealth(crew.getHealth() + getHealthRestoreAmount());
-      crew.setFullness(crew.getFullness() + getFullnessRestoreAmount());
+      crew.changeFullness(getFullnessRestoreAmount());
+      crew.changeHealth(getHealthRestoreAmount());
       usesRemaining -= 1;
     }
   }

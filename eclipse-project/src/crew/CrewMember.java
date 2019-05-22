@@ -249,7 +249,7 @@ public class CrewMember extends Observable {
    * @param item activated item
    */
   public void useItem(ConsumableItem item) {
-    if (hasActionAvaliable()) {
+    if (canAct()) {
       item.applyEffects(this);
       useAction();
     }
@@ -260,7 +260,7 @@ public class CrewMember extends Observable {
    * @param ship to be affected.
    */
   public void repairShip(Ship ship) {
-    if (hasActionAvaliable()) {
+    if (canAct()) {
       ship.increaseShield(DEFAULT_SHIP_REPAIR);
       useAction();
     }
@@ -270,7 +270,7 @@ public class CrewMember extends Observable {
    * Restores DEFAULT_SLEEP_RESTORE if has actions available.
    */
   public void sleep() {
-    if (hasActionAvaliable()) {
+    if (canAct()) {
       changeRestedness(DEFAULT_SLEEP_RESTORE);
       useAction();
     }
@@ -288,14 +288,6 @@ public class CrewMember extends Observable {
    */
   public void useAction() {
     actionPoints = Math.max(actionPoints - 1, 0);
-  }
-
-  /**
-   * checks whether the crew member can take another action.
-   * @return true if the crew member has no action points remaining, false otherwise
-   */
-  public boolean hasActionAvaliable() {
-    return actionPoints > 0;
   }
 
   /**

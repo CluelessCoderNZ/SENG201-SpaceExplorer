@@ -20,68 +20,90 @@ class CrewMemberTest {
     assertEquals(crew1.getRestedness(), crew1.getMaxRestedness());
     assertEquals(crew1.getActionPoints(), crew1.getMaxActionPoints());
     
-    CrewMember crew2 = new CrewMember("Mrs.Test", "Accountant", 120, 00, 0, 3);
+    CrewMember crew2 = new CrewMember("Mrs.Test", "Accountant", 120, 0, 0, 3);
     
     assertEquals(crew2.getHealth(), 120);
     assertEquals(crew2.getFullness(), 0);
     assertEquals(crew2.getRestedness(), 0);
     assertEquals(crew2.getActionPoints(), 3);
+    
+    assertThrows(IllegalArgumentException.class, () -> {
+      new CrewMember("Invalid", "Outcast", -1, -1, -1, -1);
+    });
   }
 
   @Test
   void testActionPoints() {
-    CrewMember crew = new CrewMember("Donald", "Duck");
+    CrewMember crew = new CrewMember("Donald", "Duck", 100, 100, 100, 2);
     
-    assertEquals(crew.getActionPoints(), 2);
-    assertTrue(crew.hasActionAvaliable());
+    assertEquals(2, crew.getMaxActionPoints());
+    
+    assertEquals(2, crew.getActionPoints());
+    assertTrue(crew.canAct(2));
+        
+    crew.useAction();
+    assertEquals(1, crew.getActionPoints());
+    assertFalse(crew.canAct(2));
+    assertTrue(crew.canAct());
     
     crew.useAction();
-    
-    assertEquals(crew.getActionPoints(), 1);
-    assertTrue(crew.hasActionAvaliable());
-    
-    crew.useAction();
-    
-    assertEquals(crew.getActionPoints(), 0);
-    assertFalse(crew.hasActionAvaliable());
+    assertEquals(0, crew.getActionPoints());
+    assertFalse(crew.canAct());
     
     crew.useAction();
+    assertEquals(0, crew.getActionPoints());
+    assertFalse(crew.canAct());
     
-    assertEquals(crew.getActionPoints(), 0);
-    assertFalse(crew.hasActionAvaliable());
+    crew.resetActions();
+    assertEquals(2, crew.getActionPoints());
   }
   
   @Test
   void testStats() {
     CrewMember crew = new CrewMember("Mickey", "Mouse", 100, 100, 100, 2);
     
-    // Check Limits
+    // check max values
+    assertEquals(100, crew.getMaxHealth());
+    assertEquals(100, crew.getMaxFullness());
+    assertEquals(100, crew.getMaxRestedness());
+    
+    // Check upper limit
     crew.setFullness(1000);
     crew.setHealth(1000);
     crew.setRestedness(1000);
     
-    assertEquals(crew.getHealth(), crew.getMaxHealth());
-    assertEquals(crew.getFullness(), crew.getMaxFullness());
-    assertEquals(crew.getRestedness(), crew.getMaxRestedness());
-    
-    crew.setFullness(-1000);
-    crew.setHealth(-90);
-    crew.setRestedness(-1000);
-    
-    assertEquals(crew.getHealth(), 10);
-    assertEquals(crew.getFullness(), 0);
-    assertEquals(crew.getRestedness(), 0);
+    assertEquals(100, crew.getHealth(), crew.getMaxHealth());
+    assertEquals(100, crew.getFullness());
+    assertEquals(100, crew.getRestedness());
     
     // Check changes
-    crew.changeFullness(40);
-    assertEquals(crew.getFullness(), 40);
+    crew.changeFullness(-40);
+    assertEquals(60, crew.getFullness());
     
     crew.setRestedness(50);
-    crew.changeRestedness(-30);
-    assertEquals(crew.getRestedness(), 20);
+    crew.changeRestedness(30);
+    assertEquals(80, crew.getRestedness());
     
     crew.changeHealth(-30);
-    assertEquals(crew.getHealth(), 0);
+    assertEquals(70, crew.getHealth());
+    
+    // check lower limit
+    crew.setFullness(-1000);
+    crew.setRestedness(-1000);
+    crew.setHealth(-1000);
+    
+    assertEquals(0, crew.getFullness());
+    assertEquals(0, crew.getRestedness());
+    assertEquals(0, crew.getHealth());
+    
+    // check no change when dead
+    crew.setFullness(100);
+    crew.setRestedness(100);
+    crew.setHealth(100);
+    
+    assertEquals(0, crew.getFullness());
+    assertEquals(0, crew.getRestedness());
+    assertEquals(0, crew.getHealth());
   }
   
   @Test
@@ -115,6 +137,17 @@ class CrewMemberTest {
     crew.setFullness(0);
     assertTrue(crew.hasEffect(CrewMemberEffect.HUNGRY));
     
+    crew.setHealth(0);
+    assertTrue(crew.hasEffect(CrewMemberEffect.DEAD));
+    assertTrue(crew.isDead());
+  }
+  
+  @Test
+  void testName() {
+    CrewMember crew = new CrewMember("Bob", "TestCase");
+    assertEquals("Bob", crew.getName());
+    assertEquals("TestCase", crew.getTitle());
+    assertEquals("Bob the TestCase", crew.getFullTitle());
   }
   
 }

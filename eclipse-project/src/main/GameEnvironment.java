@@ -263,7 +263,7 @@ public class GameEnvironment implements Observer {
     }
     
     // Travel To Planet
-    if (crewMemberA.hasActionAvaliable() && crewMemberB.hasActionAvaliable()) {
+    if (crewMemberA.canAct() && crewMemberB.canAct()) {
       crewMemberA.useAction();
       crewMemberB.useAction();
       
@@ -294,7 +294,7 @@ public class GameEnvironment implements Observer {
       throw new IllegalArgumentException("Crew member is not in crew.");
     }
     
-    if (crewMember.hasActionAvaliable()) {
+    if (crewMember.canAct()) {
       crewMember.useAction();
       
       // Exploring Event.
