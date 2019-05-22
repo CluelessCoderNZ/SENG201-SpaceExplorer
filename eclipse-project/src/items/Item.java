@@ -72,22 +72,42 @@ public class Item {
   ===============
   */
 
+  /**
+   * returns the name of the Item.
+   * @return name of Item as a String
+   */
   public String getName() {
     return this.name;
   }
   
+  /**
+   * returns the description of an item.
+   * @return the item's description
+   */
   public String getDescription() {
     return this.description;
   }
   
+  /**
+   * sets the description of an Item.
+   * @param desc the description to give the Item as a string
+   */
   public void setDescription(String desc) {
     this.description = desc;
   }
 
+  /**
+   * sets the value in funds of the Item.
+   * @param value value of the item in funds
+   */
   public void setValue(int value) {
     this.value = value;
   }
 
+  /**
+   * returns the value in funds of the Item.
+   * @return item value in funds
+   */
   public int getValue() {
     return this.value;
   }

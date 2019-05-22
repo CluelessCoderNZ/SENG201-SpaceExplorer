@@ -7,6 +7,31 @@ public class CrewMemberFactory {
 
   /**
    * creates crew member of a given type with the given name.
+   * @param type CrewMemberType to create an instance of
+   * @param name name for the new crew member
+   * @return the created CrewMember object
+   */
+  public static CrewMember createCrewMember(CrewMemberType type, String name) {
+    switch (type) {
+      case INVESTOR:
+        return new Investor(name);
+      case MEDIC:
+        return new Medic(name);
+      case ENGINEER:
+        return new Engineer(name);
+      case STUDENT:
+        return new Student(name);
+      case SCIENTIST:
+        return new Scientist(name);
+      case ROBOT:
+        return new Robot(name);
+      default:
+        throw new RuntimeException("invalid crew member type requested");
+    }
+  }
+  
+  /**
+   * creates crew member of a given type with the given name.
    * @param newCrewMemberType integer to select new crew member subtype.
    *        1 for Investor
    *        2 for Medic
@@ -33,36 +58,6 @@ public class CrewMemberFactory {
         return new Robot(name);
       default:
         throw new RuntimeException("invalid crew member type requested");
-    }
-  }
-  
-  /**
-   * creates crew member of a given type with the given name.
-   * @param typeString String to select new crew member subtype.
-   *        "Investor" for Investor
-   *        "Medic" for Medic
-   *        "Engineer" for Engineer
-   *        "Student" for Student
-   *        "Scientist" for Scientist
-   *        "Robot" for Robot
-   * @param name name for the new crew member
-   * @return the created CrewMember object
-   */
-  public static CrewMember createCrewMember(String typeString, String name) {
-    if (typeString.equals("Investor")) {
-      return new Investor(name);
-    } else if (typeString.equals("Medic")) {
-      return new Medic(name);
-    } else if (typeString.equals("Engineer")) {
-      return new Engineer(name);
-    } else if (typeString.equals("Student")) {
-      return new Student(name);
-    } else if (typeString.equals("Scientist")) {
-      return new Scientist(name);
-    } else if (typeString.equals("Robot")) {
-      return new Robot(name);
-    } else {
-      throw new RuntimeException("invalid crew member type requested");
     }
   }
   

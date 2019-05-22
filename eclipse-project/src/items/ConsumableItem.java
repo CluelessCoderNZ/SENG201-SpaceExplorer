@@ -50,4 +50,10 @@ public abstract class ConsumableItem extends Item {
   public boolean equals(ConsumableItem item) {
     return super.equals(item) && item.getRemainingUses() == getRemainingUses();
   }
+  
+  @Override
+  public String toString() {
+    return String.format("%s (%d use%s)",
+        getName(), getRemainingUses(), getRemainingUses() == 1 ? "" : "s");
+  }
 }

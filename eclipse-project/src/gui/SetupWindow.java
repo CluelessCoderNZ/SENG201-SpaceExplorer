@@ -2,6 +2,7 @@ package gui;
 
 import crew.CrewMember;
 import crew.CrewMemberFactory;
+import crew.CrewMemberType;
 import crew.Engineer;
 import crew.Investor;
 import crew.Medic;
@@ -48,7 +49,7 @@ public class SetupWindow {
   private GameEnvironment env;
   private JTextField shipNameField;
   private JTextField crewNameField;
-  private JComboBox<String> crewComboBox;
+  private JComboBox<CrewMemberType> crewComboBox;
   private JTextPane crewClassDescription;
   private JSlider gameLengthSlider;
   private JButton deleteSelectedButton;
@@ -85,19 +86,19 @@ public class SetupWindow {
    */
   private void initialize() {
     frame = new JFrame();
-    frame.setBounds(100, 100, 609, 592);
+    frame.setBounds(100, 100, 703, 583);
     frame.setLocationRelativeTo(null);
     frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     frame.getContentPane().setLayout(new MigLayout("",
         "[61px][169.00px,grow][36.00px][89.00][82.00px]",
-        "[43.00px][25.00px][26px][32.00px][29px][56px][86px,grow][29px][56px][16px]"));
+        "[43.00px][25.00px][][][28.00px][28.00px][29px][41.00px][86px,grow][28.00px][45.00px]"));
     
     initializeDisplayedText();
     initializeButtons();
     initializeInputs();
     
     JScrollPane crewScroll = new JScrollPane();
-    frame.getContentPane().add(crewScroll, "cell 0 6 4 1,grow");
+    frame.getContentPane().add(crewScroll, "cell 0 8 4 1,grow");
     
     crewMembersList = new JList<CrewMember>(crewGuiList);
     crewMembersList.addListSelectionListener(new ListSelectionListener() {
@@ -118,10 +119,10 @@ public class SetupWindow {
    * @return whether the character is valid
    */
   private boolean isValidInputCharacter(char c, JTextField inputField) {
-    return Character.isAlphabetic(c) 
+    return (Character.isAlphabetic(c) 
         || Character.isDigit(c)
-        || (Character.isSpaceChar(c) && inputField.getText().length() > 0)
-        || inputField.getText().length() > MAX_TEXT_SIZE;
+        || (Character.isSpaceChar(c) && inputField.getText().length() > 0))
+        && inputField.getText().length() <= MAX_TEXT_SIZE;
   }
   
   /**
@@ -134,7 +135,7 @@ public class SetupWindow {
         addCrewButtonPressed();
       }
     });
-    frame.getContentPane().add(addCrewButton, "cell 4 4,alignx left,aligny center");
+    frame.getContentPane().add(addCrewButton, "cell 4 6,alignx left,aligny center");
     
     deleteSelectedButton = new JButton("Delete selected");
     deleteSelectedButton.addActionListener(new ActionListener() {
@@ -142,7 +143,7 @@ public class SetupWindow {
         deleteSelectedButtonPressed();
       }
     });
-    frame.getContentPane().add(deleteSelectedButton, "cell 0 7,alignx center,aligny top");
+    frame.getContentPane().add(deleteSelectedButton, "cell 0 9,alignx center,aligny top");
     deleteSelectedButton.setEnabled(false);
     
     startGameButton = new JButton("Start Game");
@@ -151,7 +152,7 @@ public class SetupWindow {
         startGameButtonPressed();
       }
     });
-    frame.getContentPane().add(startGameButton, "cell 3 8 2 1,grow");
+    frame.getContentPane().add(startGameButton, "cell 3 10 2 1,grow");
   }
   
   /**
@@ -163,13 +164,14 @@ public class SetupWindow {
     for (int i = GameSetup.MIN_DAYS; i <= GameSetup.MAX_DAYS; i++) {
       daysSliderMarkings.put(i, new JLabel(Integer.toString(i)));
     }
+    
     gameLengthSlider = new JSlider();
     gameLengthSlider.setSnapToTicks(true);
     gameLengthSlider.setPaintLabels(true);
     gameLengthSlider.setPaintTicks(true);
     gameLengthSlider.setMinimum(GameSetup.MIN_DAYS);
     gameLengthSlider.setMaximum(GameSetup.MAX_DAYS);
-    frame.getContentPane().add(gameLengthSlider, "cell 1 1,grow");
+    frame.getContentPane().add(gameLengthSlider, "cell 0 2 5 1,alignx center,aligny top");
     gameLengthSlider.setLabelTable(daysSliderMarkings);
     
     // ship name text field
@@ -188,8 +190,8 @@ public class SetupWindow {
         updateGuiInfo();
       }
     });
-    shipNameField.setColumns(10);
-    frame.getContentPane().add(shipNameField, "cell 1 2,growx,aligny top");
+    shipNameField.setColumns(25);
+    frame.getContentPane().add(shipNameField, "cell 0 4 5 1,alignx center,aligny top");
     
     // crew member name text field
     crewNameField = new JTextField();
@@ -208,19 +210,20 @@ public class SetupWindow {
         updateGuiInfo();
       }
     });
-    frame.getContentPane().add(crewNameField, "cell 1 4,growx,aligny center");
+    frame.getContentPane().add(crewNameField, "cell 1 6,growx,aligny center");
     crewNameField.setColumns(10);
     
     // crew member type combo box
-    crewComboBox = new JComboBox<String>();
+    crewComboBox = new JComboBox<CrewMemberType>();
+    DefaultComboBoxModel<CrewMemberType> comboModel = new DefaultComboBoxModel<CrewMemberType>(
+        CrewMemberType.values());
+    crewComboBox.setModel(comboModel);
     crewComboBox.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent e) {
         updateGuiInfo();
       }
     });
-    crewComboBox.setModel(new DefaultComboBoxModel<String>(
-        new String[] {"Investor", "Medic", "Engineer", "Student", "Scientist", "Robot"}));
-    frame.getContentPane().add(crewComboBox, "cell 3 4,growx,aligny center");
+    frame.getContentPane().add(crewComboBox, "cell 3 6,growx,aligny center");
   }
   
   /**
@@ -232,24 +235,27 @@ public class SetupWindow {
     frame.getContentPane().add(welcomeLabel, "cell 0 0 5 1,alignx center,aligny top");
     
     JLabel gameLengthLabel = new JLabel("Game Length (Days)");
-    frame.getContentPane().add(gameLengthLabel, "cell 0 1,grow");
+    gameLengthLabel.setFont(new Font("Lucida Grande", Font.PLAIN, 15));
+    frame.getContentPane().add(gameLengthLabel, "cell 0 1 5 1,alignx center,aligny bottom");
     
     JLabel shipNameLabel = new JLabel("Ship Name");
-    frame.getContentPane().add(shipNameLabel, "cell 0 2,growx,aligny center");
+    shipNameLabel.setFont(new Font("Lucida Grande", Font.PLAIN, 15));
+    frame.getContentPane().add(shipNameLabel, "cell 0 3 5 1,alignx center,aligny bottom");
     
     JLabel crewMembersLabel = new JLabel("Crew Members");
-    frame.getContentPane().add(crewMembersLabel, "cell 0 3 3 1,growx,aligny bottom");
+    crewMembersLabel.setFont(new Font("Lucida Grande", Font.PLAIN, 15));
+    frame.getContentPane().add(crewMembersLabel, "cell 0 5 5 1,alignx center,aligny bottom");
     
     JLabel crewNameLabel = new JLabel("Name:");
-    frame.getContentPane().add(crewNameLabel, "cell 0 4,growx,aligny center");
+    frame.getContentPane().add(crewNameLabel, "cell 0 6,alignx right,aligny center");
     
     JLabel lblThe = new JLabel("the");
-    frame.getContentPane().add(lblThe, "cell 2 4,alignx center,aligny center");
+    frame.getContentPane().add(lblThe, "cell 2 6,alignx center,aligny center");
     
     crewClassDescription = new JTextPane();
     crewClassDescription.setEditable(false);
     crewClassDescription.setText("Class description");
-    frame.getContentPane().add(crewClassDescription, "cell 0 5 4 1,grow");
+    frame.getContentPane().add(crewClassDescription, "cell 0 7 4 1,grow");
   }
   
   /**
@@ -257,25 +263,26 @@ public class SetupWindow {
    * member and start game buttons.
    */
   private void updateGuiInfo() {
-    String typeString = crewComboBox.getSelectedItem().toString();
-    switch (typeString) {
-      case "Investor":
-        crewClassDescription.setText(typeString + ": " + Investor.getClassDescription());
+    CrewMemberType type = (CrewMemberType)crewComboBox.getSelectedItem();
+
+    switch (type) {
+      case INVESTOR:
+        crewClassDescription.setText("Investor: " + Investor.getClassDescription());
         break;
-      case "Medic":
-        crewClassDescription.setText(typeString + ": " + Medic.getClassDescription());
+      case MEDIC:
+        crewClassDescription.setText("Medic: " + Medic.getClassDescription());
         break;
-      case "Engineer":
-        crewClassDescription.setText(typeString + ": " + Engineer.getClassDescription());
+      case ENGINEER:
+        crewClassDescription.setText("Engineer: " + Engineer.getClassDescription());
         break;
-      case "Student":
-        crewClassDescription.setText(typeString + ": " + Student.getClassDescription());
+      case STUDENT:
+        crewClassDescription.setText("Student: " + Student.getClassDescription());
         break;
-      case "Scientist":
-        crewClassDescription.setText(typeString + ": " + Scientist.getClassDescription());
+      case SCIENTIST:
+        crewClassDescription.setText("Scientist: " + Scientist.getClassDescription());
         break;
-      case "Robot":
-        crewClassDescription.setText(typeString + ": " + Robot.getClassDescription());
+      case ROBOT:
+        crewClassDescription.setText("Robot: " + Robot.getClassDescription());
         break;
       default:
         crewClassDescription.setText("This class has no description!");
@@ -306,12 +313,12 @@ public class SetupWindow {
    */
   private void addCrewButtonPressed() {
     String name = crewNameField.getText();
-    String typeString = crewComboBox.getSelectedItem().toString();
+    CrewMemberType type = (CrewMemberType)crewComboBox.getSelectedItem();
     
     if (crewGuiList.getSize() >= GameSetup.MAX_CREW) {
       new EventPopupWindow("cannot add crew member: max crew size reached");
     } else {
-      CrewMember crewMember = CrewMemberFactory.createCrewMember(typeString, name);
+      CrewMember crewMember = CrewMemberFactory.createCrewMember(type, name);
       crewGuiList.addElement(crewMember);
     }
   }

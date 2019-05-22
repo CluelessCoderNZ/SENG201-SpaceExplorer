@@ -17,7 +17,7 @@ public class PlagueCure extends ConsumableItem {
    */
   public PlagueCure(String name, int value) {
     super(name, value);
-    setDescription("cures the space plague ailment");
+    setDescription("A coffin would have been cheaper.");
   }
 
   @Override

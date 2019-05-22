@@ -59,7 +59,7 @@ public class MainWindow {
   private JLabel partsCollected;
   private JLabel currentPlanet;
   private JLabel daysRemaining;
-  private JLabel itemUsesRemaining;
+  private JTextPane selectedItemDescription;
   
   /**
    * Create the application window and set elements to the correct initial values.
@@ -93,25 +93,25 @@ public class MainWindow {
    */
   private void initialize() {
     frame = new JFrame();
-    frame.setBounds(100, 100, 704, 601);
+    frame.setBounds(100, 100, 734, 601);
     frame.setLocationRelativeTo(null);
     frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     frame.getContentPane().setLayout(new MigLayout("", "[304.00px][160px,grow]",
         "[29px][16px][152.00px][109.00,grow][36.00px][38.00][32.00px]"));
     
-    JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
-    frame.getContentPane().add(tabbedPane, "cell 1 2 1 4,grow");
+    JTabbedPane controlPane = new JTabbedPane(JTabbedPane.TOP);
+    frame.getContentPane().add(controlPane, "cell 1 2 1 4,grow");
     
     JPanel combatRoom = new JPanel();
-    tabbedPane.addTab("Combat Room", null, combatRoom, null);
+    controlPane.addTab("Combat Room", null, combatRoom, null);
     combatRoom.setLayout(new MigLayout("", "[grow]", "[][][]"));
     
     JPanel cargoHold = new JPanel();
-    tabbedPane.addTab("Cargo Hold", null, cargoHold, null);
-    cargoHold.setLayout(new MigLayout("", "[grow][4px]", "[][grow][][][4px]"));
+    controlPane.addTab("Cargo Hold", null, cargoHold, null);
+    cargoHold.setLayout(new MigLayout("", "[grow][4px]", "[][243.00,grow][93.00][]"));
     
     JPanel observationDeck = new JPanel();
-    tabbedPane.addTab("Observation Deck", null, observationDeck, null);
+    controlPane.addTab("Observation Deck", null, observationDeck, null);
     observationDeck.setLayout(new MigLayout("", "[grow][4px]", "[][grow][][4px]"));
     
     initializeLabels();
@@ -226,6 +226,7 @@ public class MainWindow {
     inventoryList.addListSelectionListener(new ListSelectionListener() {
       public void valueChanged(ListSelectionEvent e) {
         updateButtons();
+        updateItemInfo();
       }
     });
     inventoryList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -236,10 +237,10 @@ public class MainWindow {
         useItemButtonPressed();
       }
     });
-    cargoHold.add(useItem, "flowy,cell 0 2");
     
-    itemUsesRemaining = new JLabel("");
-    cargoHold.add(itemUsesRemaining, "alignx,cell 0 2");
+    selectedItemDescription = new JTextPane();
+    cargoHold.add(selectedItemDescription, "cell 0 2,grow");
+    cargoHold.add(useItem, "flowy,cell 0 3");
   }
   
   /**
@@ -280,7 +281,7 @@ public class MainWindow {
    */
   private void updateGuiInfo() {
     updateGuiLists();
-    updateGuiLabels();
+    updateGuiText();
   }
   
   /**
@@ -306,22 +307,53 @@ public class MainWindow {
   /**
    * updates the GUI labels to display the current game state.
    */
-  private void updateGuiLabels() {
+  private void updateGuiText() {
     CrewState crewState = env.getCrewState();
+    
     funds.setText("Funds: $" + crewState.getFunds());
+    
     shield.setText(String.format("Shield: %d/%d", crewState.getShip().getShieldLevel(),
         crewState.getShip().getMaxShieldLevel()));
+    
     partsCollected.setText(String.format("Parts collected: %d/%d",
         crewState.getShipPartsFoundCount(), env.getShipPartsNeededCount()));
+    
     currentWeapon.setText(String.format("Current weapon: %s (%d damage)",
         crewState.getShip().getWeapon().getName(),
         crewState.getShip().getWeapon().getDamage()));
+    
     if (crewState.hasScientist()) {
       currentPlanet.setText("Current Planet: " + env.getCurrentPlanet().getNameShowPart());
     } else {
       currentPlanet.setText("Current Planet: " + env.getCurrentPlanet().getName());
     }
+    
     daysRemaining.setText("Days remaining: " + (env.getMaxDays() - env.getCurrentDay()));
+  }
+  
+  /**
+   * updates the info section about the currently selected inventory item.
+   */
+  private void updateItemInfo() {
+    Item selectedItem = inventoryList.getSelectedValue();
+    String description = "";
+    
+    if (selectedItem != null) {
+      if (selectedItem.getDescription().equals("")) {
+        description += selectedItem.getName();
+      } else {
+        description += selectedItem.getDescription();
+      }
+      
+      if (selectedItem instanceof ConsumableItem) {
+        description += String.format("\nItem stats: %s",
+            ((ConsumableItem)selectedItem).getEffectsString());
+      } else if (selectedItem instanceof ShipUpgrade) {
+        description += String.format("\nItem stats: %s",
+            ((ShipUpgrade)selectedItem).getEffectsString());
+      }
+    }
+    selectedItemDescription.setText(description);
   }
   
   /**
@@ -335,7 +367,6 @@ public class MainWindow {
     repair.setEnabled(false);
     useItem.setEnabled(false);
     changePlanet.setEnabled(false);
-    itemUsesRemaining.setText("");
     
     List<CrewMember> selectedCrew = crewList.getSelectedValuesList();
     Item selectedItem = inventoryList.getSelectedValue();
@@ -353,8 +384,6 @@ public class MainWindow {
       // use item button requires an item to be selected as well
       if (selectedItem != null && selectedItem instanceof ConsumableItem) {
         useItem.setEnabled(true);
-        itemUsesRemaining.setText("Uses Remaining: "
-                                   + ((ConsumableItem)selectedItem).getRemainingUses());
       }
     // if two selected crew members can both act, and a planet is selected, allow travel
     } else if (selectedCrew.size() == 2

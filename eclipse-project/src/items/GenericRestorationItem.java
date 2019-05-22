@@ -110,11 +110,6 @@ public class GenericRestorationItem extends ConsumableItem {
   }
   
   @Override
-  public String toString() {
-    return getName();
-  }
-  
-  @Override
   public String getEffectsString() {
     String result = "";
     

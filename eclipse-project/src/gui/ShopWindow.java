@@ -1,6 +1,6 @@
 package gui;
 
-import items.GenericRestorationItem;
+import items.ConsumableItem;
 import items.Item;
 import items.ShipUpgrade;
 
@@ -77,24 +77,6 @@ public class ShopWindow {
     JLabel lblShopName = new JLabel(env.getCurrentPlanet().getShop().getName());
     frame.getContentPane().add(lblShopName, "cell 0 0,growx,aligny top");
     
-    JScrollPane shopInventoryScroll = new JScrollPane();
-    frame.getContentPane().add(shopInventoryScroll, "cell 0 1,grow");
-    
-    JLabel lblShopInventory = new JLabel("Shop Inventory");
-    lblShopInventory.setFont(new Font("Lucida Grande", Font.PLAIN, 16));
-    lblShopInventory.setForeground(Color.GRAY);
-    shopInventoryScroll.setColumnHeaderView(lblShopInventory);
-    
-    shopInventoryList = new JList<Item>(shopInventory);
-    shopInventoryList.addListSelectionListener(new ListSelectionListener() {
-      public void valueChanged(ListSelectionEvent e) {
-        updateShopItemDisplay(shopInventoryList.getSelectedValue());
-      }
-    });
-    shopInventoryList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-    shopInventoryList.setSelectedIndex(0);
-    shopInventoryScroll.setViewportView(shopInventoryList);
-    
     playerInventoryList = new JList<Item>(playerInventory);
     playerInventoryList.addListSelectionListener(new ListSelectionListener() {
       public void valueChanged(ListSelectionEvent e) {
@@ -103,7 +85,7 @@ public class ShopWindow {
     });
     playerInventoryList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
     
-    
+    initializeShopInventory();
     
     btnBuyItem = new JButton("Buy");
     btnBuyItem.setEnabled(false);
@@ -128,7 +110,7 @@ public class ShopWindow {
     shopItemDescription.setText("");
     frame.getContentPane().add(shopItemDescription, "cell 0 4,grow");
     
-    itemStats = new JLabel("Item Stats:");
+    itemStats = new JLabel("Item stats:");
     frame.getContentPane().add(itemStats, "cell 0 5");
     
     JButton btnLeaveShop = new JButton("Leave shop");
@@ -151,6 +133,29 @@ public class ShopWindow {
     lblPlayerInventory.setForeground(Color.GRAY);
     
     playerInventoryScroll.setViewportView(playerInventoryList);
+  }
+  
+  /**
+   * initializes components relating to the Shop's inventory display.
+   */
+  private void initializeShopInventory() {
+    JScrollPane shopInventoryScroll = new JScrollPane();
+    frame.getContentPane().add(shopInventoryScroll, "cell 0 1,grow");
+    
+    JLabel lblShopInventory = new JLabel("Shop Inventory");
+    lblShopInventory.setFont(new Font("Lucida Grande", Font.PLAIN, 16));
+    lblShopInventory.setForeground(Color.GRAY);
+    shopInventoryScroll.setColumnHeaderView(lblShopInventory);
+    
+    shopInventoryList = new JList<Item>(shopInventory);
+    shopInventoryList.addListSelectionListener(new ListSelectionListener() {
+      public void valueChanged(ListSelectionEvent e) {
+        updateShopItemDisplay(shopInventoryList.getSelectedValue());
+      }
+    });
+    shopInventoryList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+    shopInventoryList.setSelectedIndex(0);
+    shopInventoryScroll.setViewportView(shopInventoryList);
   }
   
   /**
@@ -191,8 +196,8 @@ public class ShopWindow {
       }
 
       btnBuyItem.setText("Buy ($" + this.env.getCurrentPlanet().getShop().getSellPrice(item) + ")");
-      if (item instanceof GenericRestorationItem) {
-        itemStats.setText("Item stats: " + ((GenericRestorationItem)item).getEffectsString());
+      if (item instanceof ConsumableItem) {
+        itemStats.setText("Item stats: " + ((ConsumableItem)item).getEffectsString());
       } else if (item instanceof ShipUpgrade) {
         itemStats.setText("Item stats: " + ((ShipUpgrade)item).getEffectsString());
       }
