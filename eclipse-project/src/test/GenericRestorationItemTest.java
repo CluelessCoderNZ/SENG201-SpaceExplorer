@@ -64,24 +64,24 @@ class GenericRestorationItemTest {
   void testEquals() {
     GenericRestorationItem item1 = new GenericRestorationItem("Item", 10, 10, 3);
     GenericRestorationItem item2 = new GenericRestorationItem("Item", 10, 10, 3);
-    assertTrue(item1.equals(item2));
+    assertEquals(item1, item2);
     
     item1.applyEffects(new CrewMember("Jim", "Normal"));
-    assertFalse(item1.equals(item2));
+    assertNotEquals(item1, item2);
     
     item2.applyEffects(new CrewMember("Jim", "Normal"));
-    assertTrue(item1.equals(item2));
+    assertEquals(item1, item2);
     
     GenericRestorationItem item3 = new GenericRestorationItem("Item", 10, 10, 3);
     GenericRestorationItem item4 = new GenericRestorationItem("Item", 10, 5, 3);
-    assertFalse(item3.equals(item4));
+    assertNotEquals(item3, item4);
     
     GenericRestorationItem item5 = new GenericRestorationItem("Item", 10, 10, 5);
     GenericRestorationItem item6 = new GenericRestorationItem("Item", 10, 10, 4);
-    assertFalse(item5.equals(item6));
+    assertNotEquals(item5, item6);
     
     GenericRestorationItem item6copy = (GenericRestorationItem)item6.copy();
-    assertTrue(item6.equals(item6copy));
+    assertEquals(item6, item6copy);
     
   }
   
