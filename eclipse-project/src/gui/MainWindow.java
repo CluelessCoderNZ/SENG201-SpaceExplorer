@@ -380,17 +380,20 @@ public class MainWindow {
     if (selectedCrew.size() == 1 && selectedCrew.get(0).canAct()) {
       explore.setEnabled(true);
       sleep.setEnabled(true);
-      repair.setEnabled(true);
+      if (env.getCrewState().getShip().getShieldLevel() > 0) {
+        repair.setEnabled(true);
+      }
       // use item button requires an item to be selected as well
       if (selectedItem != null && selectedItem instanceof ConsumableItem) {
         useItem.setEnabled(true);
       }
-    // if two selected crew members can both act, and a planet is selected, allow travel
+    // if the two selected crew can act, a planet is selected and the ship is not dead, allow flight
     } else if (selectedCrew.size() == 2
         && selectedCrew.get(0).canAct()
         && selectedCrew.get(1).canAct()) {
       if (planetList.getSelectedIndex() != -1
-          && planetList.getSelectedValue() != env.getCurrentPlanet()) {
+          && planetList.getSelectedValue() != env.getCurrentPlanet()
+          && env.getCrewState().getShip().getShieldLevel() > 0) {
         changePlanet.setEnabled(true);
       }
     }

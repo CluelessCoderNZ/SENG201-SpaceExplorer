@@ -361,7 +361,7 @@ public class CrewMember extends Observable {
   
   /**
    * Returns formatted text representation of crew member stats.
-   * @return 
+   * @return formatted text representation of crew member stats.
    */
   public String getFormattedStatusString() {
     String output = getFullTitle() + ":\n";

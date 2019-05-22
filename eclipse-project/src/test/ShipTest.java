@@ -2,11 +2,10 @@ package test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import org.junit.jupiter.api.BeforeAll;
+import crew.Ship;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
-import crew.Ship;
 
 class ShipTest {
 
@@ -50,6 +49,9 @@ class ShipTest {
     assertThrows(IllegalArgumentException.class, () -> {
       ship.decreaseMaxShield(-10);
     });
+    
+    ship.increaseShield(100);
+    assertEquals(0, ship.getShieldLevel());
   }
 
 }

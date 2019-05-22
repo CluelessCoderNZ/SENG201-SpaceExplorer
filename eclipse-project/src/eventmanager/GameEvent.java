@@ -15,7 +15,9 @@ public abstract class GameEvent {
   
   /**
    * Creates clone event of the same type with random event members.
-   * @return
+   * @param randomGenerator the Random generator to use
+   * @param env the GameEnvironment to decide the result of the event based on
+   * @return GameEvent the created GameEvent
    */
   public abstract GameEvent createEvent(Random randomGenerator, GameEnvironment env);
   

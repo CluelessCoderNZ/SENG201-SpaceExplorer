@@ -44,14 +44,20 @@ public class AsteroidEvent extends GameEvent {
 
   @Override
   public String getEventMessage() {
+    String hitMessage = "";
+    
     if (isLethalDamage) {
-      return "This is it. The asteroid are tearing through the outer hull. "
+      hitMessage = "This is it. An asteroid has torn through the outer hull. "
+          + "We've crash landed, but no amount of ship parts will save us now. "
           + "To think this could of all been avoided if someone had repaired the ship.";
+    } else {
+      hitMessage = "We got bombarded by asteroids, doing our shield " + overallDamage + " damage. ";
+      if (reducedDamage > 0) {
+        hitMessage += "Our ship's weapon hit some and saved us from " + reducedDamage + " damage";
+      }
     }
     
-    return String.format("We got bombarded by asteroids, doing %d damage to the shields. "
-                         + "Our ship's weapon shot a few and protected us from %d damage", 
-                          overallDamage, reducedDamage);
+    return hitMessage;
   }
 
 }

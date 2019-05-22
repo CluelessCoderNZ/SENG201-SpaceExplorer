@@ -203,7 +203,7 @@ public class CommandLineParser {
    * Repeats on out of bounds and type errors.
    * @param message message to put into output stream
    * @param options varargs of string options
-   * @return 
+   * @return the selected index (user input - 1)
    */
   public int inputOptions(String message, String... options) {
     boolean valueFound = false;
@@ -268,7 +268,7 @@ public class CommandLineParser {
    * Repeats on out of bounds and type errors.
    * @param message message to put into output stream
    * @param options list of string options
-   * @return 
+   * @return the selected index (user input - 1)
    */
   public int inputOptions(String message, List<String> options) {
     boolean valueFound = false;

@@ -77,7 +77,9 @@ public class Ship {
    */
   public void increaseShield(int amount) {
     if (amount >= 0) {
-      shieldLevel = Math.min(maxShieldLevel, shieldLevel + amount);
+      if (shieldLevel != 0) {
+        shieldLevel = Math.min(maxShieldLevel, shieldLevel + amount);
+      }
     } else {
       throw new IllegalArgumentException("amount cannot be negative. use takeDamage(int).");
     }

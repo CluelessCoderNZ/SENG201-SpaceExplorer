@@ -59,6 +59,7 @@ public class SetupWindow {
 
   /**
    * Create the application window.
+   * @param env the GameEnvironment to model the window on
    */
   public SetupWindow(GameEnvironment env) {
     this.env = env;
@@ -249,8 +250,8 @@ public class SetupWindow {
     JLabel crewNameLabel = new JLabel("Name:");
     frame.getContentPane().add(crewNameLabel, "cell 0 6,alignx right,aligny center");
     
-    JLabel lblThe = new JLabel("the");
-    frame.getContentPane().add(lblThe, "cell 2 6,alignx center,aligny center");
+    JLabel fullTitleTheLabel = new JLabel("the");
+    frame.getContentPane().add(fullTitleTheLabel, "cell 2 6,alignx center,aligny center");
     
     crewClassDescription = new JTextPane();
     crewClassDescription.setEditable(false);

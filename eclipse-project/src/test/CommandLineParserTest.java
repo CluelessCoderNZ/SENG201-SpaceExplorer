@@ -2,16 +2,16 @@ package test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import org.junit.jupiter.api.Test;
-
 import commandline.CommandLineParser;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.io.PrintStream;
 import java.nio.charset.StandardCharsets;
-import java.io.ByteArrayOutputStream;
-import java.io.ByteArrayInputStream;
 import java.util.Scanner;
+
+import org.junit.jupiter.api.Test;
 
 class CommandLineParserTest {
   
@@ -48,7 +48,7 @@ class CommandLineParserTest {
     CommandLineParser CL = new CommandLineParser(outputStream, inputStream);
     
     // Do Tests
-    assertEquals(500, CL.inputInt("Custom value: \n")); // Under normal input user supplies newline character
+    assertEquals(500, CL.inputInt("Custom value: \n")); // Under normal input user supplies newline
     assertEquals(0, CL.inputInt("Another value: \n"));
     assertEquals(10, CL.inputInt("Bounded value: \n", 0, 10));
     
@@ -56,7 +56,7 @@ class CommandLineParserTest {
     // Test output strings
     outputStream.flush();
     Scanner lineScanner = new Scanner(baos.toString());
-    for(String expected : expectedOutput) {
+    for (String expected : expectedOutput) {
       assertEquals(expected, lineScanner.nextLine());
     }
     
@@ -93,7 +93,7 @@ class CommandLineParserTest {
     CommandLineParser CL = new CommandLineParser(outputStream, inputStream);
     
     // Do Tests
-    assertEquals(false, CL.inputBoolean("Boolean value: \n")); // Under normal input user supplies newline character
+    assertEquals(false, CL.inputBoolean("Boolean value: \n")); // Under normal input user supplies newline
     assertEquals(true, CL.inputBoolean("Boolean value: \n"));
     assertEquals(true, CL.inputBoolean("Boolean value: \n"));
     assertEquals(false, CL.inputBoolean("Boolean value: \n"));
@@ -103,7 +103,7 @@ class CommandLineParserTest {
     // Test output strings
     outputStream.flush();
     Scanner lineScanner = new Scanner(baos.toString());
-    for(String expected : expectedOutput) {
+    for (String expected : expectedOutput) {
       assertEquals(expected, lineScanner.nextLine());
     }
     
@@ -138,7 +138,7 @@ class CommandLineParserTest {
     // Test output strings
     outputStream.flush();
     Scanner lineScanner = new Scanner(baos.toString());
-    for(String expected : expectedOutput) {
+    for (String expected : expectedOutput) {
       assertEquals(expected, lineScanner.nextLine());
     }
     
@@ -201,7 +201,7 @@ class CommandLineParserTest {
     // Test output strings
     outputStream.flush();
     Scanner lineScanner = new Scanner(baos.toString());
-    for(String expected : expectedOutput) {
+    for (String expected : expectedOutput) {
       assertEquals(expected, lineScanner.nextLine());
     }
     

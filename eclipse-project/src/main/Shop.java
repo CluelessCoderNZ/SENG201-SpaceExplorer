@@ -9,8 +9,6 @@ import java.util.List;
  * Shop is a shop that players can buy and sell items to.
  * Has a name and a List of Items that can be bought, and a modifier
  * that sets the percentage of an Item's base price it is sold for.
- * @author jackbreurkes
- *
  */
 public class Shop {
   private String name;
@@ -21,6 +19,7 @@ public class Shop {
   
   /**
    * Initialises a Shop object that sells items in a given inventory.
+   * @param name the name to give the Shop
    * @param galacticMedItems the inventory for the shop to sell items from
    */
   public Shop(String name, List<Item> galacticMedItems) {
@@ -30,6 +29,7 @@ public class Shop {
   
   /**
    * Initialises a Shop that sells items in a given inventory with buy and sell price modifiers.
+   * @param name the name to give the Shop
    * @param inventory ArrayList of items for the shop to sell items from
    * @param buyModifier the fraction of an item's value the shop will buy it for
    * @param sellModifier the fraction of an item's value the shop will sell it for

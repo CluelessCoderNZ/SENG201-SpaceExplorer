@@ -133,7 +133,8 @@ public class CrewState {
   
   /**
    * Apply item to crew member reducing uses.
-   * @param item item to apply to crew member.
+   * @param item Item to apply to crew member
+   * @param crewMember the CrewMember to apply the item's effects to
    */
   public void useItem(ConsumableItem item, CrewMember crewMember) {
     
@@ -208,7 +209,7 @@ public class CrewState {
   /**
    * Returns a list of crew members with action points greater or equal to minAP.
    * @param minAP minimum action points needed
-   * @return
+   * @return List of CrewMember objects
    */
   public List<CrewMember> getCrewWithActionPoints(int minAP) {
     ArrayList<CrewMember> result = new ArrayList<CrewMember>();

@@ -121,7 +121,7 @@ public class Item {
   /**
    * Returns a short string of the effects of the item.
    * Used in short displays of what the item does.
-   * @return
+   * @return effects string as a String
    */
   public String getEffectsString() {
     return "";

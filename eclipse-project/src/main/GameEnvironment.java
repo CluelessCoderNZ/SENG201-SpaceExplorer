@@ -249,7 +249,7 @@ public class GameEnvironment implements Observer {
    * @param crewMemberA pilot
    * @param crewMemberB pilot
    * @param planet new current planet
-   * @return
+   * @return random travel event that occured during flight or null
    */
   public GameEvent travelToPlanet(CrewMember crewMemberA, CrewMember crewMemberB, Planet planet) {
     // Error Checking
@@ -286,7 +286,7 @@ public class GameEnvironment implements Observer {
   /**
    * Runs CREW_EXPLORE events and returns on applicable ones.
    * @param crewMember crew member who 'explores'
-   * @return
+   * @return random crew explore event that occured during travel or null
    */
   public GameEvent explorePlanet(CrewMember crewMember) {
     // Error Checking
@@ -313,7 +313,7 @@ public class GameEnvironment implements Observer {
   
   /**
    * Check if Lose/Win Condition has been met resulting in the game halting.
-   * @return
+   * @return True if the game is still active, false otherwise
    */
   public boolean gameStillActive() {
     boolean active = true;
@@ -353,10 +353,20 @@ public class GameEnvironment implements Observer {
    * shows the success popup for the game with the number of parts collected and the player's score.
    */
   private void displayWinScreen() {
-    new EventPopupWindow(String.format("You Won:\nYou managed to collect all %d parts.\n\n"
-                                       + "Score: %d",
-                                       getShipPartsNeededCount(),
-                                       getScore()));
+    if (crewState.getShip().getShieldLevel() > 0) {
+      new EventPopupWindow(String.format("You Won:\nYou managed to collect all %d parts.\n\n"
+                                         + "Score: %d",
+                                         getShipPartsNeededCount(),
+                                         getScore()));
+    } else {
+      new EventPopupWindow(String.format("Although your ship is toast, you technically "
+          + "still won the game. None of the parts are useful anymore, you will die on "
+          + "this planet, but according to the job description you did everything that "
+          + "was required. At least you can say you followed the spec, right?\n\n"
+          + "Score: %d",
+          getShipPartsNeededCount(),
+          getScore()));
+    }
   }
   
   /**

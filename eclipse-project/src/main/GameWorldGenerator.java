@@ -97,7 +97,7 @@ public class GameWorldGenerator {
     lootTable.addItem(new Item("Golden Spork", 100, "Shiny. Not good for eating with."),  100);
     lootTable.addItem(new Item("Golden Bars", 800, "We're rich!"),                        50);
     lootTable.addItem(new GenericRestorationItem("Antimatter Brownies", 40, 0, -30, 3),   100);
-    lootTable.addItem(new GenericRestorationItem("Bountiful Feast", 300, 0, 50, 5),      100);
+    lootTable.addItem(new GenericRestorationItem("Bountiful Feast", 300, 0, 50, 5),       100);
     lootTable.addItem(new PlagueCure("Plague-Away", 100),                                 300);
 
     

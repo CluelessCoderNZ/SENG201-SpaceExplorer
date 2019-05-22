@@ -41,6 +41,7 @@ public class ShopWindow {
 
   /**
    * Create the application.
+   * @param env the GameEnvironment to model the window off of.
    */
   public ShopWindow(GameEnvironment env) {
     this.env = env;

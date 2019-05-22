@@ -47,7 +47,7 @@ public class Planet {
   
   /**
    * Returns the name of the planet marked if it has a ship part.
-   * @return
+   * @return name of the planet, with an optional asterisk if a ship part is on it
    */
   public String getNameShowPart() {
     if (hasShipPart()) {
