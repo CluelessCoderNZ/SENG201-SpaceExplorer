@@ -42,13 +42,14 @@ public abstract class ConsumableItem extends Item {
     return getRemainingUses() == 0;
   }
   
-  /**
-   * equality check for two ConsumableItems.
-   * @param item the ConsumableItem to check this object for equality to
-   * @return whether the two items have the same name, value and remaining uses
-   */
-  public boolean equals(ConsumableItem item) {
-    return super.equals(item) && item.getRemainingUses() == getRemainingUses();
+  @Override
+  public boolean equals(Object o) {
+    if (o instanceof ConsumableItem) {
+      ConsumableItem item = (ConsumableItem)o;
+      return super.equals(item) && item.getRemainingUses() == getRemainingUses();
+    } else {
+      return false;
+    }
   }
   
   @Override

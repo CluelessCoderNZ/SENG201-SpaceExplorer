@@ -1,6 +1,9 @@
 package test;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Random;
+
 import main.Shop;
 import main.Planet;
 
@@ -52,6 +55,35 @@ class PlanetTest {
     
     assertEquals(part, planet.removeShipPart());
     assertFalse(planet.hasShipPart());
+  }
+  
+  @Test
+  void testStrings() {
+    Planet planet = new Planet("Mars", shop, new WeightedArrayList<Item>());
+    
+    assertEquals("Mars", planet.getName());
+    
+    assertEquals("Mars", planet.toString());
+    
+    assertEquals("Mars", planet.getNameShowPart());
+    
+    planet.setPart(new ShipPart());
+    assertEquals("Mars *", planet.getNameShowPart());
+  }
+  
+  @Test
+  void testRandomLoot() {
+    WeightedArrayList<Item> loot = new WeightedArrayList<Item>();
+    Item trumpet = new Item("Pink Trumpet");
+    Item swanEgg = new Item("Swan's Egg");
+    loot.addItem(trumpet, 5);
+    loot.addItem(swanEgg, 3);
+    Planet planet = new Planet("Mars", shop, loot);
+    
+    Random generator = new Random(2);
+    assertTrue(planet.getRandomItem(generator).equals(trumpet));
+    assertTrue(planet.getRandomItem(generator).equals(trumpet));
+    assertTrue(planet.getRandomItem(generator).equals(swanEgg));
   }
 
 }

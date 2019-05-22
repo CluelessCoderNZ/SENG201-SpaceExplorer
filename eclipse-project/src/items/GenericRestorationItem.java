@@ -98,15 +98,16 @@ public class GenericRestorationItem extends ConsumableItem {
     }
   }
   
-  /**
-   * Indicates whether some other object is "equal to" this one.
-   * @param item the reference GenericRestorationItem with which to compare
-   * @return true if this item is the same as the argument item, false otherwise
-   */
-  public boolean equals(GenericRestorationItem item) {
-    return super.equals(item)
-        && item.getHealthRestoreAmount() == getHealthRestoreAmount()
-        && item.getFullnessRestoreAmount() == getFullnessRestoreAmount();
+  @Override
+  public boolean equals(Object o) {
+    if (o instanceof GenericRestorationItem) {
+      GenericRestorationItem item = (GenericRestorationItem)o;
+      return super.equals(item)
+          && item.getHealthRestoreAmount() == getHealthRestoreAmount()
+          && item.getFullnessRestoreAmount() == getFullnessRestoreAmount();
+    } else {
+      return false;
+    }
   }
   
   @Override

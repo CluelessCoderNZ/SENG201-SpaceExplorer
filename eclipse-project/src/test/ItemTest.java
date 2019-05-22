@@ -39,8 +39,13 @@ class ItemTest {
   void testEquals() {
     Item item1 = new Item("Ham Sandwich", 25);
     Item item2 = new Item("Ham Sandwich", 25);
+    assertEquals(item1, item2);
     
-    assertTrue(item1.equals(item2));
+    Item item3 = new Item("Ham Sandwich", 30);
+    assertNotEquals(item1, item3);
+    
+    Item item4 = new Item("Falafel Sandwich", 25);
+    assertNotEquals(item1, item4);
   }
 
 }

@@ -2,6 +2,9 @@ package test;
 
 import crew.CrewMember;
 import crew.CrewMemberEffect;
+import crew.Ship;
+import items.GenericRestorationItem;
+
 import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 
@@ -56,6 +59,42 @@ class CrewMemberTest {
     
     crew.resetActions();
     assertEquals(2, crew.getActionPoints());
+    
+    crew.setHealth(0);
+    assertFalse(crew.canAct());
+  }
+  
+  @Test
+  void testActions() {
+    CrewMember crew = new CrewMember("Sonic", "Hedgehog", 100, 100, 100, 3);
+    GenericRestorationItem testItem = new GenericRestorationItem("food", 0, 10, 20, 2);
+    
+    // with AP remaining
+    crew.setHealth(50);
+    crew.setFullness(50);
+    crew.useItem(testItem);
+    assertEquals(60, crew.getHealth());
+    assertEquals(70, crew.getFullness());
+    
+    Ship ship = new Ship("Salmon Express", 100);
+    ship.takeDamage(60);
+    crew.repairShip(ship);
+    assertEquals(90, ship.getShieldLevel());
+    
+    crew.setRestedness(10);
+    crew.sleep();
+    assertEquals(60, crew.getRestedness());
+    
+    // with no AP remaining
+    crew.useItem(testItem);
+    assertEquals(60, crew.getHealth());
+    assertEquals(70, crew.getFullness());
+    
+    crew.repairShip(ship);
+    assertEquals(90, ship.getShieldLevel());
+    
+    crew.sleep();
+    assertEquals(60, crew.getRestedness());
   }
   
   @Test
@@ -143,11 +182,51 @@ class CrewMemberTest {
   }
   
   @Test
-  void testName() {
-    CrewMember crew = new CrewMember("Bob", "TestCase");
+  void testStrings() {
+    CrewMember crew = new CrewMember("Bob", "TestCase", 50, 60, 70, 4);
     assertEquals("Bob", crew.getName());
     assertEquals("TestCase", crew.getTitle());
     assertEquals("Bob the TestCase", crew.getFullTitle());
+    
+    assertEquals("Bob the TestCase (HP: 50/50, Fullness: 60/60, Restedness: 70/70, AP: 4/4)",
+        crew.toString());
+    
+    crew.addEffect(CrewMemberEffect.TIRED);
+    assertEquals("Bob the TestCase (HP: 50/50, Fullness: 60/60, Restedness: 70/70, AP: 4/4) TIRED",
+        crew.toString());
+  }
+  
+  @Test
+  void testDayStartEffects() {
+    CrewMember crew = new CrewMember("John", "Bullet", 100, 100, 100, 2);
+    
+    // test daily stat changes
+    crew.applyDayStartEffects();
+    assertEquals(100, crew.getHealth());
+    assertEquals(100 - 20, crew.getFullness());
+    assertEquals(100 - 30, crew.getRestedness());
+    assertEquals(2, crew.getActionPoints());
+    
+    crew.setFullness(100);
+    crew.setRestedness(100);
+    
+    // test impact of active effects on stats
+    crew.addEffect(CrewMemberEffect.HUNGRY);
+    crew.addEffect(CrewMemberEffect.TIRED);
+    crew.addEffect(CrewMemberEffect.PLAGUED);
+    crew.applyDayStartEffects();
+    assertEquals(100 - 30 - 30, crew.getHealth());
+    assertEquals(100 - 40 - 20, crew.getFullness());
+    assertEquals(100 - 30, crew.getRestedness());
+    assertEquals(2 / 2, crew.getActionPoints());
+    
+    // test dead crew member
+    crew.setHealth(0);
+    crew.applyDayStartEffects();
+    assertEquals(0, crew.getHealth());
+    assertEquals(100 - 40 - 20, crew.getFullness());
+    assertEquals(100 - 30, crew.getRestedness());
+    assertEquals(2 / 2, crew.getActionPoints());
   }
   
 }

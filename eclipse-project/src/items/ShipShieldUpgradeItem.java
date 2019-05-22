@@ -21,6 +21,14 @@ public class ShipShieldUpgradeItem extends Item implements ShipUpgrade {
     this.maxShieldIncrease = maxShieldIncrease;
   }
   
+  /**
+   * returns the max shield increase applied by this ShipShieldUpgradeItem.
+   * @return max shield increase given on application to a Ship as an int
+   */
+  public int getMaxShieldIncrease() {
+    return maxShieldIncrease;
+  }
+  
   @Override
   public String getEffectsString() {
     return "Max Shield +" + maxShieldIncrease;
@@ -33,6 +41,16 @@ public class ShipShieldUpgradeItem extends Item implements ShipUpgrade {
                                                            this.maxShieldIncrease);
     
     return item;
+  }
+  
+  @Override
+  public boolean equals(Object o) {
+    if (o instanceof ShipShieldUpgradeItem) {
+      ShipShieldUpgradeItem item = (ShipShieldUpgradeItem)o;
+      return (super.equals(item) && maxShieldIncrease == item.getMaxShieldIncrease());
+    } else {
+      return false;
+    }
   }
   
   @Override

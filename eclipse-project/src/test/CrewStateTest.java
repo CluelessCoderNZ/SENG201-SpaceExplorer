@@ -2,6 +2,7 @@ package test;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -17,11 +18,16 @@ import items.Item;
 class CrewStateTest {
   
   private static Ship ship = new Ship("Sputnik");
-  private static ArrayList<CrewMember> crew = new ArrayList<CrewMember>(Arrays.asList(
-      new CrewMember("John", "Normal"),
-      new CrewMember("Billy", "Burly"),
-      new CrewMember("Miles", "Meek")
-  ));
+  private static List<CrewMember> crew;
+  
+  @BeforeEach
+  void beforeEach() {
+    crew = new ArrayList<CrewMember>(Arrays.asList(
+        new CrewMember("John", "Normal", 100, 100, 100, 2),
+        new CrewMember("Billy", "Burly", 100, 100, 100, 3),
+        new CrewMember("Miles", "Meek", 100, 100, 100, 1)
+    ));
+  }
   
 
   @Test
@@ -74,6 +80,16 @@ class CrewStateTest {
   void testCrewMembers() {
     CrewState crewState = new CrewState(crew, ship);
     assertEquals(crew, crewState.getCrew());
+    
+    assertEquals(crew, crewState.getCrewWithActionPoints(1));
+    
+    List<CrewMember> crewWithTwoAP = crewState.getCrewWithActionPoints(2);
+    assertTrue(crewWithTwoAP.contains(crew.get(0)));
+    assertTrue(crewWithTwoAP.contains(crew.get(1)));
+    assertFalse(crewWithTwoAP.contains(crew.get(2)));
+    
+    crew.get(0).setHealth(0);
+    assertEquals(2, crewState.getLivingCrewCount());
   }
   
   @Test

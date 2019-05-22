@@ -21,6 +21,14 @@ public class ShipWeaponItem extends Item implements ShipUpgrade {
     this.damage = weaponDamage;
   }
   
+  /**
+   * returns the damage dealt by this weapon.
+   * @return damage dealt by this weapon
+   */
+  public int getDamage() {
+    return damage;
+  }
+  
   @Override
   public void applyEffects(Ship ship) {
     ship.setWeapon(this);
@@ -39,12 +47,14 @@ public class ShipWeaponItem extends Item implements ShipUpgrade {
     return item;
   }
   
-  /**
-   * returns the damage dealt by this weapon.
-   * @return damage dealt by this weapon
-   */
-  public int getDamage() {
-    return damage;
+  @Override
+  public boolean equals(Object o) {
+    if (o instanceof ShipWeaponItem) {
+      ShipWeaponItem item = (ShipWeaponItem)o;
+      return (super.equals(item) && damage == item.getDamage());
+    } else {
+      return false;
+    }
   }
 
 }

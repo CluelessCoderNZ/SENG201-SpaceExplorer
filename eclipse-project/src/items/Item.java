@@ -133,11 +133,16 @@ public class Item {
   }
 
   /**
-   * checks for equality of two Items.
-   * @param item the Item to check this Item against
+   * checks if an Object is the same as this Item.
+   * @param o the Object to check this Item for equality with
    * @return whether the two Items are the same
    */
-  public boolean equals(Item item) {
-    return this.getName() == item.getName() && this.getValue() == item.getValue();
+  public boolean equals(Object o) {
+    if (o instanceof Item) {
+      Item item = (Item)o;
+      return this.getName() == item.getName() && this.getValue() == item.getValue();
+    } else {
+      return false;
+    }
   }
 }

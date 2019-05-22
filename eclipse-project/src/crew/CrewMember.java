@@ -14,11 +14,11 @@ public class CrewMember extends Observable {
   protected static final int TIRED_THRESHOLD = 30;
   
   protected static final int HUNGER_DAMAGE = 30;
-  protected static final int TIRED_DAMAGE = 40;
+  protected static final int TIRED_FULL_REDUCTION = 40;
   protected static final int PLAGUED_DAMAGE = 30;
   
-  protected static final int DAILY_SLEEP_DAMAGE = 30;
-  protected static final int DAILY_HUNGER_DAMAGE = 20;
+  protected static final int DAILY_REST_REDUCTION = 30;
+  protected static final int DAILY_FULL_REDUCTION = 20;
   
   protected static final int DEFAULT_SHIP_REPAIR = 50;
   protected static final int DEFAULT_SLEEP_RESTORE = 50;
@@ -410,14 +410,14 @@ public class CrewMember extends Observable {
    * Applies new day start effects. By default this is stat changes by different effects.
    * However this can be overloaded to include custom character effects.
    */
-  public void applyDayStartEffects(CrewState crewState) {
+  public void applyDayStartEffects() {
     if (!isDead()) {
       if (hasEffect(CrewMemberEffect.HUNGRY)) {
         changeHealth(-HUNGER_DAMAGE);
       }
       
       if (hasEffect(CrewMemberEffect.TIRED)) {
-        changeFullness(-TIRED_DAMAGE);
+        changeFullness(-TIRED_FULL_REDUCTION);
       }
       
       if (hasEffect(CrewMemberEffect.HUNGRY) || hasEffect(CrewMemberEffect.TIRED)) {
@@ -430,8 +430,8 @@ public class CrewMember extends Observable {
         changeHealth(-PLAGUED_DAMAGE);
       }
       
-      changeRestedness(-DAILY_SLEEP_DAMAGE);
-      changeFullness(-DAILY_HUNGER_DAMAGE);
+      changeRestedness(-DAILY_REST_REDUCTION);
+      changeFullness(-DAILY_FULL_REDUCTION);
     }
   }
 }

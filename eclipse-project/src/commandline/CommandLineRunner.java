@@ -26,9 +26,9 @@ public class CommandLineRunner {
   private CommandLineParser cl;
   
   /**
-   * CommandLineRunner constructor 
-   * @param env gives context the game.
-   * @param cl gives the input and output streams for the game.
+   * CommandLineRunner constructor.
+   * @param env gives context the game
+   * @param cl gives the input and output streams for the game
    */
   public CommandLineRunner(GameEnvironment env, CommandLineParser cl) {
     this.env = env;

@@ -193,7 +193,7 @@ public class CrewState {
    */
   public void applyDayStartEffects() {
     for (CrewMember crewmember : crew) {
-      crewmember.applyDayStartEffects(this);
+      crewmember.applyDayStartEffects();
     }
   }
   
