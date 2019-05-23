@@ -8,6 +8,7 @@ import crew.CrewMember;
 import crew.InvalidCrewMemberException;
 import items.GenericRestorationItem;
 import items.Item;
+import items.PlagueCure;
 
 class GenericRestorationItemTest {
 
@@ -58,10 +59,27 @@ class GenericRestorationItemTest {
   
   
   @Test
-  void testToString() {
-    Item item = new GenericRestorationItem("Crystal Meth", 50, 20, -20, 4);
+  void testStrings() {
+    Item item = new GenericRestorationItem("Crystal Meth", 50, 20, 30, 4);
     assertEquals("Crystal Meth (4 uses)", item.toString());
-    assertEquals("HP: +20 Food: -20 Uses: 4", item.getEffectsString());
+    assertEquals("HP: +20 Food: +30 Uses: 4", item.getEffectsString());
+    
+    Item item2 = new GenericRestorationItem("Eggs", 50, -10, -50);
+    assertEquals("Eggs (1 use)", item2.toString());
+    assertEquals("HP: -10 Food: -50 Uses: 1", item2.getEffectsString());
+  }
+  
+  @Test
+  void testCopy() {
+    GenericRestorationItem pudding = new GenericRestorationItem("Figgy Pudding", 10, 20, 30, 2);
+    GenericRestorationItem puddingCopy = (GenericRestorationItem)pudding.copy();
+    
+    assertEquals(pudding.getName(), puddingCopy.getName());
+    assertEquals(pudding.getDescription(), puddingCopy.getDescription());
+    assertEquals(pudding.getHealthRestoreAmount(), puddingCopy.getHealthRestoreAmount());
+    assertEquals(pudding.getFullnessRestoreAmount(), pudding.getFullnessRestoreAmount());
+    assertEquals(pudding.getRemainingUses(), pudding.getRemainingUses());
+    assertNotEquals(pudding, puddingCopy);
   }
 
 }

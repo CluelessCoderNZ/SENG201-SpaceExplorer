@@ -1,15 +1,14 @@
 package commandline;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import crew.CrewMember;
 import eventmanager.GameEvent;
 import items.ConsumableItem;
 import items.Item;
-import items.ShipShieldUpgradeItem;
 import items.ShipUpgrade;
-import items.ShipWeaponItem;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import main.GameEnvironment;
 import main.Planet;
 import main.Shop;
@@ -112,9 +111,9 @@ public class CommandLineRunner {
   
   
   private void printStatus() {
-    cl.print(String.format("\n%s CREW REPORT - DAY %d:\n", 
-                           env.getCrewState().getShip().getName().toUpperCase(), 
-                           env.getCurrentDay()));
+    cl.print(String.format("\n%s CREW REPORT - DAY %d:\n",
+        env.getCrewState().getShip().getName().toUpperCase(), 
+        env.getCurrentDay()));
     cl.print("=====================================\n");
     cl.print(String.format("Planet: %s\n", env.getCurrentPlanet().getName()));
     cl.print(String.format("Days Left: %d\n", env.getMaxDays() - env.getCurrentDay()));
@@ -123,8 +122,11 @@ public class CommandLineRunner {
         env.getShipPartsNeededCount()));
     cl.print(String.format("Funds: %d\n",env.getCrewState().getFunds()));
     cl.print(String.format("Ship Shields: %d/%d\n",
-                            env.getCrewState().getShip().getShieldLevel(),
-                            env.getCrewState().getShip().getMaxShieldLevel()));
+        env.getCrewState().getShip().getShieldLevel(),
+        env.getCrewState().getShip().getMaxShieldLevel()));
+    cl.print(String.format("Ship Weapon: %s (%d damage)\n",
+        env.getCrewState().getShip().getWeapon().getName(),
+        env.getCrewState().getShip().getWeapon().getDamage()));
     
     
     cl.print("-------------------------------------\n");
@@ -139,8 +141,7 @@ public class CommandLineRunner {
   private void printItem(Item item, int price, int counter) {
     String marked = " ";
     if (item instanceof ConsumableItem
-        || item instanceof ShipShieldUpgradeItem
-        || item instanceof ShipWeaponItem) {
+        || item instanceof ShipUpgrade) {
       marked = "*";
     }
     
@@ -257,7 +258,7 @@ public class CommandLineRunner {
             
             
           // Ship Shield Upgrade Item
-          } else if (item instanceof ShipShieldUpgradeItem || item instanceof ShipWeaponItem) {
+          } else if (item instanceof ShipUpgrade) {
             env.getCrewState().useItem((ShipUpgrade)item);
             
           // non-usable
@@ -381,8 +382,8 @@ public class CommandLineRunner {
       switch (selectedOption) {
         case 0:
           // Check not empty
-          if (env.getCrewState().getInventory().size() == 0) {
-            cl.printError("Inventory is empty!");
+          if (env.getCurrentPlanet().getShop().getInventory().size() == 0) {
+            cl.printError("Shop inventory is empty!");
             break;
           }
           
