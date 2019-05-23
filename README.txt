@@ -18,11 +18,14 @@ if the above does not work:
 
 ## RUNNING THE JAR FILE
 1. navigate to the root project directory
-2. run the terminal command "java -jar jsv22_csm119_SpaceExplorer.jar"
- + to get the command line version of the game, use "java -jar jsv22_csm119_SpaceExplorer.jar cl"
+2. run the terminal command "java -jar jsv22_csm119_space_explorer.jar"
+ + to get the command line version of the game, use "java -jar jsv22_csm119_space_explorer.jar cl"
+ + the command line version can be run with an optional seed for the random generator using "java -jar jsv22_csm119_space_explorer.jar cl <integer seed>"
 
 
 ## RUNNING THE SYSTEM TESTS
-the system test files can be found in the tests/ folder in the root directory
-Run the testing script with "python3 system_tester.py <jar file> <test file>"  
-This will automatically run through the input in the test file and then redirect to user input afterwards to allow for further testing if required. Otherwise the game can be closed with ctrl-C.
+the system test script and files can be found in the system-tests/ folder
+Run the testing script with "python3 system_tester.py <jar file> <test file>"
+e.g. "python3 system_tester.py ../jsv22_csm119_space_explorer.jar crew_actions_test"
+This will automatically run through the input in the test file.
+User input can then be entered in the case that the test file has not resulted in a GAME OVER message. Otherwise the game can be closed with ctrl-C.
