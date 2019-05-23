@@ -18,4 +18,4 @@ if the above does not work:
 ## Running the JAR file
 1. navigate to the root project directory
 2. run the terminal command "java -jar SpaceExplorer.jar"
-* to get the command line version of the game, use "java -jar SpaceExplorer.jar cl"
+2.i. to get the command line version of the game, use "java -jar SpaceExplorer.jar cl"
