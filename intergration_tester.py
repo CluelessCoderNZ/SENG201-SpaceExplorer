@@ -32,4 +32,4 @@ else:
 print("\n")
 
 # Currently set to the jar file however this can be switch to the class file aswell
-os.system("(tail -n +{} '{}' && cat) | java -jar SpaceExplorer.jar cl {}".format(file_offset, file, seed))
+os.system("(tail -n +{} '{}' && cat) | java -jar jsv22_csm119_space_explorer.jar cl {}".format(file_offset, file, seed))
