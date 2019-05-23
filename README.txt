@@ -1,6 +1,6 @@
 # SENG201-SpaceExplorer
 
-## Loading source code into Eclipse
+## LOADING SOURCE CODE INTO ECLIPSE
 1. Open Eclipse
 2. click File > Import
 3. select the "Existing Projects into Workspace" wizard
@@ -15,7 +15,8 @@ if the above does not work:
 5. select the provided eclipse-workspace folder as the from directory
 6. click finish and "Yes to All" if prompted to overwrite files
 
-## Running the JAR file
+
+## RUNNING THE JAR FILE
 1. navigate to the root project directory
 2. run the terminal command "java -jar jsv22_csm119_SpaceExplorer.jar"
  + to get the command line version of the game, use "java -jar jsv22_csm119_SpaceExplorer.jar cl"
