@@ -10,11 +10,12 @@
 import sys
 import os
 
-if len(sys.argv) < 2:
-	print("Usage: intergration_tester.py <test_file>")
+if len(sys.argv) < 3:
+	print("Usage: intergration_tester.py <jar file> <test_file>")
 	sys.exit(1)
 
-file = sys.argv[1]
+jar = sys.argv[1]
+file = sys.argv[2]
 file_offset = 1
 
 # Check for seed
@@ -32,4 +33,4 @@ else:
 print("\n")
 
 # Currently set to the jar file however this can be switch to the class file aswell
-os.system("(tail -n +{} '{}' && cat) | java -jar jsv22_csm119_space_explorer.jar cl {}".format(file_offset, file, seed))
+os.system("(tail -n +{} '{}' && cat) | java -jar {} cl {}".format(file_offset, file, jar, seed))
