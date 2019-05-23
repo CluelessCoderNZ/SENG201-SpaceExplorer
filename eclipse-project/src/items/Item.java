@@ -1,7 +1,5 @@
 package items;
 
-import java.util.List;
-
 /**
  * base class for items in the game. Have a name, description and value.
  */
