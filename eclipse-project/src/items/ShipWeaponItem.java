@@ -46,15 +46,5 @@ public class ShipWeaponItem extends Item implements ShipUpgrade {
                                              this.damage);
     return item;
   }
-  
-  @Override
-  public boolean equals(Object o) {
-    if (o instanceof ShipWeaponItem) {
-      ShipWeaponItem item = (ShipWeaponItem)o;
-      return (super.equals(item) && damage == item.getDamage());
-    } else {
-      return false;
-    }
-  }
 
 }

@@ -2,9 +2,9 @@ package test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import org.junit.jupiter.api.Test;
-
 import items.Item;
+
+import org.junit.jupiter.api.Test;
 
 class ItemTest {
 
@@ -33,19 +33,6 @@ class ItemTest {
   void testToString() {
     Item item = new Item("Ham Sandwich", 25);
     assertEquals("Ham Sandwich", item.toString());
-  }
-  
-  @Test
-  void testEquals() {
-    Item item1 = new Item("Ham Sandwich", 25);
-    Item item2 = new Item("Ham Sandwich", 25);
-    assertEquals(item1, item2);
-    
-    Item item3 = new Item("Ham Sandwich", 30);
-    assertNotEquals(item1, item3);
-    
-    Item item4 = new Item("Falafel Sandwich", 25);
-    assertNotEquals(item1, item4);
   }
 
 }

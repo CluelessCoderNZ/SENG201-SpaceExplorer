@@ -43,16 +43,6 @@ public abstract class ConsumableItem extends Item {
   }
   
   @Override
-  public boolean equals(Object o) {
-    if (o instanceof ConsumableItem) {
-      ConsumableItem item = (ConsumableItem)o;
-      return super.equals(item) && item.getRemainingUses() == getRemainingUses();
-    } else {
-      return false;
-    }
-  }
-  
-  @Override
   public String toString() {
     return String.format("%s (%d use%s)",
         getName(), getRemainingUses(), getRemainingUses() == 1 ? "" : "s");

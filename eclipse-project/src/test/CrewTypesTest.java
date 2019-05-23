@@ -38,7 +38,7 @@ class CrewTypesTest {
     Medic medic = new Medic("Steve");
     medic.applyStartBonuses(crewState);
     
-    assertTrue(crewState.getInventory().get(0).equals(new PlagueCure("Plague-Away", 300)));
+    assertTrue(crewState.getInventory().get(0) instanceof PlagueCure);
   }
   
   @Test

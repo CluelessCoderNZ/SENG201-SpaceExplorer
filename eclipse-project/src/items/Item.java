@@ -1,5 +1,7 @@
 package items;
 
+import java.util.List;
+
 /**
  * base class for items in the game. Have a name, description and value.
  */
@@ -134,19 +136,5 @@ public class Item {
   @Override
   public String toString() {
     return getName();
-  }
-
-  /**
-   * checks if an Object is the same as this Item.
-   * @param o the Object to check this Item for equality with
-   * @return whether the two Items are the same
-   */
-  public boolean equals(Object o) {
-    if (o instanceof Item) {
-      Item item = (Item)o;
-      return this.getName() == item.getName() && this.getValue() == item.getValue();
-    } else {
-      return false;
-    }
   }
 }

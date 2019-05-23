@@ -17,4 +17,5 @@ if the above does not work:
 
 ## Running the JAR file
 1. navigate to the root project directory
-2. run the terminal command "java -jar SpaceExplorer.jar"
+2. run the terminal command "java -jar jsv22_csm119_SpaceExplorer.jar"
+ + to get the command line version of the game, use "java -jar jsv22_csm119_SpaceExplorer.jar cl"

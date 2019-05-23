@@ -56,31 +56,6 @@ class GenericRestorationItemTest {
     assertEquals(0, crew.getHealth());
   }
   
-  @Test
-  void testEquals() {
-    GenericRestorationItem item1 = new GenericRestorationItem("Item", 10, 10, 3);
-    GenericRestorationItem item2 = new GenericRestorationItem("Item", 10, 10, 3);
-    assertEquals(item1, item2);
-    
-    item1.applyEffects(new CrewMember("Jim", "Normal"));
-    assertNotEquals(item1, item2);
-    
-    item2.applyEffects(new CrewMember("Jim", "Normal"));
-    assertEquals(item1, item2);
-    
-    GenericRestorationItem item3 = new GenericRestorationItem("Item", 10, 10, 3);
-    GenericRestorationItem item4 = new GenericRestorationItem("Item", 10, 5, 3);
-    assertNotEquals(item3, item4);
-    
-    GenericRestorationItem item5 = new GenericRestorationItem("Item", 10, 10, 5);
-    GenericRestorationItem item6 = new GenericRestorationItem("Item", 10, 10, 4);
-    assertNotEquals(item5, item6);
-    
-    GenericRestorationItem item6copy = (GenericRestorationItem)item6.copy();
-    assertEquals(item6, item6copy);
-    
-  }
-  
   
   @Test
   void testToString() {
