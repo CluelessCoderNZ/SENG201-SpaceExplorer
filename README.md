@@ -22,5 +22,5 @@ if the above does not work:
 
 ## Running system tests
 the system test files can be found in the tests/ folder in the root directory
-Run the testing script with "python3 system_tester.py <test file>"  
+Run the testing script with "python3 system_tester.py <jar file> <test file>"  
 This will automatically run through the input in the test file and then redirect to user input afterwards to allow for further testing if required. Otherwise the game can be closed with ctrl-C.
