@@ -113,7 +113,7 @@ public class CrewState {
    * @param item item not already in the crew's inventory to add
    */
   public void addItemToInventory(Item item) {
-    if (Item.containsExactReference(inventory, item)) {
+    if (inventory.contains(item)) {
       throw new IllegalArgumentException("item is already in the crewState's inventory");
     }
     inventory.add(item);
@@ -124,7 +124,7 @@ public class CrewState {
    * @param item item in the crew's inventory to remove
    */
   public void removeItemFromInventory(Item item) {
-    if (!Item.containsExactReference(inventory, item)) {
+    if (!inventory.contains(item)) {
       throw new IllegalArgumentException("item is not in the crewState's inventory");
     }
     inventory.remove(item);
@@ -139,7 +139,7 @@ public class CrewState {
   public void useItem(ConsumableItem item, CrewMember crewMember) {
     
     // Error checking
-    if (!Item.containsExactReference(inventory, item)) {
+    if (!inventory.contains(item)) {
       throw new IllegalArgumentException("Item is not in the inventory");
     }
     
@@ -168,7 +168,7 @@ public class CrewState {
       throw new IllegalArgumentException("ShipUpgrade is not an item.");
     }
     
-    if (!Item.containsExactReference(inventory, (Item)item)) {
+    if (!inventory.contains((Item)item)) {
       throw new IllegalArgumentException("Item is not in the inventory");
     }
     

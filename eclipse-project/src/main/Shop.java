@@ -67,7 +67,7 @@ public class Shop {
    * @return the price the item would be if bought from the shop
    */
   public int getSellPrice(Item item) {
-    if (!Item.containsExactReference(inventory, item)) {
+    if (!inventory.contains(item)) {
       throw new IllegalArgumentException("given item is not in the Shop's inventory");
     }
     return (int)(item.getValue() * sellModifier);
@@ -79,7 +79,7 @@ public class Shop {
    * @return the price the shop will buy the item for
    */
   public int getBuyPrice(Item item) {
-    if (Item.containsExactReference(inventory, item)) {
+    if (inventory.contains(item)) {
       throw new IllegalArgumentException("a Shop cannot buy an Item off itself");
     }
     return (int)(item.getValue() * buyModifier);

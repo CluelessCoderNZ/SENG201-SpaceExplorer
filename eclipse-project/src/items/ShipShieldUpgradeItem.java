@@ -44,16 +44,6 @@ public class ShipShieldUpgradeItem extends Item implements ShipUpgrade {
   }
   
   @Override
-  public boolean equals(Object o) {
-    if (o instanceof ShipShieldUpgradeItem) {
-      ShipShieldUpgradeItem item = (ShipShieldUpgradeItem)o;
-      return (super.equals(item) && maxShieldIncrease == item.getMaxShieldIncrease());
-    } else {
-      return false;
-    }
-  }
-  
-  @Override
   public void applyEffects(Ship ship) {
     ship.increaseMaxShield(maxShieldIncrease);
     ship.increaseShield(maxShieldIncrease);

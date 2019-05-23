@@ -8,23 +8,6 @@ import crew.Ship;
 import items.ShipWeaponItem;
 
 class ShipWeaponItemTest {
-
-  @Test
-  void testEquals() {
-    ShipWeaponItem item1 = new ShipWeaponItem("weapon", 10, 30);
-    ShipWeaponItem item2 = new ShipWeaponItem("weapon", 10, 30);
-    
-    assertEquals(item1, item2);
-    
-    ShipWeaponItem item3 = new ShipWeaponItem("weapon", 10, 20);
-    assertNotEquals(item1, item3);
-    
-    ShipWeaponItem item4 = new ShipWeaponItem("fake weapon", 10, 30);
-    assertNotEquals(item1, item4);
-    
-    ShipWeaponItem item4copy = (ShipWeaponItem)item4.copy();
-    assertEquals(item4, item4copy);
-  }
   
   @Test
   void testString() {

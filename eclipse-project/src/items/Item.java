@@ -137,34 +137,4 @@ public class Item {
   public String toString() {
     return getName();
   }
-
-  /**
-   * checks if an Object is the same as this Item.
-   * @param o the Object to check this Item for equality with
-   * @return whether the two Items are the same
-   */
-  public boolean equals(Object o) {
-    if (o instanceof Item) {
-      Item item = (Item)o;
-      return this.getName() == item.getName() && this.getValue() == item.getValue();
-    } else {
-      return false;
-    }
-  }
-  
-  /**
-   * checks if a List of Items contains an exact reference to a given Item.
-   * does not use the .equals() method as is used in List's contains() method.
-   * @param list the List of Items to check if the item is a part of
-   * @param item the Item to check for
-   * @return true if the item is contained in the List, false otherwise
-   */
-  public static boolean containsExactReference(List<Item> list, Item item) {
-    for (Item listItem : list) {
-      if (item == listItem) {
-        return true;
-      }
-    }
-    return false;
-  }
 }
