@@ -385,6 +385,10 @@ public class CrewMember extends Observable {
     return output;
   }
   
+  /**
+   * returns a string representation of the CrewMember.
+   * @return String representation
+   */
   @Override
   public String toString() {
     String output = getFullTitle() + " ("

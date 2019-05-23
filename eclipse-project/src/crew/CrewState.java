@@ -246,6 +246,10 @@ public class CrewState {
     return ship;
   }
   
+  /**
+   * returns a string representation of the CrewState.
+   * @return representation of the CrewState as a formatted string
+   */
   @Override
   public String toString() {
     String crewStateString = "Ship name: " + ship.getName() + "\n";

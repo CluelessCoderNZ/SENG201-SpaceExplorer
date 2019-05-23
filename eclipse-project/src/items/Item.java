@@ -127,6 +127,10 @@ public class Item {
     return "";
   }
   
+  /**
+   * returns the name of the Item.
+   * @return the name of the Item as a String
+   */
   @Override
   public String toString() {
     return getName();
