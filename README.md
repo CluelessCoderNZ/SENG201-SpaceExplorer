@@ -18,3 +18,8 @@ if the above does not work:
 ## Running the JAR file
 navigate to the root project directory
 run the terminal command "java -jar SpaceExplorer.jar"
+
+## Running an intergration test
+Run the python script with 'python3 intergration_test.py tests/<filename>'
+This will automatically run through the test input and then redirect to user
+input afterwards to allow for further testing.
