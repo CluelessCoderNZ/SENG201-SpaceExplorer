@@ -1,5 +1,7 @@
 package items;
 
+import java.util.List;
+
 /**
  * base class for items in the game. Have a name, description and value.
  */
@@ -148,5 +150,21 @@ public class Item {
     } else {
       return false;
     }
+  }
+  
+  /**
+   * checks if a List of Items contains an exact reference to a given Item.
+   * does not use the .equals() method as is used in List's contains() method.
+   * @param list the List of Items to check if the item is a part of
+   * @param item the Item to check for
+   * @return true if the item is contained in the List, false otherwise
+   */
+  public static boolean containsExactReference(List<Item> list, Item item) {
+    for (Item listItem : list) {
+      if (item == listItem) {
+        return true;
+      }
+    }
+    return false;
   }
 }

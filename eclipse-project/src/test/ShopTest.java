@@ -2,6 +2,7 @@ package test;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import main.Shop;
 import static org.junit.jupiter.api.Assertions.*;
@@ -45,6 +46,24 @@ class ShopTest {
     
     assertEquals((int)(sword.getValue() * sellMod), shop.sellItem(sword));
     assertFalse(shop.getInventory().contains(sword));
+  }
+  
+  @Test
+  void testContains() {
+    List<Item> inventory = new ArrayList<Item>(Arrays.asList(
+        new Item("Brick", 100),
+        new Item("Wood", 50),
+        new Item("Pizza", 10),
+        new Item("Pizza", 10),
+        new Item("Pizza", 10)
+    ));
+    Shop shop = new Shop("Test Shop", inventory, 1, 1);
+    
+    assertThrows(IllegalArgumentException.class, () -> {
+      shop.getSellPrice(new Item("Pizza", 10));
+    });
+    
+    assertEquals(50, shop.getBuyPrice(new Item("Wood", 50)));
   }
 
 }

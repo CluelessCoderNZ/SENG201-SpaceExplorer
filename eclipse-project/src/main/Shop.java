@@ -30,11 +30,11 @@ public class Shop {
   /**
    * Initialises a Shop that sells items in a given inventory with buy and sell price modifiers.
    * @param name the name to give the Shop
-   * @param inventory ArrayList of items for the shop to sell items from
+   * @param inventory List of items for the shop to sell items from
    * @param buyModifier the fraction of an item's value the shop will buy it for
    * @param sellModifier the fraction of an item's value the shop will sell it for
    */
-  public Shop(String name, ArrayList<Item> inventory, double buyModifier, double sellModifier) {
+  public Shop(String name, List<Item> inventory, double buyModifier, double sellModifier) {
     this.name = name;
     this.inventory = inventory;
     this.buyModifier = buyModifier;
@@ -67,7 +67,7 @@ public class Shop {
    * @return the price the item would be if bought from the shop
    */
   public int getSellPrice(Item item) {
-    if (!inventory.contains(item)) {
+    if (!Item.containsExactReference(inventory, item)) {
       throw new IllegalArgumentException("given item is not in the Shop's inventory");
     }
     return (int)(item.getValue() * sellModifier);
@@ -79,7 +79,7 @@ public class Shop {
    * @return the price the shop will buy the item for
    */
   public int getBuyPrice(Item item) {
-    if (inventory.contains(item)) {
+    if (Item.containsExactReference(inventory, item)) {
       throw new IllegalArgumentException("a Shop cannot buy an Item off itself");
     }
     return (int)(item.getValue() * buyModifier);

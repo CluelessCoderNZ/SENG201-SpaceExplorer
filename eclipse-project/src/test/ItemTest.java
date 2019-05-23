@@ -2,9 +2,13 @@ package test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import org.junit.jupiter.api.Test;
-
 import items.Item;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+import org.junit.jupiter.api.Test;
 
 class ItemTest {
 
@@ -46,6 +50,24 @@ class ItemTest {
     
     Item item4 = new Item("Falafel Sandwich", 25);
     assertNotEquals(item1, item4);
+  }
+  
+  @Test
+  void testContains() {
+    List<Item> list = new ArrayList<Item>(Arrays.asList(
+        new Item("Brick", 100),
+        new Item("Wood", 50),
+        new Item("Pizza", 10),
+        new Item("Pizza", 10),
+        new Item("Pizza", 10)
+    ));
+    
+    assertFalse(Item.containsExactReference(list, new Item("Pizza", 10)));
+    assertTrue(Item.containsExactReference(list, list.get(0)));
+    
+    Item item = list.get(3);
+    list.remove(3);
+    assertFalse(Item.containsExactReference(list, item));
   }
 
 }
