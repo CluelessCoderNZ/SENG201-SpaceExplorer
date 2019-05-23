@@ -80,9 +80,9 @@ class PlanetTest {
     Planet planet = new Planet("Mars", shop, loot);
     
     Random generator = new Random(2);
-    assertTrue(planet.getRandomItem(generator).equals(trumpet));
-    assertTrue(planet.getRandomItem(generator).equals(trumpet));
-    assertTrue(planet.getRandomItem(generator).equals(swanEgg));
+    assertEquals("Pink Trumpet", planet.getRandomItem(generator).getName());
+    assertEquals("Pink Trumpet", planet.getRandomItem(generator).getName());
+    assertEquals("Swan's Egg", planet.getRandomItem(generator).getName());
   }
 
 }

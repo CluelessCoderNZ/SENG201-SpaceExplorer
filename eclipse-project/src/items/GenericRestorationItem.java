@@ -99,18 +99,6 @@ public class GenericRestorationItem extends ConsumableItem {
   }
   
   @Override
-  public boolean equals(Object o) {
-    if (o instanceof GenericRestorationItem) {
-      GenericRestorationItem item = (GenericRestorationItem)o;
-      return super.equals(item)
-          && item.getHealthRestoreAmount() == getHealthRestoreAmount()
-          && item.getFullnessRestoreAmount() == getFullnessRestoreAmount();
-    } else {
-      return false;
-    }
-  }
-  
-  @Override
   public String getEffectsString() {
     String result = "";
     

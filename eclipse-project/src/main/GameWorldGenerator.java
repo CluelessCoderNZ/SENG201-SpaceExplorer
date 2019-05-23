@@ -18,6 +18,7 @@ import items.ShipShieldUpgradeItem;
 import items.ShipWeaponItem;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * GameWorldGenerator contains many factory functions for building key game aspects. 
@@ -126,12 +127,12 @@ public class GameWorldGenerator {
     
     
     // Generate Planets
-    ArrayList<Planet> planets = new ArrayList<Planet>();
+    List<Planet> planets = new ArrayList<Planet>();
     
     for (int i = 0; i < numPlanets; i++) {
       
       // Create Shop Item List
-      ArrayList<Item> shopItemList = new ArrayList<Item>(NUM_STORE_ITEMS);
+      List<Item> shopItemList = new ArrayList<Item>(NUM_STORE_ITEMS);
       for (int j = 0; j < NUM_STORE_ITEMS; j++) {
         Item item = lootTable.getRandomItem(env.getRandomGenerator());
         shopItemList.add(item.copy());
