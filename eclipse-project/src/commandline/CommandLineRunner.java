@@ -1,15 +1,14 @@
 package commandline;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import crew.CrewMember;
 import eventmanager.GameEvent;
 import items.ConsumableItem;
 import items.Item;
-import items.ShipShieldUpgradeItem;
 import items.ShipUpgrade;
-import items.ShipWeaponItem;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import main.GameEnvironment;
 import main.Planet;
 import main.Shop;
@@ -142,8 +141,7 @@ public class CommandLineRunner {
   private void printItem(Item item, int price, int counter) {
     String marked = " ";
     if (item instanceof ConsumableItem
-        || item instanceof ShipShieldUpgradeItem
-        || item instanceof ShipWeaponItem) {
+        || item instanceof ShipUpgrade) {
       marked = "*";
     }
     
@@ -260,7 +258,7 @@ public class CommandLineRunner {
             
             
           // Ship Shield Upgrade Item
-          } else if (item instanceof ShipShieldUpgradeItem || item instanceof ShipWeaponItem) {
+          } else if (item instanceof ShipUpgrade) {
             env.getCrewState().useItem((ShipUpgrade)item);
             
           // non-usable
