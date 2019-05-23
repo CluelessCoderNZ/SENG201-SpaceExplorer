@@ -16,5 +16,5 @@ if the above does not work:
 6. click finish and "Yes to All" if prompted to overwrite files
 
 ## Running the JAR file
-navigate to the root project directory  
-run the terminal command "java -jar SpaceExplorer.jar"
+1. navigate to the root project directory
+2. run the terminal command "java -jar SpaceExplorer.jar"
