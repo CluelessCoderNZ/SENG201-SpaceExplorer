@@ -1,4 +1,6 @@
 # SENG201-SpaceExplorer
+Jack van Heugten Breurkes
+Connor Macdonald
 
 ## LOADING SOURCE CODE INTO ECLIPSE
 1. Open Eclipse
