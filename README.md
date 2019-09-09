@@ -3,6 +3,13 @@ Created by:
 + Connor Macdonald
 + Jack van Heugten Breurkes
 
+## Screenshots
+<inline>
+<img src="Screenshots/startscreen.png" width="400">
+<img src="Screenshots/homescreen.png" width="400">
+<img src="Screenshots/shopscreen.png" width="400">
+<img src="Screenshots/alert.png" width="400">
+
 ## LOADING SOURCE CODE INTO ECLIPSE
 1. Open Eclipse
 2. click File > Import
