@@ -1,0 +1,2 @@
+all images taken from Wikimedia Commons and licensed for use under CC0 1.0 Universal Public Domain Dedication.
+Observable and Observer classes used in accordance with Oracle's licencing requirements.

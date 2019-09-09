@@ -1,5 +1,5 @@
 # Design Doc
-For future reference we can flesh out this document for the formal design decisions we have to present at the end of the project.
+The document we used in our initial design phase to get a better idea of the base classes and functionality we needed to imlement.
 
 # User Flow
 ## game setup
