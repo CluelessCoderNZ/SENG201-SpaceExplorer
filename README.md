@@ -4,7 +4,6 @@ Created by:
 + Jack van Heugten Breurkes
 
 ## Screenshots
-<inline>
 <img src="Screenshots/startscreen.png" width="400">
 <img src="Screenshots/homescreen.png" width="400">
 <img src="Screenshots/shopscreen.png" width="400">
